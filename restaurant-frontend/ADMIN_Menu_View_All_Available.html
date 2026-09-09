@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Menu Items - NH15</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================
+           NH15 MAIN DESIGN
+        ========================= */
+
+        body {
+            background-color: #f9ead9;
+            color: #272d21;
+            font-weight: 300;
+            font-family: "Montserrat", sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* =========================
+           MAIN SECTION
+        ========================= */
+
+        .category-main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .category-main > div {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* =========================
+           PAGE TITLE
+        ========================= */
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            color: #272d21;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* =========================
+           TABLE CARD
+        ========================= */
+
+        .menu-card {
+            width: min(96%, 1100px);
+            background-color: #fffaf3;
+            border: 1px solid rgba(39, 45, 33, 0.25);
+            box-shadow: 0 8px 20px rgba(39, 45, 33, 0.15);
+            overflow: hidden;
+        }
+
+        /* =========================
+           CARD HEADER
+        ========================= */
+
+        .menu-card-header {
+            background-color: #272d21;
+            color: #f9ead9;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .menu-card-header h3 {
+            font-size: 18px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            margin: 0;
+        }
+
+        .menu-card-header p {
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            color: #62794e;
+            margin: 7px 0 0;
+        }
+
+        /* =========================
+           TABLE WRAPPER
+        ========================= */
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .menu-table {
+            width: 100%;
+            min-width: 850px;
+            margin: 0;
+            border-color: rgba(39, 45, 33, 0.2);
+            background-color: #fffaf3;
+        }
+
+        .menu-table thead th {
+            background-color: #62794e;
+            color: #f9ead9;
+            font-size: 11px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-align: center;
+            padding: 13px 12px;
+            white-space: nowrap;
+            border-color: rgba(39, 45, 33, 0.25);
+        }
+
+        .menu-table tbody td {
+            background-color: #fffaf3;
+            color: #272d21;
+            font-size: 11px;
+            font-weight: 300;
+            text-align: center;
+            vertical-align: middle;
+            padding: 12px;
+            border-color: rgba(39, 45, 33, 0.2);
+        }
+
+        .menu-table tbody tr:hover td {
+            background-color: rgba(98, 121, 78, 0.08);
+        }
+
+        /* =========================
+           NOTIFICATION POP UP
+           KEEPING YOUR NOTIFICATION
+        ========================= */
+
+        #notificationModal {
+            z-index: 2000;
+        }
+
+        .notification-icon {
+            font-size: 55px;
+        }
+
+        .notification-success {
+            color: rgb(149,171,118);
+        }
+
+        .notification-error {
+            color: rgb(220, 116, 116);
+        }
+
+        .custom-modal {
+            background-color: antiquewhite;
+            border-radius: 30px;
+            overflow: hidden;
+        }
+
+        .custom-header {
+            background-color: black;
+            color: rgb(149,171,118);
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        /* Footer Section */
+        .footer-Section-last {
+            background-color: #272d21;
+            color: #62794e;
+            font-weight: 200;
+            margin-top: auto;
+        }
+
+        .icons a {
+            display: inline-flex;
+            border: 1px solid #62794e;
+            width: 50px;
+            height: 50px;
+            border-radius: 50px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icons i {
+            font-size: 22px;
+            color: #62794e;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 768px) {
+            .category-main {
+                padding: 30px 10px;
+            }
+
+            .page-title {
+                font-size: 25px;
+                letter-spacing: 2px;
+                margin-bottom: 25px;
+            }
+
+            .menu-card {
+                width: 100%;
+            }
+
+            .menu-card-header {
+                padding: 17px 12px;
+            }
+
+            .menu-card-header h3 {
+                font-size: 16px;
+                letter-spacing: 2px;
+            }
+
+            .menu-table {
+                min-width: 850px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         NOTIFICATION POP UP
+    ========================== -->
+
+    <div class="modal fade" id="notificationModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-center custom-modal">
+                <div class="modal-header border-0 custom-header">
+                    <h5 class="mb-0">NH15 Restaurant</h5>
+                    <button class="btn btn-close" type="button" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div id="notificationIconContainer" class="notification-icon">
+                        <i id="notificationIconElement"></i>
+                    </div>
+
+                    <h3 id="notificationTitle"></h3>
+                    <p id="notificationMessage"></p>
+
+                    <button class="btn btn-dark" style="border-radius: 20px; width: 150px; color: rgb(149,171,118);" type="button" data-bs-dismiss="modal">ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <section class="category-main">
+        <div>
+            <h1 class="page-title" style="letter-spacing: 0.7rem;">AVAILABLE MENU ITEM</h1>
+
+            <div class="menu-card">
+                <div class="menu-card-header">
+                    <h3>AVAILABLE MENU ITEM</h3>
+                    <p>NH15 RESTAURANT • MENU COLLECTION</p>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="table table-bordered table-hover menu-table">
+                        <thead>
+                            <tr>
+                                <th>Menu ID</th>
+                                <th>Item Name</th>
+                                <th>Item Description</th>
+                                <th>Item Price</th>
+                                <th>Item Stock</th>
+                                <th>Category ID</th>
+                                <th>Category Name</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="MenuTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <!-- Footer Section -->
+    <section class="footer-Section-last text-center py-5">
+        <div class="container">
+            <div class="d-flex flex-column flex-lg-row justify-content-center align-items-center gap-5 gap-lg-5">
+
+                <!-- Address -->
+                <div>
+                    <h6>Address</h6>
+                    <p class="mb-1">Madurdaha Kolkata</p>
+                    <p class="mb-0">West bengal 700107</p>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h6>Contact</h6>
+                    <p class="mb-1">Phone: +91 863-8148837</p>
+                    <p class="mb-0">Email: nh15restaurantonline@gmail.com</p>
+                </div>
+
+                <!-- Opening Hours -->
+                <div>
+                    <h6>Opening Hours</h6>
+                    <p class="mb-1">Mon-Sat: 11AM - 10PM</p>
+                    <p class="mb-0">Sunday: Closed</p>
+                </div>
+
+                <div class="icons">
+                    <h6>Follow Us</h6>
+                    <a href="#" class="text-dark me-3"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="text-dark me-3"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="text-dark me-3"><i class="bi bi-linkedin"></i></a>
+                    <a href="#" class="text-dark me-3"><i class="bi bi-twitter-x"></i></a>
+                </div>
+
+            </div>
+
+            <hr>
+            <h6 class="fw-light mb-0">&copy; NH15 Restaurant</h6>
+        </div>
+    </section>
+
+    <script>
+        // =====================
+        // [    Access Check   ]
+        // =====================
+
+        function checkUserAccess() {
+            const token = localStorage.getItem("token");
+            const role = localStorage.getItem("role");
+
+            if(!token || role !== "ADMIN") {
+                showNotification("error", "Access denied!", "Please login to access this page.");
+
+                setTimeout(() => {
+                    window.location.href = "Login.html";
+                }, 2000);
+
+                return false;
+            }
+
+            return true;
+        }
+
+        // =====================
+        // [    Notification    ]
+        // =====================
+
+        const notificationModal = document.getElementById("notificationModal");
+
+        function showNotification(type,title,message) {
+            const notificationIconContainer = document.getElementById("notificationIconContainer");
+            const notificationIconElement = document.getElementById("notificationIconElement");
+            const notificationTitle = document.getElementById("notificationTitle");
+            const notificationMessage = document.getElementById("notificationMessage");
+
+            notificationIconContainer.classList = "notification-icon";
+
+            if(type === "success") {
+                notificationIconContainer.classList.add("notification-success");
+                notificationIconElement.className = "bi bi-check-circle-fill";
+            }else if(type === "error") {
+                notificationIconContainer.classList.add("notification-error");
+                notificationIconElement.className = "bi bi-x-circle-fill";
+            }
+
+            notificationTitle.textContent = title;
+            notificationMessage.textContent = message;
+
+            const modal = new bootstrap.Modal(notificationModal);
+            modal.show();
+        }
+
+        // =====================
+        // [    Table Body      ]
+        // =====================
+
+        const MenuTableBody = document.getElementById("MenuTableBody");
+
+        // =====================
+        // [ Convert Data HTML ]
+        // =====================
+
+        function ConvertDataIntoHtml(menuData) {
+            MenuTableBody.innerHTML = "";
+
+            menuData.forEach(menu => {
+                MenuTableBody.innerHTML += `
+                    <tr>
+                        <td>${menu.id}</td>
+                        <td>${menu.name}</td>
+                        <td>${menu.description}</td>
+                        <td>${menu.price}</td>
+                        <td>${menu.stock}</td>
+                        <td>${menu.category_id}</td>
+                        <td>${menu.categoryname}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        // =====================
+        // [ View Available Menu ]
+        // =====================
+
+        async function ViewAllAvailableMenu() {
+            const token = localStorage.getItem("token");
+
+            try {
+                const response = await fetch("http://localhost:8080/restaurant/admin/api/get-all-Available-menu", {
+                    method : "GET",
+                    headers : {
+                        "Authorization":"Bearer " + token
+                    }
+                });
+
+                // =====================
+                // [  AUT - 401 & 403  ]
+                // =====================
+
+                if(response.status === 401) {
+                    localStorage.removeItem("token");
+
+                    showNotification("error", "Session expired!", "Please restart the forgot password process.");
+
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    }, 2000);
+
+                    return;
+                }
+
+                if(response.status === 403) {
+                    showNotification("error", "Access denied!", "You do not have permission to access this resource");
+                    return;
+                }
+
+                const data = await response.json();
+
+                if(response.ok) {
+                    ConvertDataIntoHtml(data);
+                }else {
+                    showNotification("error", "Error!", "Unable to fetch available menu.");
+                }
+
+            }catch(error) {
+                console.log(error);
+                showNotification("error", "Server error!", "Please try again later.");
+            }
+        }
+
+        // =====================
+        // [ DOM Loaded ]
+        // =====================
+
+        window.addEventListener("DOMContentLoaded", function() {
+            if(!checkUserAccess()) {
+                return;
+            }
+
+            ViewAllAvailableMenu();
+        });
+    </script>
+
+</body>
+</html>

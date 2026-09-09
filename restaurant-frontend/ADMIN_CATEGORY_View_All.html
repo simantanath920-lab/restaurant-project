@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View All Category</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================
+           MAIN NH15 DESIGN
+        ========================= */
+
+        body {
+            background-color: #f9ead9;
+            color: #272d21;
+            font-weight: 300;
+            font-family: "Montserrat", sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* =========================
+           Notification Pop up
+           YOUR ORIGINAL - UNCHANGED
+        ========================= */
+
+        #notificationModal {
+            z-index: 2000;
+        }
+
+        .notification-icon {
+            font-size: 55px;
+        }
+
+        .notification-success {
+            color: rgb(149,171,118);
+        }
+
+        .notification-error {
+            color: rgb(220, 116, 116);
+        }
+
+        .custom-modal {
+            background-color: antiquewhite;
+            border-radius: 30px;
+            overflow: hidden;
+        }
+
+        .custom-header {
+            background-color: black;
+            color: rgb(149,171,118);
+        }
+
+        /* =========================
+           MAIN CONTENT
+        ========================= */
+
+        .category-main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .category-main > div {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* =========================
+           PAGE TITLE
+        ========================= */
+
+        .category-page-title {
+            font-size: 32px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            color: #272d21;
+            margin-top: 30px;
+            margin-bottom: 35px;
+            text-align: center;
+        }
+
+        /* =========================
+           CATEGORY CARD
+        ========================= */
+
+        .category-section {
+            width: min(96%, 1100px);
+            background-color: #fffaf3;
+            border: 1px solid rgba(39,45,33,0.25);
+            box-shadow: 0 8px 20px rgba(39,45,33,0.15);
+            overflow: hidden;
+        }
+
+        /* =========================
+           CARD HEADER
+        ========================= */
+
+        .category-section-header {
+            background-color: #272d21;
+            color: #f9ead9;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .category-section-header h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 300;
+            letter-spacing: 3px;
+        }
+
+        .category-section-header p {
+            margin: 6px 0 0;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            color: #62794e;
+        }
+
+        /* =========================
+           TABLE WRAPPER
+        ========================= */
+
+        .category-table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .category-table {
+            width: 100%;
+            min-width: 950px;
+            margin-bottom: 0;
+            border-collapse: collapse;
+        }
+
+        .category-table thead {
+            background-color: #62794e;
+            color: #f9ead9;
+        }
+
+        .category-table thead th {
+            font-size: 10px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            padding: 13px 12px;
+            border: none;
+            white-space: nowrap;
+        }
+
+        .category-table tbody {
+            background-color: #fffaf3;
+        }
+
+        .category-table tbody td {
+            font-size: 11px;
+            font-weight: 300;
+            color: #272d21;
+            padding: 13px 12px;
+            vertical-align: middle;
+            border-color: rgba(39,45,33,0.12);
+        }
+
+        .category-table tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+        .category-table tbody tr:hover {
+            background-color: rgba(98,121,78,0.08);
+        }
+
+        /* =========================
+           CATEGORY IMAGE
+        ========================= */
+
+        .category-image {
+            width: 75px;
+            height: 55px;
+            object-fit: cover;
+            border: 1px solid rgba(39,45,33,0.2);
+        }
+
+        /* =========================
+           STATUS
+        ========================= */
+
+        .status-available {
+            color: #62794e;
+            font-weight: 400;
+        }
+
+        .status-unavailable {
+            color: rgb(180,100,100);
+            font-weight: 400;
+        }
+
+        /* =========================
+           ACTION BUTTONS
+        ========================= */
+
+        .category-action-btn {
+            border-radius: 2px;
+            font-family: "Montserrat", sans-serif;
+            font-size: 10px;
+            font-weight: 300;
+            letter-spacing: .5px;
+            padding: 7px 12px;
+            margin: 2px;
+            border: none;
+        }
+
+        .edit-btn {
+            background-color: #272d21;
+            color: #f9ead9;
+        }
+
+        .edit-btn:hover {
+            background-color: #62794e;
+            color: white;
+        }
+
+        .status-btn {
+            background-color: #62794e;
+            color: #f9ead9;
+        }
+
+        .status-btn:hover {
+            background-color: #272d21;
+            color: white;
+        }
+
+        /* =========================
+           EDIT MODAL
+        ========================= */
+
+        #editModal .modal-content {
+            background-color: #fffaf3;
+            border: 1px solid rgba(39,45,33,0.25);
+            border-radius: 0;
+            box-shadow: 0 8px 20px rgba(39,45,33,0.2);
+            overflow: hidden;
+        }
+
+        #editModal .modal-header {
+            background-color: #272d21;
+            color: #f9ead9;
+            border: none;
+            padding: 18px 20px;
+        }
+
+        #editModal .modal-title {
+            font-size: 16px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        #editModal .btn-close {
+            filter: invert(1);
+        }
+
+        #editModal .modal-body {
+            padding: 30px;
+        }
+
+        #editModal .modal-footer {
+            border-top: 1px dotted rgba(39,45,33,0.25);
+            padding: 20px 30px;
+            background-color: #fffaf3;
+        }
+
+        #editModal .form-label {
+            color: #68705f;
+            font-size: 11px;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        #editModal .form-control {
+            background-color: #fffaf3;
+            border: 1px solid rgba(39,45,33,0.25);
+            border-radius: 2px;
+            color: #272d21;
+            font-family: "Montserrat", sans-serif;
+            font-size: 12px;
+            font-weight: 300;
+            padding: 10px 12px;
+        }
+
+        #editModal .form-control:focus {
+            background-color: #fffaf3;
+            border-color: #62794e;
+            box-shadow: 0 0 0 .15rem rgba(98,121,78,.15);
+            outline: none;
+        }
+
+        #submitBtn {
+            background-color: #272d21;
+            color: rgb(149,171,118);
+            border: 1px solid #272d21;
+            border-radius: 3px;
+            min-width: 150px;
+            padding: 10px 20px;
+            font-family: "Montserrat", sans-serif;
+            font-size: 10px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        #submitBtn:hover {
+            background-color: #62794e;
+            border-color: #62794e;
+            color: white;
+        }
+
+        .invalid-feedback {
+            color: rgb(220,116,116);
+            font-size: 10px;
+            font-weight: 300;
+            letter-spacing: .3px;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer-Section-last {
+            background-color: #272d21;
+            color: #62794e;
+            font-weight: 200;
+            margin-top: auto;
+        }
+
+        .icons a {
+            display: inline-flex;
+            border: 1px solid #62794e;
+            width: 50px;
+            height: 50px;
+            border-radius: 50px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icons i {
+            font-size: 22px;
+            color: #62794e;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 768px) {
+            .category-main {
+                padding: 25px 15px;
+            }
+
+            .category-page-title {
+                font-size: 25px;
+                letter-spacing: 2px;
+                margin-top: 20px;
+                margin-bottom: 25px;
+            }
+
+            .category-section {
+                width: 98%;
+            }
+
+            .category-section-header {
+                padding: 17px 15px;
+            }
+
+            .category-section-header h3 {
+                font-size: 16px;
+                letter-spacing: 2px;
+            }
+
+            .category-section-header p {
+                font-size: 9px;
+            }
+
+            .category-table {
+                min-width: 950px;
+            }
+
+            .category-table thead th {
+                padding: 12px 10px;
+            }
+
+            .category-table tbody td {
+                padding: 12px 10px;
+            }
+
+            #editModal .modal-body {
+                padding: 25px 20px;
+            }
+
+            #editModal .modal-footer {
+                padding: 18px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Notification Pop Up -->
+    <!-- YOUR ORIGINAL NOTIFICATION - UNCHANGED -->
+
+    <div class="modal fade" id="notificationModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-center custom-modal">
+                <div class="modal-header border-0 custom-header">
+                    <h5 class="mb-0">NH15 Restaurant</h5>
+                    <button class="btn btn-close" type="button" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div id="notificationIconContainer" class="notification-icon">
+                        <i id="notificationIconElement"></i>
+                    </div>
+
+                    <h3 id="notificationTitle"></h3>
+                    <p id="notificationMessage"></p>
+
+                    <button class="btn btn-dark" style="border-radius: 20px; width: 150px; color: rgb(149,171,118);" type="button" data-bs-dismiss="modal">ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================
+         MAIN CATEGORY CONTENT
+    ========================= -->
+
+    <main class="category-main">
+        <div>
+            <h2 class="category-page-title" style="letter-spacing: 0.7rem;">VIEW ALL CATEGORY</h2>
+
+            <section class="category-section">
+                <div class="category-section-header">
+                    <h3>RESTAURANT CATEGORIES</h3>
+                    <p>MANAGE ALL FOOD CATEGORIES</p>
+                </div>
+
+                <div class="category-table-wrapper">
+                    <table class="table category-table text-center">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Image url</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="CategoryBodyTable"></tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- =========================
+         UPDATE CATEGORY MODAL
+    ========================= -->
+
+    <div class="modal fade" id="editModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Update category</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <form id="updateCategory" novalidate>
+                    <div class="modal-body">
+                        <input type="hidden" id="editId">
+
+                        <div class="mb-3">
+                            <label class="form-label">Category name</label>
+                            <input type="text" id="editName" class="form-control">
+                            <div class="invalid-feedback text-center"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Category description</label>
+                            <textarea id="editDescription" class="form-control" rows="3"></textarea>
+                            <div class="invalid-feedback text-center"></div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn" id="submitBtn" onclick="">
+                            <span id="textbtn">Update</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
+    <section class="footer-Section-last text-center py-5">
+        <div class="container">
+            <div class="d-flex flex-column flex-lg-row justify-content-center align-items-center gap-5">
+
+                <!-- Address -->
+
+                <div>
+                    <h6>Address</h6>
+                    <p class="mb-1">Madurdaha Kolkata</p>
+                    <p class="mb-0">West Bengal 700107</p>
+                </div>
+
+                <!-- Contact -->
+
+                <div>
+                    <h6>Contact</h6>
+                    <p class="mb-1">Phone: +91 863-8148837</p>
+                    <p class="mb-0">Email: nh15restaurantonline@gmail.com</p>
+                </div>
+
+                <!-- Opening Hours -->
+
+                <div>
+                    <h6>Opening Hours</h6>
+                    <p class="mb-1">Mon-Sat: 11AM - 10PM</p>
+                    <p class="mb-0">Sunday: Closed</p>
+                </div>
+
+                <!-- Social -->
+
+                <div class="icons">
+                    <h6>Follow Us</h6>
+
+                    <a href="#" class="text-dark me-3"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="text-dark me-3"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="text-dark me-3"><i class="bi bi-linkedin"></i></a>
+                    <a href="#" class="text-dark me-3"><i class="bi bi-twitter-x"></i></a>
+                </div>
+            </div>
+
+            <hr>
+
+            <h6 class="fw-light mb-0">&copy; NH15 Restaurant</h6>
+        </div>
+    </section>
+
+    <script>
+        // =====================
+        // [    Access Check   ]
+        // =====================
+
+        function checkUserAccess() {
+            const token = localStorage.getItem("token");
+            const role = localStorage.getItem("role");
+
+            if (!token || role !== "ADMIN") {
+                showNotification("error", "Access denied!", "Please login to access this page.");
+
+                setTimeout(() => {
+                    window.location.href = "Login.html";
+                }, 2000);
+
+                return false;
+            }
+
+            return true;
+        }
+
+        // =====================
+        // [ Notification ]
+        // =====================
+
+        const notificationModal = document.getElementById("notificationModal");
+
+        function showNotification(type,title,message) {
+            const notificationIconContainer = document.getElementById("notificationIconContainer");
+            const notificationIconElement = document.getElementById("notificationIconElement");
+            const notificationTitle = document.getElementById("notificationTitle");
+            const notificationMessage = document.getElementById("notificationMessage");
+
+            notificationIconContainer.classList = "notification-icon";
+
+            if (type === "success") {
+                notificationIconContainer.classList.add("notification-success");
+                notificationIconElement.className = "bi bi-check-circle-fill";
+            } else if (type === "error") {
+                notificationIconContainer.classList.add("notification-error");
+                notificationIconElement.className = "bi bi-x-circle-fill";
+            }
+
+            notificationTitle.textContent = title;
+            notificationMessage.textContent = message;
+
+            const modal = new bootstrap.Modal(notificationModal);
+            modal.show();
+        }
+
+        // =====================
+        // [ Variables ]
+        // =====================
+
+        const CategoryBodyTable = document.getElementById("CategoryBodyTable");
+        let allCategory = [];
+
+        // =====================
+        // [ 2nd Function ]
+        // =====================
+
+        function ConvertDataIntoHTML(data) {
+            CategoryBodyTable.innerHTML = "";
+
+            data.forEach(Category => {
+                CategoryBodyTable.innerHTML += `
+                    <tr>
+                        <td>${Category.id}</td>
+                        <td>${Category.name}</td>
+                        <td>${Category.description}</td>
+                        <td>
+                            <img src="http://localhost:8080${Category.imageUrl}" alt="${Category.name}" class="category-image">
+                        </td>
+                        <td>
+                            ${
+                                Category.isAvailable
+                                ? `<span class="status-available">Available</span>`
+                                : `<span class="status-unavailable">Non Available</span>`
+                            }
+                        </td>
+                        <td>
+                            <button class="category-action-btn edit-btn" onclick="editCategory(${Category.id})">Edit</button>
+                            <button class="category-action-btn status-btn" onclick="UpdateStatus(${Category.id},${Category.isAvailable})">Change status</button>
+                        </td>
+                    </tr>
+                `;
+
+                console.log("This is Image URL => " + data.imageUrl);
+            });
+        }
+
+        // =====================
+        // [ 4th Function ]
+        // =====================
+
+        function editCategory(id) {
+            const category = allCategory.find(category => category.id === id);
+
+            document.getElementById("editId").value = category.id;
+            document.getElementById("editName").value = category.name;
+            document.getElementById("editDescription").value = category.description;
+
+            const modal = new bootstrap.Modal(document.getElementById("editModal"));
+            modal.show();
+        }
+
+        // =========================
+        // ========= Update category
+        // =========================
+
+        const updateCategory = document.getElementById("updateCategory");
+        const editId = document.getElementById("editId");
+        const editName = document.getElementById("editName");
+        const editDescription = document.getElementById("editDescription");
+        const submitBtn = document.getElementById("submitBtn");
+        const textbtn = document.getElementById("textbtn");
+
+        function showErrorrr(input,message) {
+            input.classList.remove("is-valid");
+            input.classList.add("is-invalid");
+            input.nextElementSibling.innerText = message;
+        }
+
+        function showSuccessss(input) {
+            input.classList.remove("is-invalid");
+            input.classList.add("is-valid");
+            input.nextElementSibling.innerText = "";
+        }
+
+        function validateInputssss() {
+            let isValid = true;
+
+            // Name validate
+
+            if (editName.value.trim() === "") {
+                showErrorrr(editName, "Category name is required");
+                isValid = false;
+            } else {
+                showSuccessss(editName);
+            }
+
+            // Description validate
+
+            if (editDescription.value.trim() === "") {
+                showErrorrr(editDescription, "Category Description is required");
+                isValid = false;
+            } else {
+                showSuccessss(editDescription);
+            }
+
+            return isValid;
+        }
+
+        // Under Event 1st event
+
+        updateCategory.addEventListener("input", function() {
+            validateInputssss();
+        });
+
+        // 1st Event
+
+        updateCategory.addEventListener("submit", async function(e) {
+            const id = editId.value;
+
+            e.preventDefault();
+
+            if (!validateInputssss()) {
+                return;
+            }
+
+            const categoryItem = {
+                name: editName.value.trim(),
+                description: editDescription.value.trim(),
+            };
+
+            try {
+                const token = localStorage.getItem("token");
+
+                submitBtn.disabled = true;
+                textbtn.innerText = "Updating...";
+
+                const response = await fetch(
+                    `http://localhost:8080/restaurant/admin/api/auth/update-category/${id}`,
+                    {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": "Bearer " + token
+                        },
+                        body: JSON.stringify(categoryItem)
+                    }
+                );
+
+                // =====================
+                // [  AUT - 401 & 403  ]
+                // =====================
+
+                if (response.status === 401) {
+                    localStorage.removeItem("token");
+
+                    showNotification(
+                        "error",
+                        "Session expired!",
+                        "Please restart the forgot password process."
+                    );
+
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    }, 2000);
+
+                    return;
+                }
+
+                if (response.status === 403) {
+                    showNotification(
+                        "error",
+                        "Access denied!",
+                        "You do not have permission to access this resource"
+                    );
+
+                    return;
+                }
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showNotification("success", "Success", data.message);
+
+                    ViewAllCategory();
+
+                    updateCategory.reset();
+
+                    [editName, editDescription].forEach(input => {
+                        input.classList.remove("is-invalid", "is-valid");
+                        input.nextElementSibling.innerText = "";
+                    });
+
+                    bootstrap.Modal
+                        .getInstance(document.getElementById("editModal"))
+                        .hide();
+                } else {
+                    if (data.name) {
+                        showError(
+                            editName,
+                            data.name
+                        );
+                    }
+
+                    if (data.description) {
+                        showError(
+                            editDescription,
+                            data.description
+                        );
+                    }
+
+                    if (data.message) {
+                        showNotification(
+                            "error",
+                            "Error!",
+                            data.message
+                        );
+                    }
+                }
+            } catch (error) {
+                console.log(error);
+
+                showNotification(
+                    "error",
+                    "Server error!",
+                    "Please try again later."
+                );
+            } finally {
+                submitBtn.disabled = false;
+                textbtn.innerText = "Update";
+            }
+        });
+
+        // =========================
+        // UPDATE STATUS
+        // =========================
+
+        async function UpdateStatus(id,status) {
+            const changeStatus = {
+                isAvailable : !status
+            };
+
+            try {
+                const token = localStorage.getItem("token");
+
+                const response = await fetch(
+                    `http://localhost:8080/restaurant/admin/api/auth/delete-category/${id}`,
+                    {
+                        method : "PATCH",
+                        headers : {
+                            "Content-Type": "application/json",
+                            "Authorization": "Bearer " + token
+                        },
+                        body: JSON.stringify(changeStatus)
+                    }
+                );
+
+                // =====================
+                // [  AUT - 401 & 403  ]
+                // =====================
+
+                if (response.status === 401) {
+                    localStorage.removeItem("token");
+
+                    showNotification(
+                        "error",
+                        "Session expired!",
+                        "Please restart the forgot password process."
+                    );
+
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    }, 2000);
+
+                    return;
+                }
+
+                if (response.status === 403) {
+                    showNotification(
+                        "error",
+                        "Access denied!",
+                        "You do not have permission to access this resource"
+                    );
+
+                    return;
+                }
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showNotification(
+                        "success",
+                        "Seccess",
+                        data.message
+                    );
+
+                    ViewAllCategory();
+                } else {
+                    showNotification(
+                        "error",
+                        "Error!",
+                        data.message
+                    );
+                }
+            } catch (error) {
+                console.log(error);
+
+                showNotification(
+                    "error",
+                    "Server error!",
+                    "Please try again later."
+                );
+            }
+        }
+
+        // =========================
+        // VIEW ALL CATEGORY
+        // =========================
+
+        async function ViewAllCategory() {
+            const token = localStorage.getItem("token");
+
+            try {
+                const response = await fetch(
+                    "http://localhost:8080/restaurant/admin/api/auth/get-all-category",
+                    {
+                        method : "GET",
+                        headers : {
+                            "Authorization": "Bearer " + token
+                        }
+                    }
+                );
+
+                // =====================
+                // [  AUT - 401 & 403  ]
+                // =====================
+
+                if (response.status === 401) {
+                    localStorage.removeItem("token");
+
+                    showNotification(
+                        "error",
+                        "Session expired!",
+                        "Please restart the forgot password process."
+                    );
+
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    }, 2000);
+
+                    return;
+                }
+
+                if (response.status === 403) {
+                    showNotification(
+                        "error",
+                        "Access denied!",
+                        "You do not have permission to access this resource"
+                    );
+
+                    return;
+                }
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    allCategory = data;
+                    ConvertDataIntoHTML(data);
+                } else {
+                    showNotification(
+                        "error",
+                        "Error!",
+                        "Unable to fetch all category."
+                    );
+                }
+            } catch (error) {
+                console.log(error);
+
+                showNotification(
+                    "error",
+                    "Server error!",
+                    "Please try again later."
+                );
+            }
+        }
+
+        // =========================
+        // MAIN FUNCTION
+        // =========================
+
+        window.addEventListener("DOMContentLoaded", function() {
+            if (!checkUserAccess()) {
+                return;
+            }
+
+            ViewAllCategory();
+        });
+    </script>
+
+</body>
+</html>

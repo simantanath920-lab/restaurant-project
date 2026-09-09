@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <style>
+        body{
+            font-family: "Montserrat", sans-serif;  
+            background-color: #62794e;          
+        } 
+
+        /* Navbar Section */
+        .navbar{
+            background-color: #123a1d;
+        }
+
+        .navbar-brand{
+            color: #ffffff;
+            font-size: clamp(1.3rem,4vw,2rem);
+        }
+        .navbar-brand:hover{
+            color: rgb(255, 255, 255);
+        }
+        .navbar-brand img{
+            width: clamp(55px,8vw,80px);
+        }
+        .nav-link{
+            border: 1px solid #123a1d;
+            color: black;
+            font-size: 17px;
+            border-radius: 20px;
+        }
+        .nav-link:hover{
+            color: #000000;
+            border: 1px solid #6e6e6e;
+            transition: all 0.50s ease-in-out;
+            box-shadow:0 5px 43px rgb(17, 39, 15);
+
+        }
+        .navbar-toggler i{
+            color: rgb(255, 255, 255);
+            font-size: 30px;
+        }
+
+
+        /* Main Section */
+          .MainSection-Parent{
+            position: relative;
+            min-height: 100vh;
+            overflow: hidden;
+
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .MainLogo-Image{
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+            object-position: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            z-index: -1;
+        }
+
+        .hero-text{
+            margin-top: -105px;
+            text-align:center;
+            max-width: 700px;
+            padding: 20px;
+            color: #f7fff0;
+        }  
+        
+        .letter-title{
+            letter-spacing: 0.7rem;
+            text-transform: uppercase;
+            color: #f7fff0;
+        }
+
+        .hero-title{
+            font-family: "Montserrat", sans-serif;
+            font-size: clamp(6rem,6vw,10rem);
+            font-weight: 700;
+            color: #ffffff;           
+        }
+        
+        .Button-About-us{
+            padding: 15px 35px;
+            border-radius: 5px;
+            border:none;
+            background-color: #000000;
+            color: #f9ead9;
+        }
+        .Button-About-us a{
+            text-decoration: none;
+            color: white;
+            
+        }
+
+        .Button-About-us:hover{
+            background-color: #00000082;
+            letter-spacing: 0.3rem;
+            transition: all 1.10s ease-in-out;
+            color:#000000 ;
+            box-shadow: 0 20px 30px rgb(1, 25, 2);
+        } 
+
+        
+
+
+
+
+        /* Payload-Section */
+        .Payload-Section-Image{
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+    
+
+        /* Second-Payload-Section */
+        .Second-Payload-Section-Parent{
+            margin-top: 1vh;
+            width: 100%;
+            min-height: 60vh;
+            padding: 30px 0;
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            background-image: linear-gradient(180deg, rgb(9, 26, 4) 20%,#62794e 100%);
+        } 
+         .second-Payload-hero-title{
+            margin-top: 30px;
+            font-family: "Montserrat", sans-serif;
+            color: #969696;
+            font-weight: 100;
+         }
+        .second-Payload-heading-title{
+            letter-spacing: 0.5rem;
+            font-weight: 650;
+            font-weight: 100;
+            color: #e1e1e1;
+        }
+        
+         .momo-Image,
+         .popcorm-Image,
+         .prons-Image{
+            width: 100%;
+         }
+
+
+        /* Third-Payload-Section */
+        .Third-Payload-Section-Parent{
+            width: 100%;
+            min-height: 60vh;
+            background-image: linear-gradient(180deg, rgb(9, 26, 4) 20%,#62794e 100%);
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            margin-top: 10vh;
+        }
+        .Third-Payload-Section-heading-title{
+            letter-spacing: 0.7rem;
+            margin-top: 50px;
+            font-size: clamp(1.5rem,8vw,5rem);
+            font-weight: 600;
+            color: #3c3c3c;
+        }
+        .Menu-heading-title{
+            letter-spacing: 0.6rem;
+            color: #e1e1e1;
+        }
+        .item-size{
+            font-size: clamp(1rem,2vw,2.3rem);
+            font-weight: 100;
+            box-shadow:0 20px 30px rgb(17, 39, 15);
+        }
+        .MenuLast-heading-title{
+            margin: 40px;
+            letter-spacing: 0.6rem;
+            color: #e1e1e1;
+        }
+        .menu-button{
+            padding: 15px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #888888;
+            letter-spacing: 0rem;
+            background-color: #1b291e;
+        }
+        .menu-button:hover {
+            background-color: #16161600;
+            letter-spacing: 0.3rem;
+            transition: all 1.10s ease-in-out;
+            color:#000000 ;
+            box-shadow: 0 20px 30px rgb(17, 39, 15);
+        }
+
+
+
+        /* Footer Section */
+        .footer-Section-last{
+            background-color: #272d21;
+            color: #62794e;
+            font-weight: 200;
+        }
+
+        .icons a{
+            display: inline-flex;
+            border: 1px solid #62794e;
+            width: 50px;
+            height: 50px;
+            border-radius: 50px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icons i{
+            font-size: 22px;
+            color: #62794e;
+        }
+
+    </style>
+</head>  
+<body>
+    <!-- 1.Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top shadow-lg py-3">
+        <div class="container">
+            <a href="#" class="navbar-brand">
+                <img src="nh-15LOGO.png" alt="logo" width="80">
+                NH15
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#toggleList">
+                <span><i class="bi bi-chevron-double-down"></i></span>
+            </button> 
+            
+            <div class="collapse navbar-collapse" id="toggleList">
+                <ul class="navbar-nav ms-auto text-center gap-4 ">
+                    <li class="nav-item "><a href="PUBLIC_HomePage.html" class="nav-link active">Home</a></li>
+                    <li class="nav-item "><a href="Menu.html" class="nav-link">Menu</a></li>
+                    <li class="nav-item "><a href="About_us.html" class="nav-link">About us</a></li>
+                    <li class="nav-item "><a href="Contact.html" class="nav-link">Contact</a></li>
+                    <li class="nav-item "><a href="Login.html" class="nav-link">Login</a></li>
+                </ul>
+            </div>
+        </div>
+     </nav>   
+     
+     <!-- Main Section -->
+      <section class="MainSection-Parent pt-5 mt-5">
+         <img src="photo-1529485726363-95c8d62f656f.avif" alt="mainLogo" class="MainLogo-Image shadow-lg">
+         
+         <div class="hero-text">
+            <h6 class="letter-title">flavours of the northeast</h6>
+            <h1 class="hero-title">NH15</h1>
+            <p>Lorem ipsum dolor sit  asperiores. Molestiae odit maioresulpa, veritatis explicabo impedit quia provident.</p>
+        
+            <button class="Button-About-us" type="button">
+                <a href="About_us.html">About us</a>
+            </button>
+        </div>
+      </section>
+
+      <!-- Payload Section -->
+      <section class="PayloadSection-Parent pt-5 mt-5">
+        <div class="container">
+            <img src="ADD4AED5-2E98-49D7-952E-F58AA13F3CB4.PNG" alt="Payload-Section-Image" class="Payload-Section-Image img-fluid shadow-lg">
+        </div>
+      </section>
+ 
+      <!-- Second Payload Section -->
+      <section class="Second-Payload-Section-Parent">
+        <div class="container">
+            <div class="row">
+                <div class="second-Payload-hero-title">
+                    <h5 class="second-Payload-heading-title">ORDER FRESHLY CHICKEN GOODS OR VISIT NH15</h5>
+                    <p class="second-Payload-letter-title p-5">Lorem ipsum Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, aut. Odit vero rerum porro. Sequi asperiores veritatis accusantium quasi dolorem? dolor Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquid magni ullam, recusandae tempora sit nulla dicta libero obcaecati possimus ea impedit in itaque eveniet omnis consequatur labore? Soluta, quae accusamus. sit amet, consectetur adipisicing elit. Reiciendis porro nesciunt eveniet magni quisquam quaerat odio, asperiores laboriosam voluptate rem totam consequuntur nihil incidunt ducimus eum ipsam cum? Natus explicabo quos minus harum obcaecati maxime, perferendis, provident exercitationem magni vel temporibus, ipsam incidunt deleniti. Unde enim minus perferendis sed, iure laudantium laboriosam cumque repellendus, assumenda quis labore, vitae quod ipsa.</p>
+                
+                    <div class="row">
+                        <div class="col-4">
+                            <img src="momo.png" alt="momo" class="momo-Image">
+                        </div>
+
+                        <div class="col-4">
+                            <img src="popcorn.png" alt="popcorm" class="popcorm-Image">
+                        </div>
+
+                        <div class="col-4">
+                            <img src="prons.png" alt="prons" class="prons-Image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </section>
+ 
+      <!-- Third Payload Section  -->
+        <section class="Third-Payload-Section-Parent">
+            <div class="Third-Payload-Section-hero-title">
+                <h1 class="Third-Payload-Section-heading-title">OUR  MENU</h1>
+                <div class="Menu-heading-title mt-5">
+                    <h3 class="mb-5 item-size">MOMOS</h3>
+                    <h3 class="mb-5 item-size">SOUPS</h3>
+                    <h3 class="mb-5 item-size">APPETIZERS</h3>
+                    <h3 class="mb-5 item-size">SEA FOOD</h3>
+                    <h3 class="mb-5 item-size">MAIN COURSE</h3>
+                </div> 
+
+                <div class="MenuLast-heading-title">
+                    <h3 class="mb-5 item-size">RICE</h3>
+                    <h3 class="mb-5 item-size">NOODLESS</h3>
+                    <h3 class="mb-5 item-size">GRAVY NOODLES</h3>
+                    <h3 class="mb-5 item-size">MEIFOON</h3>
+
+                   <a class="menu-button" href="Menu.html">Read our full menu</a>
+                </div>
+            </div>
+        </section>
+
+        
+        
+        <section class="footer-Section-last text-center mt-5 py-5">
+            <div class="container">
+                <div class="d-flex flex-column flex-lg-row justify-content-center align-items-center gap-5 gap-lg-5">
+
+                    <!-- Address -->
+                    <div>
+                        <h6>Address</h6>
+                        <p class="mb-1">Madurdaha Kolkata</p>
+                        <p class="mb-0">West bengal 700107</p>
+                    </div>
+
+                    <!-- Contact -->
+                    <div>
+                        <h6>Contact</h6>
+                        <p class="mb-1">Phone: +91 863-8148837</p>
+                        <p class="mb-0">Email: nh15restaurantonline@gmail.com</p>
+                    </div>
+
+                    <!-- Opening Hours -->
+                    <div>
+                        <h6>Opening Hours</h6>
+                        <p class="mb-1">Mon-Sat: 11AM - 10PM</p>
+                        <p class="mb-0">Sunday: Closed</p>
+                    </div>
+
+                    <div class="icons">
+                        <h6>Follow Us</h6>
+                        <a href="#" class="text-dark me-3"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="text-dark me-3"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-dark me-3"><i class="bi bi-linkedin"></i></a>
+                        <a href="#" class="text-dark me-3"><i class="bi bi-twitter-x"></i></a>
+                    </div>
+
+                </div>
+                
+                <hr>
+                <h6 class="fw-light mb-0">&copy; NH15 Restaurant</h6>
+            </div>
+        </section>
+        
+</body>
+</html>

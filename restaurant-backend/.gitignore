@@ -1,3 +1,18 @@
+# macOS
+.DS_Store
+
+# VS Code
+.vscode/
+
+# Secrets
+application.properties
+
+# Runtime uploads
+uploads/
+
+
+
+
 HELP.md
 target/
 .mvn/wrapper/maven-wrapper.jar
@@ -31,3 +46,20 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+
+
+
+
+# Secrets
+application.properties
+
+# macOS
+.DS_Store
+
+# VS Code
+.vscode/
+
+# Runtime uploads
+uploads/

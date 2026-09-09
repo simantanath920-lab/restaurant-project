@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: "Montserrat", sans-serif;
+            background:#f9ead9;
+        }
+
+        /* Notification Pop up */
+        #notificationModal{
+            z-index: 2000;
+        }
+
+        .notification-icon{
+            font-size: 55px;
+        }
+
+        .notification-success{
+            color: rgb(149,171,118);
+        }
+
+        .notification-error{
+            color: rgb(220, 116, 116);
+        }
+
+        .custom-modal{
+            background-color: antiquewhite;
+            border-radius: 30px;
+            overflow: hidden;
+        }
+
+        .custom-header{ 
+            background-color: black;
+            color: rgb(149,171,118);
+        }
+
+
+
+
+
+
+        /* Main Background Theme */
+
+        .Menu-Main-Section {
+            position: relative;
+            min-height: 100vh;
+            padding: 80px 0 100px;
+            overflow: hidden;
+        }
+
+        /* Overlay */
+        .Menu-Main-Section::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+
+            background: rgba(255, 255, 255, 0.168);
+
+            z-index: -1;
+        }
+        .register-btn {
+            color: rgb(7, 48, 15);
+        }
+
+        .register-btn:hover {
+            color: rgb(7, 48, 15);
+        }
+
+
+
+        /* =========================
+        Authentic Menu Card Style
+        ========================= */
+
+        .menu-title {
+            font-size: 35px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            color: #272d21;
+        }
+
+
+        /* Main Menu Card */
+
+        .menu-card {
+            position: relative;
+            height: 420px;
+            overflow: hidden;
+            border-radius: 15px;
+            cursor: pointer;
+
+            transition: transform 0.4s ease;
+        }
+
+
+        /* Hover */
+
+        .menu-card:hover {
+            transform: translateY(-10px);
+        }
+
+
+        /* Food Image */
+
+        .menu-card img {
+            width: 100%;
+            height: 420px;
+            object-fit: cover;
+
+            transition: transform 0.6s ease;
+        }
+
+
+        .menu-card:hover img {
+            transform: scale(1.1);
+        }
+
+
+        /* Dark Gradient Overlay */
+
+        .menu-overlay {
+            position: absolute;
+            inset: 0;
+
+            background: linear-gradient(
+                to top,
+                rgba(0, 0, 0, 0.90),
+                rgba(0, 0, 0, 0.05)
+            );
+
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+
+            padding: 25px;
+
+            color: white;
+        }
+
+
+        /* Menu Name */
+
+        .menu-overlay h5 {
+            font-size: 22px;
+            font-weight: 600;
+
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+
+        /* Price */
+
+        .menu-price {
+            color: #f3dfc9;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+
+        /* Menu Description */
+
+        .menu-description {
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+
+        /* Menu Details */
+
+        .menu-details {
+            font-size: 13px;
+        }
+
+
+        /* Add To Cart Button */
+
+        .menu-add-button {
+            background-color: #f9ead9;
+            color: #272d21;
+
+            border: none;
+
+            font-weight: 600;
+
+            transition: all 0.3s ease;
+        }
+
+
+        .menu-add-button:hover {
+            background-color: #62794e;
+            color: white;
+        }
+
+        .menu-image {
+            height: 220px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .menu-card-footer {
+            background-color: transparent;
+            border: none;
+        }
+
+
+        /* Keep Cart Bar in One Line */
+
+        #cartBar .d-flex {
+            flex-wrap: nowrap;
+            background-color: #16230a;
+            color: #ffffff;
+            border-radius: 5px;
+            width: auto;
+            height: 45px;
+        }
+
+        #cartMessage {
+            white-space: nowrap;
+            flex-shrink: 1;
+            font-size: 15px;
+            letter-spacing: 0.4rem;
+        }
+
+        #cartBar button {
+            white-space: nowrap;
+            flex-shrink: 1;
+            color: #ffffff;
+            background-color: #3f5d3eb5;
+        }
+
+
+
+        /* Footer Section */
+        .footer-Section-last{
+            background-color: #272d21;
+            color: #62794e;
+            font-weight: 200;
+        }
+
+        .icons a{
+            display: inline-flex;
+            border: 1px solid #62794e;
+            width: 50px;
+            height: 50px;
+            border-radius: 50px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icons i{
+            font-size: 22px;
+            color: #62794e;
+        }
+
+        /* Small Screens */
+
+        @media (max-width: 576px) {
+
+            #cartBar {
+                width: 95% !important;
+                padding: 10px 12px !important;
+            }
+
+            #cartMessage {
+                font-size: 15px;
+                letter-spacing: 0.4rem;
+            }
+
+            #cartBar button {
+                font-size: 11px;
+                padding: 6px 9px;
+                letter-spacing: 0.5px;
+            }
+
+            #cartBar .d-flex.gap-2 {
+                gap: 5px !important;
+            }
+        }
+
+    </style>
+
+
+</head>
+<body>
+
+    <!--Notification Pop Up -->
+    <div class="modal fade" id="notificationModal">
+        <div class="modal-dialog modal-dialog-centered" >
+            <div class="modal-content text-center custom-modal">
+
+                <div class="modal-header border-0 custom-header">
+                    <h5 class="mb-0">NH15 Restaurant</h5>
+                    <button class="btn btn-close" type="button" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div id="notificationIconContainer" class="notification-icon">
+                        <i id="notificationIconElement"></i>
+                    </div>
+
+                    <h3 id="notificationTitle"></h3>
+
+                    <p id="notificationMessage"></p>
+
+                    <button class="btn btn-dark" style="border-radius: 20px; width: 150px; color: rgb(149,171,118);" type="button" data-bs-dismiss="modal">ok</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+ 
+
+    <!-- View Cart Green box -->
+    <div id="cartBar"
+     class="position-fixed bottom-0 start-50 translate-middle-x px-4 py-3"
+     style="display:none; width:90%; max-width:700px; z-index:9999;">
+
+    <div class="d-flex justify-content-between align-items-center">
+
+        <span id="cartMessage">
+             1 Item Added
+        </span>
+
+        <div class="d-flex gap-2">
+
+            <button
+                class="btn btn-sm"
+                onclick="window.location.href='USER_Address.html'">
+
+                View Cart
+
+            </button>
+
+            <button
+                class="btn btn-sm"
+                onclick="ClearCart()">
+
+                Clear Cart
+
+            </button>
+
+        </div>
+
+    </div>
+
+    </div>
+
+
+
+    <!-- Menu Items By Category Section -->
+    <section class="Menu-Main-Section">
+
+        <div class="container">
+            <div class="text-center mb-5">
+
+                <h3 class="menu-title" style="letter-spacing: 0.7rem; font-weight: 500;">MENU</h3>
+
+                <p class="text-muted">Discover the flavours of NH15</p>
+            </div>
+
+            <!-- Menu Items -->
+            <div class="row justify-content-center" id="MenuContainer">
+            </div>
+
+        </div>
+    </section>
+ 
+
+    
+    <!-- Footer Section -->
+    <section class="footer-Section-last text-center py-5">
+            <div class="container">
+                <div class="d-flex flex-column flex-lg-row justify-content-center align-items-center gap-5 gap-lg-5">
+
+                    <!-- Address -->
+                    <div>
+                        <h6>Address</h6>
+                        <p class="mb-1">Madurdaha Kolkata</p>
+                        <p class="mb-0">West bengal 700107</p>
+                    </div>
+
+                    <!-- Contact -->
+                    <div>
+                        <h6>Contact</h6>
+                        <p class="mb-1">Phone: +91 863-8148837</p>
+                        <p class="mb-0">Email: nh15restaurantonline@gmail.com</p>
+                    </div>
+
+                    <!-- Opening Hours -->
+                    <div>
+                        <h6>Opening Hours</h6>
+                        <p class="mb-1">Mon-Sat: 11AM - 10PM</p>
+                        <p class="mb-0">Sunday: Closed</p>
+                    </div>
+
+                    <div class="icons">
+                        <h6>Follow Us</h6>
+                        <a href="#" class="text-dark me-3"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="text-dark me-3"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-dark me-3"><i class="bi bi-linkedin"></i></a>
+                        <a href="#" class="text-dark me-3"><i class="bi bi-twitter-x"></i></a>
+                    </div>
+
+                </div>
+                
+                <hr>
+                <h6 class="fw-light mb-0">&copy; NH15 Restaurant</h6>
+            </div>
+        </section>
+
+
+
+    <script>
+
+            // =====================
+            // [    Access Check   ]
+            // =====================
+            function checkUserAccess(){
+    
+            const token = localStorage.getItem("token");
+                const role = localStorage.getItem("role");
+                    
+                if(!token || role !== "USER"){
+
+                    showNotification("error","Access denied!","Please login to access this page.");
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    },2000);
+
+                    return false;
+                }
+                return true;
+            }
+
+
+
+        const notificationModal = document.getElementById("notificationModal");
+        
+        function showNotification(type,title,message){
+
+            const notificationIconContainer = document.getElementById("notificationIconContainer");
+            const notificationIconElement = document.getElementById("notificationIconElement");
+            const notificationTitle = document.getElementById("notificationTitle");
+            const notificationMessage = document.getElementById("notificationMessage");
+
+            notificationIconContainer.classList = "notification-icon";
+
+            if(type === "success"){
+
+                notificationIconContainer.classList.add("notification-success");
+                notificationIconElement.className = "bi bi-check-circle-fill";
+
+            }else if(type === "error"){
+
+                notificationIconContainer.classList.add("notification-error");               
+                notificationIconElement.className = "bi bi-x-circle-fill";
+
+            }
+
+            notificationTitle.textContent = title;
+            notificationMessage.textContent = message;
+
+            const modal = new bootstrap.Modal(notificationModal);
+            modal.show();
+        }
+
+
+
+        // Green View Cart box
+        function showCartBar(message){
+
+            const cartBar = document.getElementById("cartBar");
+            const cartMessage = document.getElementById("cartMessage");
+            
+            cartMessage.innerText = message;
+
+            cartBar.style.display = "block";
+        }
+
+
+        
+
+        const menuContainer = document.getElementById("MenuContainer");
+
+        // Get Category ID from URL
+        const params = new URLSearchParams(window.location.search);
+        const categoryId = params.get("categoryId");
+        const userId = localStorage.getItem("userId");
+
+        async function loadMenus() {
+
+            const token = localStorage.getItem("token");
+
+            try {
+
+                const response = await fetch(`http://localhost:8080/restaurant/user/api/auth/get-all-Menu-By-Category/${categoryId}`,{
+
+                        method: "GET",
+
+                        headers: {
+                            "Authorization": "Bearer " + token
+                        }
+                    }
+                );
+
+
+                                // =====================
+                                // [  AUT - 401 & 403  ]
+                                // =====================
+                                if(response.status === 401){
+                                    localStorage.removeItem("token");
+                                    showNotification("error","Session expired!","Please restart the forgot password process.");
+                                    
+                                    setTimeout(() => {
+                                        window.location.href = "Login.html";
+                                        },2000);
+                                    return;
+                                }
+                                if(response.status === 403){
+                                    showNotification("error","Access denied!","You do not have permission to access this resource");
+                                    return;
+                                }
+
+
+
+                const data = await response.json();
+
+                if (response.ok) {
+
+                    menuContainer.innerHTML = "";
+
+                    if (data.length === 0) {
+
+                        menuContainer.innerHTML = `
+                            <div class="col-12 text-center">
+                                <h2 style="font-size:40px; font-weight:400; letter-spacing:0.7rem;">No Menu Available</h2>
+
+                                <div class="back-btn-part">
+                                    <a href="USER_HomePage.html" class="register-btn">back</a>
+                                </div>
+                            </div>
+                        `;
+
+                        return;
+                    }
+
+                    data.forEach(menu => {
+
+                        menuContainer.innerHTML += `
+
+                            <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-4">
+
+                                <div class="menu-card shadow-lg h-100">
+
+                                    <!-- Food Image -->
+                                    <img src="http://localhost:8080${menu.imageUrl}" alt="${menu.name}">
+
+
+                                    <!-- Overlay -->
+                                    <div class="menu-overlay">
+
+                                        <!-- Name -->
+                                        <h5 class="mb-2">
+                                            ${menu.name}
+                                        </h5>
+
+
+                                        <!-- Price -->
+                                        <p class="menu-price mb-2">
+                                            ₹${menu.price}
+                                        </p>
+
+
+                                        <!-- Description -->
+                                        <p class="menu-description">
+                                            ${menu.description}
+                                        </p>
+
+
+                                        <!-- Details -->
+
+                                        <div class="menu-details mb-3">
+
+                                            <div>
+                                                ${
+                                                    menu.isVeg
+                                                    ? "🟢 Veg"
+                                                    : "🔴 Non Veg"
+                                                }
+                                            </div>
+
+                                            <div>
+                                                <i class="bi bi-clock"></i>
+                                                ${menu.preprationtime} mins
+                                            </div>
+
+                                            <div>
+                                                <i class="bi bi-box-seam"></i>
+                                                Stock: ${menu.stock}
+                                            </div>
+
+                                        </div>
+
+
+                                        <!-- Add Button -->
+
+                                        <div id="add-btn-${menu.id}">
+
+                                            ${
+                                                menu.stock > 0
+
+                                                ? `
+                                                    <button
+                                                        class="btn menu-add-button w-100"
+                                                        onclick="addToCart(${menu.id})">
+
+                                                        <i class="bi bi-cart-plus"></i>
+                                                        ADD TO CART
+
+                                                    </button>
+                                                `
+
+                                                : `
+                                                    <button
+                                                        class="btn btn-secondary w-100"
+                                                        disabled>
+
+                                                        OUT OF STOCK
+
+                                                    </button>
+                                                `
+                                            }
+
+                                        </div>
+
+
+                                        <!-- Quantity Controls -->
+
+                                        <div
+                                            id="update-btn-${menu.id}"
+                                            class="UpdateCartButtons mt-2"
+                                            style="display:none; align-items:center; justify-content:center;">
+
+                                            <button
+                                                class="btn btn-light"
+                                                onclick="updateCart(${menu.id}, -1)">
+
+                                                <i class="bi bi-dash"></i>
+
+                                            </button>
+
+
+                                            <span
+                                                id="qty-${menu.id}"
+                                                class="mx-4 fw-bold">
+
+                                                1
+
+                                            </span>
+
+
+                                            <button
+                                                class="btn btn-light"
+                                                onclick="updateCart(${menu.id}, 1)">
+
+                                                <i class="bi bi-plus"></i>
+
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        `;
+                    });
+
+                } else {
+                    showNotification("error","Unable to load menu!",data.message);
+                }
+
+            } catch (error) {
+                console.error(error);
+                showNotification("error","Server error!","Please try again later.");
+            }
+        }
+
+
+
+        let cartid = null;
+
+        // View Cart
+        async function loadCart() {
+
+            const token = localStorage.getItem("token");
+
+            const response = await fetch(`http://localhost:8080/restaurant/user/api/cart/view/${userId}`,{
+                
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    }
+                }
+            );
+
+                            // =====================
+                            // [  AUT - 401 & 403  ]
+                            // =====================
+                            if(response.status === 401){
+                                localStorage.removeItem("token");
+                                showNotification("error","Session expired!","Please restart the forgot password process.");
+                                
+                                setTimeout(() => {
+                                    window.location.href = "Login.html";
+                                    },2000);
+                                return;
+                            }
+                            if(response.status === 403){
+                                showNotification("error","Access denied!","You do not have permission to access this resource");
+                                return;
+                            }
+
+
+            if (!response.ok) {
+                showNotification("error","Error!","Unable to load cart.");
+                return;
+            }
+
+            const cart = await response.json();
+
+            cartid = cart.cartId;
+
+            // Reset buttons
+            document.querySelectorAll("[id^='add-btn-']").forEach(addBtn => {
+                addBtn.style.display = "block";
+            });
+
+            document.querySelectorAll("[id^='update-btn-']").forEach(updateBtn => {
+                updateBtn.style.display = "none";
+            });
+
+            document.querySelectorAll("[id^='qty-']").forEach(qty => {
+                qty.innerText = "1";
+            });
+
+            // Hide Add button & Show Quantity only for items already in cart
+            cart.items.forEach(item => {
+
+                const addBtn = document.getElementById(`add-btn-${item.menuId}`);
+                const updateBtn = document.getElementById(`update-btn-${item.menuId}`);
+                const qty = document.getElementById(`qty-${item.menuId}`);
+
+                if (addBtn && updateBtn && qty) {
+
+                    addBtn.style.display = "none";
+                    updateBtn.style.display = "flex";
+                    qty.innerText = item.quantity;
+                }
+            });
+
+            // Cart Bar
+            if (cart.items.length > 0) {
+                showCartBar(`${cart.items.length} Item(s) Added`);
+            } else {
+                document.getElementById("cartBar").style.display = "none";
+            }
+        }
+
+
+
+        // Clear cart
+        async function ClearCart(){
+
+            const token = localStorage.getItem("token");
+
+            try {
+                
+                const ClearCartResponse = await fetch(`http://localhost:8080/restaurant/user/api/cart/delete/${userId}/${cartid}`,{
+
+                    method : "DELETE",
+
+                    headers : {
+                        "Authorization":"Bearer " + token
+                    }
+                });     
+
+                            // =====================
+                            // [  AUT - 401 & 403  ]
+                            // =====================
+                            if(ClearCartResponse.status === 401){
+                                localStorage.removeItem("token");
+                                showNotification("error","Session expired!","Please restart the forgot password process.");
+                                
+                                setTimeout(() => {
+                                    window.location.href = "Login.html";
+                                    },2000);
+                                return;
+                            }
+                            if(ClearCartResponse.status === 403){
+                                showNotification("error","Access denied!","You do not have permission to access this resource");
+                                return;
+                            }
+
+
+
+
+                const ClearCartData = await ClearCartResponse.json();
+
+                if(ClearCartResponse.ok){
+
+                    await loadCart();
+
+                }else{
+                    showNotification("error","Error!","Unable to clear cart");
+                }
+
+            } catch (error) {
+                console.log(error);
+                showNotification("error","Server error!","Please try again later.");
+            }
+        }
+
+
+
+
+        // Update Cart
+        async function updateCart(menuId, action) {
+
+        const itemData = {
+            menuid: menuId,
+            quantity: action
+        };
+
+        try {
+
+            const token = localStorage.getItem("token");
+
+            const response = await fetch(`http://localhost:8080/restaurant/user/api/cart/update/${userId}`,{
+                
+                    method: "PUT",
+
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + token
+                    },
+
+                    body: JSON.stringify(itemData)
+                }
+            );
+
+
+                            // =====================
+                            // [  AUT - 401 & 403  ]
+                            // =====================
+                            if(response.status === 401){
+                                localStorage.removeItem("token");
+                                showNotification("error","Session expired!","Please restart the forgot password process.");
+                                
+                                setTimeout(() => {
+                                    window.location.href = "Login.html";
+                                    },2000);
+                                return;
+                            }
+                            if(response.status === 403){
+                                showNotification("error","Access denied!","You do not have permission to access this resource");
+                                return;
+                            }
+
+
+
+            const data = await response.json();
+
+                if (response.ok) {
+
+                    await loadCart();
+                 
+                } else {
+
+                    showNotification("error","Insufficient stock!",data.message);
+                }
+
+            } catch (error) {
+                console.error(error);
+                showNotification("error","Server error!","Please try again later.");
+            }
+        }
+
+
+        // Add to Cart
+        async function addToCart(id){
+
+            const itemData = {
+                menuid : id,
+                quantity : 1
+            };
+
+            try {
+
+                const token = localStorage.getItem("token");
+
+                const response = await fetch(`http://localhost:8080/restaurant/user/api/cart/add/${userId}`,{
+
+                    method:"POST",
+
+                    headers : {
+                        "Content-Type":"application/json",
+                        "Authorization":"Bearer " + token
+                    },
+ 
+                    body:JSON.stringify(itemData)
+                });
+
+
+
+                            // =====================
+                            // [  AUT - 401 & 403  ]
+                            // =====================
+                            if(response.status === 401){
+                                localStorage.removeItem("token");
+                                showNotification("error","Session expired!","Please restart the forgot password process.");
+                                
+                                setTimeout(() => {
+                                    window.location.href = "Login.html";
+                                    },2000);
+                                return;
+                            }
+                            if(response.status === 403){
+                                showNotification("error","Access denied!","You do not have permission to access this resource");
+                                return;
+                            }
+
+
+
+                const data = await response.json();
+
+                if(response.ok){
+
+                   await loadCart();
+
+                }else{
+                    showNotification("error","Error!",data.message);
+                }
+                
+            } catch (error) {
+                showNotification("error","Server error!","Please try again later.");
+            }
+        } 
+
+
+        window.addEventListener("DOMContentLoaded",async function(){
+
+            if(!checkUserAccess()){
+                return;
+            }
+            
+            await loadMenus();
+            await loadCart();
+        });
+
+        window.addEventListener("pageshow",async () => {
+
+            if(!checkUserAccess()){
+                return;
+            }
+
+            await loadCart();
+        });
+        
+    </script>
+    
+</body>
+</html>

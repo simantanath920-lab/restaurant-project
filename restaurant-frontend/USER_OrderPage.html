@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Current Order</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <style>
+        /* =================================
+           MAIN THEME
+        ================================= */
+
+        body {
+            background-color: #f9ead9;
+            color: #272d21;
+            font-family: "Montserrat", sans-serif;
+            font-weight: 300;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* =================================
+           NOTIFICATION POP UP
+        ================================= */
+
+        /* Notification Pop up */
+
+        /* Notification Pop up */
+
+        #notificationModal {
+            z-index: 2000;
+        }
+
+        .notification-icon {
+            font-size: 55px;
+        }
+
+        .notification-success {
+            color: rgb(77, 238, 77);
+        }
+
+        .notification-error {
+            color: rgb(220, 116, 116);
+        }
+
+        .custom-modal {
+            background-color: antiquewhite;
+            border-radius: 30px;
+            overflow: hidden;
+        }
+
+        .custom-header {
+            background-color: black;
+            color: rgb(149,171,118);
+        }
+
+        /* =================================
+           MAIN SECTION
+        ================================= */
+
+        .Main-Section-Parent {
+            flex: 1;
+            padding: 70px 0 80px;
+        }
+
+        /* =================================
+           CURRENT ORDER RECEIPT
+        ================================= */
+
+        .current-order-card {
+            width: min(100%, 500px);
+            margin: auto;
+            background-color: #fffaf3;
+            border: 1px solid rgba(39, 45, 33, 0.25);
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(39, 45, 33, 0.15);
+        }
+
+        .current-order-header {
+            background-color: #272d21;
+            color: #f9ead9;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .current-order-header h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 300;
+            letter-spacing: 4px;
+        }
+
+        .current-order-header p {
+            margin: 6px 0 0;
+            font-size: 10px;
+            color: #62794e;
+            letter-spacing: 1.5px;
+        }
+
+        .current-order-body {
+            padding: 25px;
+        }
+
+        .order-detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            padding: 9px 0;
+            border-bottom: 1px dotted rgba(39, 45, 33, 0.25);
+        }
+
+        .order-detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .order-detail-label {
+            color: #62794e;
+            font-size: 11px;
+            font-weight: 300;
+            white-space: nowrap;
+        }
+
+        .order-detail-value {
+            color: #272d21;
+            font-size: 12px;
+            font-weight: 300;
+            text-align: right;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background-color: #62794e;
+            color: #fffaf3;
+            padding: 5px 9px;
+            border-radius: 2px;
+            font-size: 10px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        .payment-method {
+            color: #62794e;
+            font-weight: 400;
+        }
+
+        /* =================================
+           CANCEL BUTTON
+        ================================= */
+
+        .cancel-section {
+            padding: 20px 25px;
+            border-top: 1px dashed rgba(39, 45, 33, 0.35);
+            text-align: center;
+        }
+
+        .cancel-btn {
+            width: 100%;
+            max-width: 250px;
+            background-color: #272d21;
+            color: #f9ead9;
+            border: 1px solid #62794e;
+            border-radius: 3px;
+            padding: 10px 20px;
+            font-size: 11px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            transition: all 0.25s ease;
+        }
+
+        .cancel-btn:hover {
+            background-color: rgb(220, 116, 116);
+            border-color: rgb(220, 116, 116);
+            color: white;
+        }
+
+        /* =================================
+           BACK BUTTON
+        ================================= */
+
+        .back-btn-part {
+            text-align: center;
+            padding: 0 25px 25px;
+        }
+
+        .register-btn {
+            color: #62794e;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            transition: all 0.2s ease;
+        }
+
+        .register-btn:hover {
+            color: #272d21;
+        }
+
+        /* =================================
+           ORDER ITEMS
+        ================================= */
+
+        .order-items-card {
+            max-width: 700px;
+            margin: 45px auto 0;
+            background-color: #fffaf3;
+            border: 1px solid rgba(39, 45, 33, 0.25);
+            box-shadow: 0 8px 20px rgba(39, 45, 33, 0.15);
+        }
+
+        .order-items-heading {
+            background-color: #272d21;
+            color: #f9ead9;
+            padding: 16px 20px;
+            text-align: center;
+        }
+
+        .order-items-heading h4 {
+            margin: 0;
+            font-size: 15px;
+            font-weight: 300;
+            letter-spacing: 3px;
+        }
+
+        .order-items-table {
+            margin-bottom: 0;
+            color: #272d21;
+            font-size: 12px;
+            font-weight: 300;
+        }
+
+        .order-items-table thead th {
+            background-color: #f9ead9;
+            color: #62794e;
+            border-color: rgba(39, 45, 33, 0.20) !important;
+            padding: 12px;
+            font-size: 11px;
+            font-weight: 400;
+            letter-spacing: 0.7px;
+        }
+
+        .order-items-table tbody td {
+            background-color: #fffaf3;
+            color: #272d21;
+            border-color: rgba(39, 45, 33, 0.18) !important;
+            padding: 12px;
+        }
+
+        .order-items-table tbody tr:hover td {
+            background-color: #f9ead9;
+        }
+
+        /* =================================
+           PREVIOUS ORDERS BUTTON
+        ================================= */
+
+        .previous-orders-section {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .previous-orders-btn {
+            background-color: #272d21;
+            color: #f9ead9;
+            border: 1px solid #62794e;
+            border-radius: 3px;
+            padding: 10px 22px;
+            font-size: 11px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            transition: all 0.25s ease;
+        }
+
+        .previous-orders-btn:hover {
+            background-color: #62794e;
+            color: white;
+        }
+
+        /* =================================
+           NO ORDER CARD
+        ================================= */
+
+        .no-order-card {
+            width: min(100%, 500px);
+            margin: auto;
+            background-color: #fffaf3;
+            border: 1px solid rgba(39, 45, 33, 0.25);
+            padding: 40px 25px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(39, 45, 33, 0.15);
+        }
+
+        .no-order-card h3 {
+            color: #272d21;
+            font-size: 20px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+        }
+
+        .no-order-card p {
+            color: #62794e;
+            font-size: 12px;
+            margin-bottom: 25px;
+        }
+
+        /* =================================
+           FOOTER
+        ================================= */
+
+        .footer-Section-last {
+            background-color: #272d21;
+            color: #62794e;
+            font-weight: 200;
+        }
+
+        .footer-Section-last h6 {
+            font-weight: 300;
+        }
+
+        .footer-Section-last p {
+            font-size: 12px;
+        }
+
+        .footer-Section-last hr {
+            border-color: rgba(98, 121, 78, 0.4);
+        }
+
+        .icons a {
+            display: inline-flex;
+            border: 1px solid #62794e;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+
+        .icons a:hover {
+            background-color: #62794e;
+        }
+
+        .icons i {
+            font-size: 19px;
+            color: #62794e;
+        }
+
+        .icons a:hover i {
+            color: #f9ead9;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =================================
+         NOTIFICATION POP UP
+    ================================== -->
+
+    <!-- Notification Pop Up -->
+
+    <div class="modal fade" id="notificationModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-center custom-modal">
+                <div class="modal-header border-0 custom-header">
+                    <h5 class="mb-0">NH15 Restaurant</h5>
+                    <button class="btn btn-close" type="button" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div id="notificationIconContainer" class="notification-icon">
+                        <i id="notificationIconElement"></i>
+                    </div>
+
+                    <h3 id="notificationTitle"></h3>
+                    <p id="notificationMessage"></p>
+
+                    <button class="btn btn-dark" style="border-radius: 20px; width: 150px; color: rgb(149,171,118);" type="button" data-bs-dismiss="modal">ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =================================
+         MAIN SECTION
+    ================================== -->
+
+    <section class="Main-Section-Parent">
+        <div id="UserCurrentOrderDetails" class="container"></div>
+    </section>
+
+    <!-- =================================
+         FOOTER
+    ================================== -->
+
+    <section class="footer-Section-last text-center py-5">
+        <div class="container">
+
+            <div class="d-flex flex-column flex-lg-row justify-content-center align-items-center gap-5">
+
+                <!-- Address -->
+
+                <div>
+                    <h6>Address</h6>
+                    <p class="mb-1">Madurdaha Kolkata</p>
+                    <p class="mb-0">West bengal 700107</p>
+                </div>
+
+                <!-- Contact -->
+
+                <div>
+                    <h6>Contact</h6>
+                    <p class="mb-1">Phone: +91 863-8148837</p>
+                    <p class="mb-0">Email: nh15restaurantonline@gmail.com</p>
+                </div>
+
+                <!-- Opening Hours -->
+
+                <div>
+                    <h6>Opening Hours</h6>
+                    <p class="mb-1">Mon-Sat: 11AM - 10PM</p>
+                    <p class="mb-0">Sunday: Closed</p>
+                </div>
+
+                <!-- Social Icons -->
+
+                <div class="icons">
+                    <h6>Follow Us</h6>
+
+                    <a href="#" class="me-2"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="me-2"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="me-2"><i class="bi bi-linkedin"></i></a>
+                    <a href="#"><i class="bi bi-twitter-x"></i></a>
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            <h6 class="fw-light mb-0">&copy; NH15 Restaurant</h6>
+        </div>
+    </section>
+
+    <script>
+        const userId = localStorage.getItem("userId");
+        let orderid;
+
+        // =================================
+        // ACCESS CHECK
+        // =================================
+
+        function checkUserAccess() {
+            const token = localStorage.getItem("token");
+            const role = localStorage.getItem("role");
+
+            if (!token || role !== "USER") {
+                showNotification(
+                    "error",
+                    "Access denied!",
+                    "Please login to access this page."
+                );
+
+                setTimeout(() => {
+                    window.location.href = "Login.html";
+                }, 2000);
+
+                return false;
+            }
+
+            return true;
+        }
+
+        // =================================
+        // NOTIFICATION
+        // =================================
+
+        const notificationModal = document.getElementById("notificationModal");
+
+        function showNotification(type, title, message) {
+            const notificationIconContainer = document.getElementById("notificationIconContainer");
+            const notificationIconElement = document.getElementById("notificationIconElement");
+            const notificationTitle = document.getElementById("notificationTitle");
+            const notificationMessage = document.getElementById("notificationMessage");
+
+            notificationIconContainer.className = "notification-icon";
+
+            if (type === "success") {
+                notificationIconContainer.classList.add("notification-success");
+                notificationIconElement.className = "bi bi-check-circle-fill";
+            } else if (type === "error") {
+                notificationIconContainer.classList.add("notification-error");
+                notificationIconElement.className = "bi bi-x-circle-fill";
+            }
+
+            notificationTitle.textContent = title;
+            notificationMessage.textContent = message;
+
+            const modal = new bootstrap.Modal(notificationModal);
+            modal.show();
+        }
+
+        // =================================
+        // SHOW CURRENT ORDER
+        // =================================
+
+        async function ShowCurrentOrder() {
+            const token = localStorage.getItem("token");
+
+            try {
+                const currentOrderResponse = await fetch(`http://localhost:8080/restaurant/user/homepage/currentOrder/${userId}`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    }
+                });
+
+                // =================================
+                // 401
+                // =================================
+
+                if (currentOrderResponse.status === 401) {
+                    localStorage.removeItem("token");
+
+                    showNotification(
+                        "error",
+                        "Session expired!",
+                        "Please login again."
+                    );
+
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    }, 2000);
+
+                    return;
+                }
+
+                // =================================
+                // 403
+                // =================================
+
+                if (currentOrderResponse.status === 403) {
+                    showNotification(
+                        "error",
+                        "Access denied!",
+                        "You do not have permission to access this resource"
+                    );
+
+                    return;
+                }
+
+                const currentOrderData = await currentOrderResponse.json();
+
+                orderid = currentOrderData.orderid;
+
+                // =================================
+                // NO CURRENT ORDER
+                // =================================
+
+                if (currentOrderResponse.status === 400) {
+                    UserCurrentOrderDetails.innerHTML = `
+                        <div class="no-order-card">
+                            <h3>NO ORDERS YET</h3>
+                            <p>${currentOrderData.message}</p>
+                            <a href="USER_HomePage.html" class="register-btn"><i class="bi bi-arrow-left me-1"></i>Back to Home</a>
+                        </div>
+                    `;
+
+                    return;
+                }
+
+                // =================================
+                // CURRENT ORDER
+                // =================================
+
+                if (currentOrderResponse.ok) {
+                    UserCurrentOrderDetails.innerHTML = `
+                        <!-- CURRENT ORDER -->
+
+                        <div class="current-order-card">
+
+                            <!-- Receipt Header -->
+
+                            <div class="current-order-header">
+                                <h3>CURRENT ORDER</h3>
+                                <p>NH15 RESTAURANT</p>
+                            </div>
+
+                            <!-- Order Details -->
+
+                            <div class="current-order-body">
+
+                                <div class="order-detail-row">
+                                    <span class="order-detail-label">Order ID</span>
+                                    <span class="order-detail-value">${currentOrderData.orderid}</span>
+                                </div>
+
+                                <div class="order-detail-row">
+                                    <span class="order-detail-label">Order Status</span>
+                                    <span class="order-detail-value"><span class="status-badge">${currentOrderData.orderStatus}</span></span>
+                                </div>
+
+                                <div class="order-detail-row">
+                                    <span class="order-detail-label">Payment Status</span>
+                                    <span class="order-detail-value"><span class="status-badge">${currentOrderData.paymentStatus}</span></span>
+                                </div>
+
+                                <div class="order-detail-row">
+                                    <span class="order-detail-label">Payment Method</span>
+                                    <span class="order-detail-value payment-method">${currentOrderData.paymentMethod}</span>
+                                </div>
+
+                                <div class="order-detail-row">
+                                    <span class="order-detail-label">City</span>
+                                    <span class="order-detail-value">${currentOrderData.city}</span>
+                                </div>
+
+                                <div class="order-detail-row">
+                                    <span class="order-detail-label">Area</span>
+                                    <span class="order-detail-value">${currentOrderData.area}</span>
+                                </div>
+
+                                <div class="order-detail-row">
+                                    <span class="order-detail-label">Street</span>
+                                    <span class="order-detail-value">${currentOrderData.street}</span>
+                                </div>
+
+                                <div class="order-detail-row">
+                                    <span class="order-detail-label">Phone Number</span>
+                                    <span class="order-detail-value">${currentOrderData.phoneNumber}</span>
+                                </div>
+
+                            </div>
+
+                            <!-- Cancel Order -->
+
+                            <div class="cancel-section">
+                                <button class="cancel-btn" onclick="cancelOrder()"><i class="bi bi-x-circle me-1"></i>Cancel Order</button>
+                            </div>
+
+                            <!-- Back -->
+
+                            <div class="back-btn-part">
+                                <a href="USER_HomePage.html" class="register-btn"><i class="bi bi-arrow-left me-1"></i>Back to Home</a>
+                            </div>
+
+                        </div>
+
+                        <!-- ORDER ITEMS -->
+
+                        <div class="order-items-card">
+
+                            <div class="order-items-heading">
+                                <h4>ORDER ITEMS</h4>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table table-hover text-center align-middle order-items-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Item Name</th>
+                                            <th>Quantity</th>
+                                            <th>Total Price</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody id="orderItemsContainer"></tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+                        <!-- PREVIOUS ORDERS -->
+
+                        <div class="previous-orders-section">
+                            <button class="previous-orders-btn" onclick="window.location.href='USER_ALLOrderViewPage.html'">View All Previous Orders <i class="bi bi-arrow-right ms-1"></i></button>
+                        </div>
+                    `;
+
+                    // =================================
+                    // ORDER ITEMS
+                    // =================================
+
+                    const orderItemsContainer = document.getElementById("orderItemsContainer");
+
+                    currentOrderData.orderitems.forEach(orderitem => {
+                        orderItemsContainer.innerHTML += `
+                            <tr>
+                                <td>${orderitem.itemname}</td>
+                                <td>${orderitem.quantity}</td>
+                                <td>${orderitem.totalprice}</td>
+                            </tr>
+                        `;
+                    });
+                } else {
+                    showNotification(
+                        "error",
+                        "Error!",
+                        "Unable to fetch current Order."
+                    );
+                }
+            } catch (error) {
+                console.log(error);
+
+                showNotification(
+                    "error",
+                    "Server error!",
+                    "Please try again later."
+                );
+            }
+        }
+
+        // =================================
+        // CANCEL ORDER
+        // =================================
+
+        async function cancelOrder() {
+            const token = localStorage.getItem("token");
+
+            try {
+                const cancelOrderResponse = await fetch(`http://localhost:8080/restaurant/user/api/order/cancel-order/${userId}/${orderid}`, {
+                    method: "PATCH",
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    }
+                });
+
+                // =================================
+                // 401
+                // =================================
+
+                if (cancelOrderResponse.status === 401) {
+                    localStorage.removeItem("token");
+
+                    showNotification(
+                        "error",
+                        "Session expired!",
+                        "Please login again."
+                    );
+
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    }, 2000);
+
+                    return;
+                }
+
+                // =================================
+                // 403
+                // =================================
+
+                if (cancelOrderResponse.status === 403) {
+                    showNotification(
+                        "error",
+                        "Access denied!",
+                        "You do not have permission to access this resource"
+                    );
+
+                    return;
+                }
+
+                const cancelOrderData = await cancelOrderResponse.json();
+
+                if (cancelOrderResponse.ok) {
+                    if (
+                        cancelOrderData.message === "Order already canceled." ||
+                        cancelOrderData.message === "Order is already confirmed, cannot cancel." ||
+                        cancelOrderData.message === "Order is delivered cannot Cancel."
+                    ) {
+                        showNotification(
+                            "error",
+                            "Sorry!",
+                            cancelOrderData.message
+                        );
+                    } else {
+                        showNotification(
+                            "success",
+                            "Success",
+                            cancelOrderData.message
+                        );
+
+                        ShowCurrentOrder();
+                    }
+                } else {
+                    showNotification(
+                        "error",
+                        "Error!",
+                        "Unable to delete your order."
+                    );
+                }
+            } catch (error) {
+                console.log(error);
+
+                showNotification(
+                    "error",
+                    "Server error!",
+                    "Please try again later."
+                );
+            }
+        }
+
+        // =================================
+        // DOM CONTENT LOADED
+        // =================================
+
+        window.addEventListener("DOMContentLoaded", function() {
+            if (!checkUserAccess()) {
+                return;
+            }
+
+            ShowCurrentOrder();
+        });
+    </script>
+
+</body>
+
+</html>

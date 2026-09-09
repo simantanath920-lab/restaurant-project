@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <style>
+
+        /* =========================
+           BODY
+        ========================= */
+
+        body {
+            background-color: #f9ead9;
+            color: #272d21;
+            font-weight: 300;
+            font-family: "Montserrat", sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        /* =========================
+           NOTIFICATION
+        ========================= */
+
+        #notificationModal {
+            z-index: 2000;
+        }
+
+        .notification-icon {
+            font-size: 55px;
+        }
+
+        .notification-success {
+            color: rgb(149,171,118);
+        }
+
+        .notification-error {
+            color: rgb(220,116,116);
+        }
+
+        .custom-modal {
+            background-color: antiquewhite;
+            border-radius: 30px;
+            overflow: hidden;
+        }
+
+        .custom-header {
+            background-color: #272d21;
+            color: rgb(149,171,118);
+        }
+
+
+        /* =========================
+           PAGE TITLE
+        ========================= */
+
+        .payment-page-title {
+            font-size: 32px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            color: #272d21;
+        }
+
+
+        /* =========================
+           PAYMENT RECEIPT
+        ========================= */
+
+        .payment-receipt {
+            max-width: 500px;
+            margin: 40px auto 60px;
+            background-color: #fffaf3;
+            border: 1px solid rgba(39,45,33,0.25);
+            border-radius: 0;
+            box-shadow: 0 8px 20px rgba(39,45,33,0.15);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .payment-receipt:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 25px rgba(39,45,33,0.20);
+        }
+
+
+        /* =========================
+           RECEIPT HEADER
+        ========================= */
+
+        .receipt-header {
+            background-color: #272d21;
+            color: #f9ead9;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .receipt-header h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 300;
+            letter-spacing: 3px;
+        }
+
+        .receipt-header p {
+            margin: 6px 0 0;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            color: #62794e;
+        }
+
+
+        /* =========================
+           RECEIPT BODY
+        ========================= */
+
+        .payment-receipt-body {
+            padding: 25px;
+        }
+
+        .payment-introduction {
+            text-align: center;
+            font-size: 12px;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
+        .receipt-line {
+            border-top: 1px dashed rgba(39,45,33,0.45);
+            margin: 18px 0;
+        }
+
+
+        /* =========================
+           PAYMENT OPTIONS
+        ========================= */
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px dotted rgba(39,45,33,0.30);
+        }
+
+        .payment-option:last-child {
+            border-bottom: none;
+        }
+
+        .payment-option-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .payment-icon {
+            width: 42px;
+            height: 42px;
+            border: 1px solid #62794e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .payment-icon i {
+            font-size: 18px;
+            color: #62794e;
+        }
+
+        .payment-name {
+            font-size: 12px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        .payment-description {
+            font-size: 10px;
+            color: #62794e;
+            margin-top: 3px;
+        }
+
+
+        /* =========================
+           PAYMENT BUTTON
+        ========================= */
+
+        .payment-button {
+            background-color: #272d21;
+            color: #f9ead9;
+            border: 1px solid #62794e;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            padding: 9px 13px;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+
+        .payment-button:hover {
+            background-color: #62794e;
+            color: white;
+        }
+
+
+        /* =========================
+           RECEIPT BOTTOM
+        ========================= */
+
+        .payment-note {
+            text-align: center;
+            font-size: 10px;
+            color: #62794e;
+            margin-top: 20px;
+            letter-spacing: 0.5px;
+        }
+
+
+        /* =========================
+           POPUP
+        ========================= */
+
+        #ModalPopUp .modal-content {
+            background-color: #fffaf3;
+            border: 1px solid rgba(39,45,33,0.25);
+            border-radius: 0;
+        }
+
+        #ModalPopUp .modal-header {
+            background-color: #272d21;
+            color: #f9ead9;
+            border-bottom: none;
+        }
+
+        #ModalPopUp .modal-title {
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        #ModalPopUp .modal-body {
+            font-size: 13px;
+            font-weight: 300;
+            color: #272d21;
+        }
+
+        #ModalPopUp .modal-footer {
+            border-top: 1px dashed rgba(39,45,33,0.35);
+        }
+
+        .back-cart-button {
+            background-color: #272d21;
+            color: #f9ead9;
+            border: 1px solid #62794e;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            padding: 9px 18px;
+        }
+
+        .back-cart-button:hover {
+            background-color: #62794e;
+            color: white;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer-Section-last {
+            background-color: #272d21;
+            color: #62794e;
+            font-weight: 200;
+            margin-top: auto;
+        }
+
+        .icons a {
+            display: inline-flex;
+            border: 1px solid #62794e;
+            width: 50px;
+            height: 50px;
+            border-radius: 50px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icons i {
+            font-size: 22px;
+            color: #62794e;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 767px) {
+
+            .payment-page-title {
+                font-size: 25px;
+                letter-spacing: 2px;
+            }
+
+            .payment-receipt {
+                margin-top: 30px;
+            }
+
+            .payment-receipt-body {
+                padding: 20px;
+            }
+
+            .payment-option {
+                align-items: center;
+            }
+
+            .payment-name {
+                font-size: 11px;
+            }
+
+            .payment-description {
+                font-size: 9px;
+            }
+
+            .payment-button {
+                padding: 8px 10px;
+                font-size: 9px;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    <!-- =========================
+         NOTIFICATION POPUP
+    ========================= -->
+
+    <div class="modal fade" id="notificationModal">
+
+        <div class="modal-dialog modal-dialog-centered">
+
+            <div class="modal-content text-center custom-modal">
+
+                <div class="modal-header border-0 custom-header">
+
+                    <h5 class="mb-0">NH15 Restaurant</h5>
+
+                    <button class="btn btn-close" type="button" data-bs-dismiss="modal"></button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <div id="notificationIconContainer" class="notification-icon">
+                        <i id="notificationIconElement"></i>
+                    </div>
+
+                    <h3 id="notificationTitle"></h3>
+
+                    <p id="notificationMessage"></p>
+
+                    <button class="btn btn-dark" style="border-radius:20px; width:150px; color:rgb(149,171,118);" type="button" data-bs-dismiss="modal">ok</button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <main class="container py-5">
+
+        <h2 class="text-center payment-page-title" style="letter-spacing: 0.7rem;">
+            PAYMENT
+        </h2>
+
+
+        <!-- =========================
+             PAYMENT RECEIPT
+        ========================= -->
+
+        <div class="payment-receipt">
+
+            <!-- Receipt Header -->
+
+            <div class="receipt-header">
+
+                <h3>NH15 RESTAURANT</h3>
+
+                <p>PAYMENT METHOD</p>
+
+            </div>
+
+
+            <!-- Receipt Body -->
+
+            <div class="payment-receipt-body">
+
+                <p class="payment-introduction">
+                    Choose how you would like to pay
+                    for your order.
+                </p>
+
+                <div class="receipt-line"></div>
+
+
+                <!-- =========================
+                     CASH ON DELIVERY
+                ========================= -->
+
+                <div class="payment-option">
+
+                    <div class="payment-option-left">
+
+                        <div class="payment-icon">
+                            <i class="bi bi-cash-stack"></i>
+                        </div>
+
+                        <div>
+
+                            <div class="payment-name">
+                                Pay on Delivery
+                            </div>
+
+                            <div class="payment-description">
+                                Pay when your order arrives
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <button onclick="CashOnDelivery()" class="btn payment-button">SELECT</button>
+
+                </div>
+
+
+                <!-- =========================
+                     ONLINE PAYMENT
+                ========================= -->
+
+                <div class="payment-option">
+
+                    <div class="payment-option-left">
+
+                        <div class="payment-icon">
+                            <i class="bi bi-credit-card"></i>
+                        </div>
+
+                        <div>
+
+                            <div class="payment-name">
+                                Online Payment
+                            </div>
+
+                            <div class="payment-description">
+                                Secure payment through Razorpay
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <button onclick="startOnlinePayment()" class="btn payment-button">SELECT</button>
+
+                </div>
+
+                <div class="receipt-line"></div>
+
+                <p class="payment-note">
+                    Your payment is processed securely.
+                </p>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================
+         POPUP
+    ========================= -->
+
+    <div class="modal fade" id="ModalPopUp">
+
+        <div class="modal-dialog modal-dialog-centered">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h4 class="modal-title">
+                        NH15 Restaurant
+                    </h4>
+
+                    <button class="btn btn-close" data-bs-dismiss="modal" type="button"></button>
+
+                </div>
+
+                <div class="modal-body">
+                    <p id="messageInsideModal"></p>
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn back-cart-button" onclick="window.location.href='USER_HomePage.html'">Back to cart</button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
+    <section class="footer-Section-last text-center py-5">
+
+        <div class="container">
+
+            <div class="d-flex flex-column flex-lg-row justify-content-center align-items-center gap-5">
+
+                <!-- Address -->
+
+                <div>
+
+                    <h6>Address</h6>
+
+                    <p class="mb-1">Madurdaha Kolkata</p>
+
+                    <p class="mb-0">West Bengal 700107</p>
+
+                </div>
+
+
+                <!-- Contact -->
+
+                <div>
+
+                    <h6>Contact</h6>
+
+                    <p class="mb-1">Phone: +91 863-8148837</p>
+
+                    <p class="mb-0">Email: nh15restaurantonline@gmail.com</p>
+
+                </div>
+
+
+                <!-- Opening Hours -->
+
+                <div>
+
+                    <h6>Opening Hours</h6>
+
+                    <p class="mb-1">Mon-Sat: 11AM - 10PM</p>
+
+                    <p class="mb-0">Sunday: Closed</p>
+
+                </div>
+
+
+                <!-- Social -->
+
+                <div class="icons">
+
+                    <h6>Follow Us</h6>
+
+                    <a href="#" class="text-dark me-3">
+                        <i class="bi bi-instagram"></i>
+                    </a>
+
+                    <a href="#" class="text-dark me-3">
+                        <i class="bi bi-facebook"></i>
+                    </a>
+
+                    <a href="#" class="text-dark me-3">
+                        <i class="bi bi-linkedin"></i>
+                    </a>
+
+                    <a href="#" class="text-dark me-3">
+                        <i class="bi bi-twitter-x"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+            <hr>
+
+            <h6 class="fw-light mb-0">
+                &copy; NH15 Restaurant
+            </h6>
+
+        </div>
+
+    </section>
+
+
+    <script>
+
+        // =====================
+        // [ Access Check ]
+        // =====================
+
+        function checkUserAccess(){
+
+            const token = localStorage.getItem("token");
+            const role = localStorage.getItem("role");
+
+            if(!token || role !== "USER"){
+
+                showNotification(
+                    "error",
+                    "Access denied!",
+                    "Please login to access this page."
+                );
+
+                setTimeout(() => {
+                    window.location.href = "Login.html";
+                },2000);
+
+                return false;
+            }
+
+            return true;
+        }
+
+
+        // =====================
+        // [ Notification ]
+        // =====================
+
+        const notificationModal = document.getElementById("notificationModal");
+
+        function showNotification(type,title,message){
+
+            const notificationIconContainer = document.getElementById("notificationIconContainer");
+            const notificationIconElement = document.getElementById("notificationIconElement");
+            const notificationTitle = document.getElementById("notificationTitle");
+            const notificationMessage = document.getElementById("notificationMessage");
+
+            notificationIconContainer.classList = "notification-icon";
+
+            if(type === "success"){
+
+                notificationIconContainer.classList.add(
+                    "notification-success"
+                );
+
+                notificationIconElement.className =
+                    "bi bi-check-circle-fill";
+
+            }
+
+            else if(type === "error"){
+
+                notificationIconContainer.classList.add(
+                    "notification-error"
+                );
+
+                notificationIconElement.className =
+                    "bi bi-x-circle-fill";
+
+            }
+
+            notificationTitle.textContent = title;
+            notificationMessage.textContent = message;
+
+            const modal = new bootstrap.Modal(notificationModal);
+            modal.show();
+
+        }
+
+
+        // =====================
+        // [ Popup ]
+        // =====================
+
+        function ShowPop(message){
+
+            const messageInsideModal = document.getElementById("messageInsideModal");
+
+            messageInsideModal.innerText = message;
+
+            const ModalPopUp = document.getElementById("ModalPopUp");
+
+            const modal = new bootstrap.Modal(ModalPopUp);
+
+            modal.show();
+
+        }
+
+
+        const userId = localStorage.getItem("userId");
+
+
+        // =====================
+        // [ Online Payment ]
+        // =====================
+
+        async function startOnlinePayment(){
+
+            if(!checkUserAccess()){
+                return;
+            }
+
+            const token = localStorage.getItem("token");
+
+            try {
+
+                const summeryCheckOutResponse = await fetch(
+                    `http://localhost:8080/restaurant/user/api/checkout-summary/view/${userId}`,
+                    {
+                        method : "GET",
+
+                        headers : {
+                            "Authorization":"Bearer " + token
+                        }
+                    }
+                );
+
+
+                // 401
+
+                if(summeryCheckOutResponse.status === 401){
+
+                    localStorage.removeItem("token");
+
+                    showNotification(
+                        "error",
+                        "Session expired!",
+                        "Please restart the forgot password process."
+                    );
+
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    },2000);
+
+                    return;
+                }
+
+
+                // 403
+
+                if(summeryCheckOutResponse.status === 403){
+
+                    showNotification(
+                        "error",
+                        "Access denied!",
+                        "You do not have permission to access this resource"
+                    );
+
+                    return;
+                }
+
+
+                const summeryCheckOutData = await summeryCheckOutResponse.json();
+
+
+                if(!summeryCheckOutResponse.ok){
+
+                    showNotification(
+                        "error",
+                        "Error!",
+                        "Unable to reach Summery_CheckOut"
+                    );
+
+                    return;
+                }
+
+
+                const addressId = summeryCheckOutData.address.id;
+
+                const orderDetails = {
+                    addressId : addressId
+                };
+
+
+                const orderPlacedResponse = await fetch(
+                    `http://localhost:8080/restaurant/user/api/order/placed-order/${userId}`,
+                    {
+                        method : "POST",
+
+                        headers : {
+                            "Content-Type":"application/json",
+                            "Authorization":"Bearer " + token
+                        },
+
+                        body : JSON.stringify(orderDetails)
+                    }
+                );
+
+
+                // 401
+
+                if(orderPlacedResponse.status === 401){
+
+                    localStorage.removeItem("token");
+
+                    showNotification(
+                        "error",
+                        "Session expired!",
+                        "Please restart the forgot password process."
+                    );
+
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    },2000);
+
+                    return;
+                }
+
+
+                // 403
+
+                if(orderPlacedResponse.status === 403){
+
+                    showNotification(
+                        "error",
+                        "Access denied!",
+                        "You do not have permission to access this resource"
+                    );
+
+                    return;
+                }
+
+
+                const orderPlacedData = await orderPlacedResponse.json();
+
+
+                if(orderPlacedResponse.ok){
+
+                    const orderid = orderPlacedData.orderid;
+
+                    await onlinePayment(orderid);
+
+                }
+
+                else{
+
+                    showNotification(
+                        "error",
+                        "Error!",
+                        orderPlacedData.message
+                    );
+
+                }
+
+            }
+
+            catch(error){
+
+                console.log(error);
+
+                showNotification(
+                    "error",
+                    "Server error!",
+                    "Please try again later."
+                );
+
+            }
+
+        }
+
+
+        // =====================
+        // [ Online Payment ]
+        // =====================
+
+        async function onlinePayment(orderid){
+
+            if(!checkUserAccess()){
+                return;
+            }
+
+            const token = localStorage.getItem("token");
+
+            try {
+
+                const paymentResponse = await fetch(
+                    `http://localhost:8080/restaurant/user/api/payment/create-payment/${userId}/${orderid}`,
+                    {
+                        method : "POST",
+
+                        headers : {
+                            "Authorization":"Bearer " + token
+                        }
+                    }
+                );
+
+
+                // 401
+
+                if(paymentResponse.status === 401){
+
+                    localStorage.removeItem("token");
+
+                    showNotification(
+                        "error",
+                        "Session expired!",
+                        "Please restart the forgot password process."
+                    );
+
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    },2000);
+
+                    return;
+                }
+
+
+                // 403
+
+                if(paymentResponse.status === 403){
+
+                    showNotification(
+                        "error",
+                        "Access denied!",
+                        "You do not have permission to access this resource"
+                    );
+
+                    return;
+                }
+
+
+                const paymentData = await paymentResponse.json();
+
+
+                if(paymentResponse.ok){
+
+                    openRazorpay(paymentData);
+
+                }
+
+                else{
+
+                    showNotification(
+                        "error",
+                        "Error!",
+                        paymentData.message
+                    );
+
+                }
+
+            }
+
+            catch(error){
+
+                console.log(error);
+
+                showNotification(
+                    "error",
+                    "Server error!",
+                    "Please try again later."
+                );
+
+            }
+
+        }
+
+
+        // =====================
+        // [ Razorpay ]
+        // =====================
+
+        async function openRazorpay(paymentData){
+
+            const sendingDataToRazorpay = {
+
+                key : paymentData.key,
+
+                amount : paymentData.amount,
+
+                order_id : paymentData.razorpayOrderId,
+
+                "name" : "NH15 Restaurant",
+
+                "currency": "INR",
+
+                handler : async function(response){
+
+                    await verifyPayment(
+                        paymentData.razorpayOrderId,
+                        response.razorpay_payment_id,
+                        response.razorpay_signature
+                    );
+
+                }
+
+            };
+
+
+            const razorpay = new Razorpay(sendingDataToRazorpay);
+
+            razorpay.open();
+
+        }
+
+
+        // =====================
+        // [ Verify Payment ]
+        // =====================
+
+        async function verifyPayment(
+            razorpayOrderId,
+            razorpayPaymentId,
+            razorpaySignature
+        ){
+
+            if(!checkUserAccess()){
+                return;
+            }
+
+            const token = localStorage.getItem("token");
+
+            try {
+
+                const verifyDetails = {
+
+                    razorpayOrderId : razorpayOrderId,
+
+                    razorpayPaymentId : razorpayPaymentId,
+
+                    razorpaySignature : razorpaySignature
+
+                };
+
+
+                const verifyPaymentResponse = await fetch(
+                    `http://localhost:8080/restaurant/user/api/payment/verify-payment/${userId}`,
+                    {
+                        method : "POST",
+
+                        headers : {
+                            "Content-Type":"application/json",
+                            "Authorization":"Bearer " + token
+                        },
+
+                        body : JSON.stringify(verifyDetails)
+                    }
+                );
+
+
+                // 401
+
+                if(verifyPaymentResponse.status === 401){
+
+                    localStorage.removeItem("token");
+
+                    showNotification(
+                        "error",
+                        "Session expired!",
+                        "Please restart the forgot password process."
+                    );
+
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    },2000);
+
+                    return;
+                }
+
+
+                // 403
+
+                if(verifyPaymentResponse.status === 403){
+
+                    showNotification(
+                        "error",
+                        "Access denied!",
+                        "You do not have permission to access this resource"
+                    );
+
+                    return;
+                }
+
+
+                const verifyPaymentData = await verifyPaymentResponse.json();
+
+
+                if(verifyPaymentResponse.ok){
+
+                    showNotification(
+                        "success",
+                        "Order Placed",
+                        verifyPaymentData.message
+                    );
+
+                    setTimeout(() => {
+                        window.location.href = "USER_HomePage.html";
+                    },2000);
+
+                }
+
+                else{
+
+                    showNotification(
+                        "error",
+                        "Error!",
+                        verifyPaymentData.message
+                    );
+
+                }
+
+            }
+
+            catch(error){
+
+                console.log(error);
+
+                showNotification(
+                    "error",
+                    "Server error!",
+                    "Please try again later."
+                );
+
+            }
+
+        }
+
+
+        // =====================
+        // [ Cash On Delivery ]
+        // =====================
+
+        async function CashOnDelivery(){
+
+            if(!checkUserAccess()){
+                return;
+            }
+
+            const token = localStorage.getItem("token");
+
+            try {
+
+                const response = await fetch(
+                    `http://localhost:8080/restaurant/user/api/checkout-summary/view/${userId}`,
+                    {
+                        method : "GET",
+
+                        headers : {
+                            "Authorization":"Bearer " + token
+                        }
+                    }
+                );
+
+
+                // 401
+
+                if(response.status === 401){
+
+                    localStorage.removeItem("token");
+
+                    showNotification(
+                        "error",
+                        "Session expired!",
+                        "Please restart the forgot password process."
+                    );
+
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    },2000);
+
+                    return;
+                }
+
+
+                // 403
+
+                if(response.status === 403){
+
+                    showNotification(
+                        "error",
+                        "Access denied!",
+                        "You do not have permission to access this resource"
+                    );
+
+                    return;
+                }
+
+
+                const data = await response.json();
+
+
+                if(!response.ok){
+
+                    showNotification(
+                        "error",
+                        "Error!",
+                        "Unable to placed Order"
+                    );
+
+                    return;
+                }
+
+
+                const addressId = data.address.id;
+
+
+                const placedOrderDetails = {
+
+                    addressId : addressId,
+
+                    paymentMethod : "COD"
+
+                };
+
+
+                const placedOrderResponse = await fetch(
+                    `http://localhost:8080/restaurant/user/api/order/placed-order/${userId}`,
+                    {
+                        method : "POST",
+
+                        headers : {
+                            "Content-Type":"application/json",
+                            "Authorization":"Bearer " + token
+                        },
+
+                        body : JSON.stringify(placedOrderDetails)
+                    }
+                );
+
+
+                // 401
+
+                if(placedOrderResponse.status === 401){
+
+                    localStorage.removeItem("token");
+
+                    showNotification(
+                        "error",
+                        "Session expired!",
+                        "Please restart the forgot password process."
+                    );
+
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    },2000);
+
+                    return;
+                }
+
+
+                // 403
+
+                if(placedOrderResponse.status === 403){
+
+                    showNotification(
+                        "error",
+                        "Access denied!",
+                        "You do not have permission to access this resource"
+                    );
+
+                    return;
+                }
+
+
+                const placedOrderData = await placedOrderResponse.json();
+
+
+                if(placedOrderResponse.ok){
+
+                    showNotification(
+                        "success",
+                        "Order Placed",
+                        placedOrderData.message
+                    );
+
+                    setTimeout(() => {
+                        window.location.href = "USER_HomePage.html";
+                    },1500);
+
+                }
+
+                else{
+
+                    showNotification(
+                        "error",
+                        "Error!",
+                        placedOrderData.message
+                    );
+
+                }
+
+            }
+
+            catch(error){
+
+                console.log(error);
+
+                showNotification(
+                    "error",
+                    "Server error!",
+                    "Please try again later."
+                );
+
+            }
+
+        }
+
+
+        // =====================
+        // [ DOM CONTENT LOADED ]
+        // =====================
+
+        window.addEventListener("DOMContentLoaded", function(){
+
+            if(!checkUserAccess()){
+                return;
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>

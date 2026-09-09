@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <style>
+        body{
+            font-family: "Montserrat", sans-serif;
+            background-color: #62794e;
+        }
+
+        /* Navbar */
+        .navbar{
+            background-color: #123a1d;
+        }
+        .navbar-brand{
+            color: #ffffff;
+            font-size: clamp(1.3rem,4vw,2rem);
+        }
+        .navbar-brand:hover{
+            color: rgb(255, 255, 255);
+        }
+        .navbar-brand img{
+            width: clamp(55px,8vw,80px);
+        }
+        .nav-link{
+            border: 1px solid #123a1d;
+            color: black;
+            font-size: 17px;
+            border-radius: 20px;
+        }
+        .nav-link:hover{
+            color: #000000;
+            border: 1px solid #6e6e6e;
+            transition: all 0.50s ease-in-out;
+            box-shadow:0 5px 43px rgb(17, 39, 15);
+        }
+        .navbar-toggler i{
+            color: rgb(255, 255, 255);
+            font-size: 30px;
+        }
+
+
+        /* Main-Section-Parent */
+        .Main-Section-Parent{
+            position: relative;
+            min-height: 100vh;
+            overflow: hidden;
+
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .MainLogo-Image{
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+            object-position: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            z-index: -1;
+        }
+
+
+        .Main-Section-Parent{
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .Main-Section-hero-text{
+            width: 70%;
+            font-family: "Montserrat", sans-serif;
+            color: #ffffff;
+        }
+        .hero-title{
+            letter-spacing: 0.7rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: #ffffff;
+        }
+        .hero-heading{
+            font-size: clamp(1.5rem,8vw,9rem);
+            font-weight: 600;
+            color: #ffffff;
+            letter-spacing: 0.7rem;
+        }
+
+
+        /* Second Main Section */
+        .Second-Main-Section-Parent{
+            width: 100%;
+            min-height: 100vh;
+            padding: 80px 11px;
+            /* background-color: rgb(44, 65, 38); */
+            background-image: linear-gradient(180deg, rgb(44, 65, 38) 30%,#62794e 100%);
+        }
+        .food-heading{
+            letter-spacing: 0.5rem;
+            font-size: clamp(2rem, 5vw, 4rem);
+            box-shadow:0 20px 30px rgb(17, 39, 15);
+            font-weight: 700;
+        }
+        .menu-item{
+            margin-bottom: 25px;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            font-weight: 400;
+            letter-spacing: 0.1rem;
+            box-shadow:0 20px 30px rgb(17, 39, 15);
+        }
+        .white-text{
+            color: #dcb060;
+        }
+
+        .black-text{                                    
+            color: rgb(13, 38, 10);
+        }
+
+
+        /* Third-Main-Section-Parent */
+        .Third-Main-Section-Parent{
+            width: 100%;
+            min-height: 100vh;
+            padding: 80px 11px;
+            background-color: #62794e;
+        }
+
+        /* forth-Main-Section-Parent */
+        .forth-Main-Section-Parent{
+            width: 100%;
+            min-height: 100vh;
+            padding: 80px 11px;
+            background-color: #62794e;
+        }
+
+        /* fived-Main-Section-Parent */
+        .fived-Main-Section-Parent{
+            width: 100%;
+            min-height: 100vh;
+            padding: 80px 11px;
+            background-color: #62794e;
+        }
+
+
+        /* Footer Section */
+        .footer-Section-last{
+            background-color: #272d21;
+            color: #62794e;
+            font-weight: 200;
+        }
+
+        .icons a{
+            display: inline-flex;
+            border: 1px solid #62794e;
+            width: 50px;
+            height: 50px;
+            border-radius: 50px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icons i{
+            font-size: 22px;
+            color: #62794e;
+        }
+        
+
+
+        /* Mobile */
+        @media(max-width:576px){
+
+            .food-heading{
+                letter-spacing: 0.9rem;
+            }
+
+            .menu-item{
+                margin-bottom: 30px;
+            }
+        }
+        
+        
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top py-3 shadow-lg">
+        <div class="container">
+            <a href="#" class="navbar-brand">
+                <img src="nh-15LOGO.png" alt="nh15Logo" width="80">
+                NH15
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#toggleList">
+                <span><i class="bi bi-chevron-double-down"></i></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="toggleList">
+                <ul class="navbar-nav ms-auto text-center gap-4">
+                    <li class="nav-item"><a href="PUBLIC_HomePage.html" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="About_us.html" class="nav-link">About us</a></li>
+                    <li class="nav-item"><a href="Contact.html" class="nav-link">Contact</a></li>
+                    <li class="nav-item"><a href="Login.html" class="nav-link">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main-Section-Parent -->
+    <section class="Main-Section-Parent mt-4">
+        <img src="photo-1745800040999-02ea0c4bccd7.avif" alt="mainLogo" class="MainLogo-Image shadow-lg">
+
+        <div class="Main-Section-hero-text">
+            <h6 class="hero-title">flavours of the northeast</h6>
+            <h1 class="hero-heading">MENU</h1>
+            <p class="hero-message">Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus illum mollitia non odio! Beatae sit recusandae mollitia. Et velit ducimus in dignissimos enim impedit sint, asperiores est inventore sed doloremque.</p>
+        </div>
+    </section>
+    
+
+
+    <!-- Second Main Section -->
+    <section class="Second-Main-Section-Parent">
+        <div class="container">
+            <div class="row justify-content-center text-center gy-5">
+
+                <!-- MOMOS -->
+                <aside class="col-12 col-md-6 col-lg-6">
+                    <h1 class="food-heading white-text mb-5">MOMOS</h1>
+
+                    <h6 class="menu-item black-text mb-5">Veg Steamed --- ₹110</h6>
+                    <h6 class="menu-item black-text mb-5">Veg Fried --- ₹130</h6>
+                    <h6 class="menu-item black-text mb-5">Veg Pan Fried --- ₹140</h6>
+                    <h6 class="menu-item black-text mb-5">Veg Kurkure --- ₹150</h6>
+
+                    <h6 class="menu-item black-text mb-5">Chicken Steamed --- ₹130</h6>
+                    <h6 class="menu-item black-text mb-5">Chicken Fried --- ₹150</h6>
+                    <h6 class="menu-item black-text mb-5">Chicken Pan Fried --- ₹160</h6>
+                    <h6 class="menu-item black-text mb-5">Chicken Kurkure --- ₹160</h6>
+
+                    <h6 class="menu-item black-text mb-5">Veg Gondhoraj --- ₹150</h6>
+                    <h6 class="menu-item black-text mb-5">Chicken Gondhoraj --- ₹170</h6>
+                    <h6 class="menu-item black-text mb-5">Veg Cheese Corn --- ₹160</h6>
+                    <h6 class="menu-item black-text mb-5">Chicken Cheese --- ₹170</h6>
+                </aside>
+
+                <!-- SOUPS -->
+                <aside class="col-12 col-md-6 col-lg-6">
+                    <h1 class="food-heading white-text mb-5">SOUPS</h1>
+
+                    <h6 class="menu-item black-text mb-5">Veg Hot & Sour --- ₹150</h6>
+                    <h6 class="menu-item black-text mb-5">Veg Lemon Coriander --- ₹160</h6>
+                    <h6 class="menu-item black-text mb-5">Veg Manchow --- ₹150</h6>
+                    <h6 class="menu-item black-text mb-5">Veg Rice Noodles --- ₹200</h6>
+
+                    <h6 class="menu-item black-text mb-5">Veg Sweet Corn --- ₹180</h6>
+                    <h6 class="menu-item black-text mb-5">Cheese Hot & Sour --- ₹180</h6>
+                    <h6 class="menu-item black-text mb-5">Cheese Manchow --- ₹180</h6>
+                    <h6 class="menu-item black-text mb-5">Cheese Rice Noodles --- ₹200</h6>
+
+                    <h6 class="menu-item black-text mb-5">Chicken Sweet Corn --- ₹170</h6>
+                    <h6 class="menu-item black-text mb-5">Chicken Thai --- ₹200</h6>
+                    <h6 class="menu-item black-text mb-5">Chicken Lemon Corinder --- ₹180</h6>
+                    <h6 class="menu-item black-text mb-5">Veg Normal Soup --- ₹40</h6>
+                </aside>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="Third-Main-Section-Parent">
+        <div class="container">
+            <div class="row justify-content-center text-center gy-5">
+                <!-- Appetizers -->
+                <aside class="col-12 col-md-6 col-lg-6">
+                    <h1 class="food-heading white-text mb-5">APPETIZERS</h1>
+
+                    <h6 class="menu-item black-text mb-5">American Crispy Corn --- ₹190</h6>
+                    <h6 class="menu-item black-text mb-5">Chilli Bady Corn --- ₹210</h6>
+                    <h6 class="menu-item black-text mb-5">Chilli Potato --- ₹190</h6>
+                    <h6 class="menu-item black-text mb-5">Honey Chilli Potato --- ₹220</h6>
+
+                    <h6 class="menu-item black-text mb-5">Veg Manchurian (H/F) --- ₹160/290</h6>
+                    <h6 class="menu-item black-text mb-5">Cheese Chilli Mashroom --- ₹250</h6>
+                    <h6 class="menu-item black-text mb-5">Chilli Paneer (H/F) --- ₹160/290</h6>
+                    <h6 class="menu-item black-text mb-5">Chicken Manchurian (H/F) --- ₹170/310</h6>
+
+                    <h6 class="menu-item black-text mb-5">Chilli Chicken (H/F) --- ₹170/310</h6>
+                    <h6 class="menu-item black-text mb-5">Pepper Chicken --- ₹290</h6>
+                    <h6 class="menu-item black-text mb-5">Kung Pao Chicken --- ₹300</h6>
+                    <h6 class="menu-item black-text mb-5">Chicken 65 --- ₹290</h6>
+
+                    <h6 class="menu-item black-text mb-5">Drums of Heaven --- ₹280</h6>
+                    <h6 class="menu-item black-text mb-5">Chicken Lollypop --- ₹260</h6>
+                </aside>
+
+                <!-- Sea food -->
+                <aside class="col-12 col-md-6 col-lg-6">
+                    <h1 class="food-heading white-text mb-5">SEA FOOD</h1>
+
+                    <h6 class="menu-item black-text mb-5">Steam Garlic Fish --- ₹390</h6>
+                    <h6 class="menu-item black-text mb-5">Fish Finger --- ₹270</h6>
+                    <h6 class="menu-item black-text mb-5">Chilli Fish --- ₹290</h6>
+                    <h6 class="menu-item black-text mb-5">Cocktail Fish Fry --- ₹280</h6>
+
+                    <h6 class="menu-item black-text mb-5">Hot Garlic Fish --- ₹320</h6>
+                    <h6 class="menu-item black-text mb-5">Sichuan Fish --- ₹330</h6>
+                    <h6 class="menu-item black-text mb-5">Fish Manchurian --- ₹330</h6>
+                    <h6 class="menu-item black-text mb-5">Chilli Prawn --- ₹390</h6>
+
+                    <h6 class="menu-item black-text mb-5">Hot Garlic Prawn --- ₹390</h6>
+                    <h6 class="menu-item black-text mb-5">Prawn Manchurian --- ₹410</h6>
+                    <h6 class="menu-item black-text mb-5">Sichuan Prawn --- ₹420</h6>
+                    <h6 class="menu-item black-text mb-5">Prawn Chips --- ₹220</h6>
+
+                    <h6 class="menu-item black-text mb-5">Golden Fried Prawn --- ₹320</h6>
+                    <h6 class="menu-item black-text mb-5">Salt and Pepper Fish --- ₹320</h6>
+                </aside>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="forth-Main-Section-Parent">
+        <div class="container">
+            <div class="row justify-content-center text-center gy-5">
+                <!-- Main Course -->
+                <aside class="col-12 col-md-6 col-lg-6">
+                    <h1 class="food-heading white-text mb-5">MAIN COURSE</h1>
+
+                    <h6 class="menu-item black-text mb-5">Veg Manchurian (H/F) --- ₹170/290</h6>
+                    <h6 class="menu-item black-text mb-5">Chilli Paneer (H/F) --- ₹180/300</h6>
+                    <h6 class="menu-item black-text mb-5">Chilli Mushroom (H/F) --- ₹170/290</h6>
+                    <h6 class="menu-item black-text mb-5">Chicken Manchurian (H/F) --- ₹170/310</h6>
+
+                    <h6 class="menu-item black-text mb-5">Chilli Chicken (H/F) --- ₹180/310</h6>
+                    <h6 class="menu-item black-text mb-5">Hot Garlic Chicken --- ₹310</h6>
+                    <h6 class="menu-item black-text mb-5">Chilli Garlic Chicken --- ₹310</h6>
+                    <h6 class="menu-item black-text mb-5">Kung Pao Chicken --- ₹310</h6>
+
+                    <h6 class="menu-item black-text mb-5">Sweet & Sour Chicken --- ₹310</h6>
+                </aside>
+
+                <!-- Rice -->
+                <aside class="col-12 col-md-6 col-lg-6">
+                    <h1 class="food-heading white-text mb-5">RICE</h1>
+
+                    <h6 class="menu-item black-text mb-5">Veg Steam --- ₹150</h6>
+                    <h6 class="menu-item black-text mb-5">Veg Fried --- ₹160</h6>
+                    <h6 class="menu-item black-text mb-5">Veg Chilli Garlic --- ₹180</h6>
+                    <h6 class="menu-item black-text mb-5">Vag Burnt Garlic --- ₹190</h6>
+
+                    <h6 class="menu-item black-text mb-5">Veg Sichuan --- ₹180</h6>
+                    <h6 class="menu-item black-text mb-5">Veg Ginger Capsicum --- ₹190</h6>
+                    <h6 class="menu-item black-text mb-5">Egg Fried --- ₹175</h6>
+                    <h6 class="menu-item black-text mb-5">Chicken Fried --- ₹185</h6>
+
+                    <h6 class="menu-item black-text mb-5">Egg Chicken Fried --- ₹200</h6>
+                    <h6 class="menu-item black-text mb-5">Chicken Burnt Garlic --- ₹210</h6>
+                    <h6 class="menu-item black-text mb-5">Sichuan Chicken --- ₹210</h6>
+                    <h6 class="menu-item black-text mb-5">Chicken Chilli Garlic --- ₹200</h6>
+
+                    <h6 class="menu-item black-text mb-5">Mixed Fried --- ₹240</h6>
+                </aside>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- fived-Main-Section-Parent -->
+    <section class="fived-Main-Section-Parent">
+        <div class="container">
+            <div class="row justify-content-center text-center gy-5">
+                <!-- Main Course -->
+                <aside class="col-12 col-md-6 col-lg-5">
+                    <h1 class="food-heading white-text mb-5">NOODLES</h1>
+
+                    <h6 class="menu-item black-text mb-5">Veg Hakka --- ₹135</h6>
+                    <h6 class="menu-item black-text mb-5">Veg Chilli Garlic --- ₹160</h6>
+                    <h6 class="menu-item black-text mb-5">Veg Burnt Garlic --- ₹160</h6>
+                    <h6 class="menu-item black-text mb-5">Veg Sichuan --- ₹160</h6>
+
+                    <h6 class="menu-item black-text mb-5">Egg Hakka --- ₹150</h6>
+                    <h6 class="menu-item black-text mb-5">Chicken Hakka --- ₹175</h6>
+                    <h6 class="menu-item black-text mb-5">Egg Chicken Hakka --- ₹190</h6>
+                    <h6 class="menu-item black-text mb-5">Chicken Chilli Garlic --- ₹180</h6>
+
+                    <h6 class="menu-item black-text mb-5">Chicken Burnt Garlic --- ₹190</h6>
+                    <h6 class="menu-item black-text mb-5">Chicken Sichuan --- ₹190</h6>
+                    <h6 class="menu-item black-text mb-5">Mixed Hakka --- ₹210</h6>
+                    
+                </aside>
+
+                <!-- gravy Noodles -->
+                <aside class="col-12 col-md-6 col-lg-7">
+                    <h1 class="food-heading white-text mb-5">GRAVY NOODLES</h1>
+
+                    <h6 class="menu-item black-text mb-5">Veg Gravy --- ₹160</h6>
+                    <h6 class="menu-item black-text mb-5">Chicken Gravy --- ₹200</h6>
+                    <h6 class="menu-item black-text mb-5">Prawn Gravy --- ₹230</h6>
+                    <h6 class="menu-item black-text mb-5">Mixed Gravy --- ₹250</h6>
+                    <h6 class="menu-item black-text mb-5">Chinese Chopsuey --- ₹325</h6>
+                    <h6 class="menu-item black-text mb-5">American Chopsuey --- ₹310</h6>
+
+
+                    <!-- Meifoon -->
+                    <h1 class="food-heading white-text mb-5">MEIFOON</h1>
+
+                    <h6 class="menu-item black-text mb-5">Chicken Rice Noodles --- ₹200</h6>
+                    <h6 class="menu-item black-text mb-5">Prawn Rice Noodles --- ₹230</h6>
+                    <h6 class="menu-item black-text mb-5">Mixed Rice Noodles --- ₹250</h6>
+                </aside>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="footer-Section-last text-center mt-5 py-5">
+            <div class="container">
+                <div class="d-flex flex-column flex-lg-row justify-content-center align-items-center gap-5 gap-lg-5">
+
+                    <!-- Address -->
+                    <div>
+                        <h6>Address</h6>
+                        <p class="mb-1">Madurdaha Kolkata</p>
+                        <p class="mb-0">West bengal 700107</p>
+                    </div>
+
+                    <!-- Contact -->
+                    <div>
+                        <h6>Contact</h6>
+                        <p class="mb-1">Phone: +91 863-8148837</p>
+                        <p class="mb-0">Email: nh15restaurantonline@gmail.com</p>
+                    </div>
+
+                    <!-- Opening Hours -->
+                    <div>
+                        <h6>Opening Hours</h6>
+                        <p class="mb-1">Mon-Sat: 11AM - 10PM</p>
+                        <p class="mb-0">Sunday: Closed</p>
+                    </div>
+
+                    <div class="icons">
+                        <h6>Follow Us</h6>
+                        <a href="#" class="text-dark me-3"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="text-dark me-3"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-dark me-3"><i class="bi bi-linkedin"></i></a>
+                        <a href="#" class="text-dark me-3"><i class="bi bi-twitter-x"></i></a>
+                    </div>
+
+                </div>
+                
+                <hr>
+                <h6 class="fw-light mb-0">&copy; NH15 Restaurant</h6>
+            </div>
+    </section>
+</body>
+</html>

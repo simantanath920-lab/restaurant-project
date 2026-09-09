@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================================================
+           PROFILE PAGE DESIGN
+           ========================================================= */
+
+        body {
+            font-family: "Montserrat", sans-serif;
+            margin: 0;
+            background-color: #f9ead9
+        }
+
+        /* Notification Pop up */
+
+        #notificationModal {
+            z-index: 2000;
+        }
+
+        .notification-icon {
+            font-size: 55px;
+        }
+
+        .notification-success {
+            color: rgb(149,171,118);
+        }
+
+        .notification-error {
+            color: rgb(220, 116, 116);
+        }
+
+        .custom-modal {
+            background-color: antiquewhite;
+            border-radius: 30px;
+            overflow: hidden;
+        }
+
+        .custom-header {
+            background-color: black;
+            color: rgb(149,171,118);
+        }
+
+        /* =========================
+           Main Section
+        ========================= */
+
+        .Main-Section-Parent {
+            position: relative;
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 80px 20px;
+            overflow: hidden;
+        }
+
+        /* Soft overlay so profile card is clear */
+
+        .Main-Section-Parent::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(250, 235, 215, 0.25);
+            z-index: -1;
+        }
+
+        /* =========================
+           Profile Card
+        ========================= */
+
+        .profile-card {
+            min-width: 500px;
+            background: rgba(250, 235, 215, 0.96);
+            border: none;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.18);
+            text-align: left;
+        }
+
+        /* =========================
+           Profile Header
+        ========================= */
+
+        .profile-header {
+            background-color: #101510d9;
+            color: white;
+            text-align: center;
+            padding: 25px 20px 22px;
+        }
+
+        .profile-header h3 {
+            margin: 0;
+            font-size: 25px;
+            font-weight: 400;
+            letter-spacing: 7px;
+        }
+
+        .profile-header p {
+            margin: 8px 0 0;
+            color: rgb(149, 171, 118);
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 3px;
+        }
+
+        /* =========================
+           Profile Information
+        ========================= */
+
+        .profile-body {
+            padding: 15px 28px 10px;
+        }
+
+        .profile-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 58px;
+            border-bottom: 1px dotted rgba(0, 0, 0, 0.25);
+            gap: 20px;
+        }
+
+        .profile-row:last-child {
+            border-bottom: none;
+        }
+
+        .profile-label {
+            color: #68705f;
+            font-size: 14px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            flex-shrink: 0;
+        }
+
+        .profile-value {
+            color: #333;
+            font-size: 15px;
+            font-weight: 400;
+            text-align: right;
+            word-break: break-word;
+        }
+
+        /* =========================
+           Profile Buttons
+        ========================= */
+
+        .profile-actions {
+            border-top: 1px dotted rgba(0, 0, 0, 0.25);
+            padding: 25px 28px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .profile-btn {
+            border: 1px solid #101510;
+            background-color: #101510d6;
+            color: rgb(149, 171, 118);
+            border-radius: 2px;
+            padding: 11px 20px;
+            font-family: "Montserrat", sans-serif;
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            transition: all 0.25s ease-in-out;
+        }
+
+        .profile-btn:hover {
+            background-color: rgb(149, 171, 118);
+            border-color: rgb(149, 171, 118);
+            color: #101510;
+        }
+
+        /* =========================
+           Back Button
+        ========================= */
+
+        .profile-back {
+            text-align: center;
+            padding: 0 20px 28px;
+        }
+
+        .profile-back a {
+            text-decoration: none;
+            color: #68705f;
+            font-size: 13px;
+            letter-spacing: 1px;
+            transition: all 0.25s ease-in-out;
+        }
+
+        .profile-back a:hover {
+            color: #101510;
+            letter-spacing: 2px;
+        }
+
+        /* Login Cart */
+
+        .card {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            text-align: center;
+            width: min(90%,500px);
+            background-color: rgba(250, 235, 215, 0.666);
+        }
+
+        .Input-One {
+            background: antiquewhite;
+            transition: all 1.35s ease-in-out;
+            padding: 14px 40px;
+            border: 1px solid antiquewhite;
+        }
+
+        .Input-One:hover {
+            background-color: rgb(149, 171, 118);
+            letter-spacing: 2px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+        }
+
+        .bttnn {
+            border: 1px solid rgb(0, 0, 0);
+            background-color: black;
+            border-radius: 40px;
+            padding: 10px;
+            color: rgb(149, 171, 118);
+            font-weight: 400;
+        }
+
+        .bttnn:hover {
+            border: 1px solid rgb(0, 0, 0);
+            color: rgb(0, 0, 0);
+            transition: all 0.25s ease-in-out;
+            background-color: rgb(149, 171, 118);
+        }
+
+        .form-control:focus {
+            background-color: rgb(227, 144, 144);
+        }
+
+        .register-btn {
+            color: rgb(7, 48, 15);
+        }
+
+        .register-btn:hover {
+            color: rgb(7, 48, 15);
+        }
+
+        /* Footer Section */
+
+        .footer-Section-last {
+            background-color: #272d21;
+            color: #62794e;
+            font-weight: 200;
+        }
+
+        .icons a {
+            display: inline-flex;
+            border: 1px solid #62794e;
+            width: 50px;
+            height: 50px;
+            border-radius: 50px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icons i {
+            font-size: 22px;
+            color: #62794e;
+        }
+
+        /* =========================
+           Mobile
+        ========================= */
+
+        @media (max-width: 576px) {
+            .Main-Section-Parent {
+                padding: 50px 12px;
+            }
+
+            .profile-card {
+                min-width: 410px;
+            }
+
+            .profile-header h3 {
+                font-size: 20px;
+                letter-spacing: 5px;
+            }
+
+            .profile-body {
+                padding: 10px 18px;
+            }
+
+            .profile-row {
+                min-height: 55px;
+                gap: 12px;
+            }
+
+            .profile-label {
+                font-size: 12px;
+            }
+
+            .profile-value {
+                font-size: 13px;
+            }
+
+            .profile-actions {
+                padding: 20px 15px;
+                flex-direction: column;
+            }
+
+            .profile-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!--Notification Pop Up -->
+
+    <div class="modal fade" id="notificationModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-center custom-modal">
+
+                <div class="modal-header border-0 custom-header">
+                    <h5 class="mb-0">NH15 Restaurant</h5>
+                    <button class="btn btn-close" type="button" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div id="notificationIconContainer" class="notification-icon">
+                        <i id="notificationIconElement"></i>
+                    </div>
+
+                    <h3 id="notificationTitle"></h3>
+                    <p id="notificationMessage"></p>
+
+                    <button class="btn btn-dark" style="border-radius: 20px; width: 150px; color: rgb(149,171,118);" type="button" data-bs-dismiss="modal">ok</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+
+    <div class="modal fade" id="changePasswordModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header border-0" style="background-color:rgb(250, 235, 215);">
+                    <h3 class="modal-title" style="letter-spacing: 7px;">Change Password</h3>
+                    <button class="btn btn-close" type="button" data-bs-dismiss="modal"></button>
+                </div>
+
+                <form id="ChangePasswordForm" novalidate>
+                    <div class="modal-body" style="background-color:rgb(250, 235, 215);">
+
+                        <div class="mt-3 mb-4">
+                            <label for="currentPassword" class="form-label text-start d-block" style="letter-spacing: 7px;">Current password</label>
+                            <input type="password" name="currentPassword" id="currentPassword" class="form-control shadow-lg  Input-One text-center" placeholder="C u r r e n t  p a s s w o r d">
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="mt-2 mb-4">
+                            <label for="newPassword" class="form-label text-start d-block" style="letter-spacing: 7px;">New password</label>
+                            <input type="password" name="newPassword" id="newPassword" class="form-control shadow-lg  Input-One text-center" placeholder="N e w  p a s s w o r d">
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="text-center">
+                            <button class="bttnn w-50 mt-4 mb-3" type="submit" id="submitBtnn"><span id="textbtnn">change password</span></button>
+                        </div>
+
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Update User Modal -->
+
+    <div class="modal fade" id="updateUserModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header border-0" style="background-color:rgb(250, 235, 215);">
+                    <h3 class="modal-title" style="letter-spacing: 7px;">Update User</h3>
+                    <button class="btn btn-close" type="button" data-bs-dismiss="modal"></button>
+                </div>
+
+                <form id="UpdateUserForm" novalidate>
+                    <div class="modal-body" style="background-color:rgb(250, 235, 215);">
+
+                        <div class="mt-3 mb-4">
+                            <label for="updatename" class="form-label text-start d-block" style="letter-spacing: 7px;">Update name</label>
+                            <input type="text" name="updatename" id="updatename" class="form-control shadow-lg  Input-One text-center" placeholder="U p d a t e  n a m e">
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="mt-3 mb-4">
+                            <label for="updatephonenumber" class="form-label text-start d-block" style="letter-spacing: 7px;">Update phone no</label>
+                            <input type="text" name="updatephonenumber" id="updatephonenumber" class="form-control shadow-lg  Input-One text-center" placeholder="U p d a t e  P h o n e  n o">
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="mt-3 mb-4">
+                            <label for="updateaddress" class="form-label text-start d-block" style="letter-spacing: 7px;">Update address</label>
+                            <input type="text" name="updateaddress" id="updateaddress" class="form-control shadow-lg  Input-One text-center" placeholder="U p d a t e  a d d r e s s">
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="text-center">
+                            <button class="bttnn w-50 mt-4 mb-3" type="submit" id="submitBtn"><span id="textbtn">Update user</span></button>
+                        </div>
+
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Section -->
+
+    <section class="Main-Section-Parent">
+        <div id="UserDetails"></div>
+    </section>
+
+    <!-- Footer Section -->
+
+    <section class="footer-Section-last text-center py-5">
+        <div class="container">
+            <div class="d-flex flex-column flex-lg-row justify-content-center align-items-center gap-5 gap-lg-5">
+
+                <!-- Address -->
+
+                <div>
+                    <h6>Address</h6>
+                    <p class="mb-1">Madurdaha Kolkata</p>
+                    <p class="mb-0">West bengal 700107</p>
+                </div>
+
+                <!-- Contact -->
+
+                <div>
+                    <h6>Contact</h6>
+                    <p class="mb-1">Phone: +91 863-8148837</p>
+                    <p class="mb-0">Email: nh15restaurantonline@gmail.com</p>
+                </div>
+
+                <!-- Opening Hours -->
+
+                <div>
+                    <h6>Opening Hours</h6>
+                    <p class="mb-1">Mon-Sat: 11AM - 10PM</p>
+                    <p class="mb-0">Sunday: Closed</p>
+                </div>
+
+                <div class="icons">
+                    <h6>Follow Us</h6>
+                    <a href="#" class="text-dark me-3"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="text-dark me-3"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="text-dark me-3"><i class="bi bi-linkedin"></i></a>
+                    <a href="#" class="text-dark me-3"><i class="bi bi-twitter-x"></i></a>
+                </div>
+
+            </div>
+
+            <hr>
+            <h6 class="fw-light mb-0">&copy; NH15 Restaurant</h6>
+        </div>
+    </section>
+
+    <script>
+        const userId = localStorage.getItem("userId");
+
+        // =====================
+        // [    Access Check   ]
+        // =====================
+
+        function checkUserAccess() {
+            const token = localStorage.getItem("token");
+            const role = localStorage.getItem("role");
+
+            if (!token || role !== "USER") {
+                showNotification("error","Access denied!","Please login to access this page.");
+
+                setTimeout(() => {
+                    window.location.href = "Login.html";
+                },2000);
+
+                return false;
+            }
+
+            return true;
+        }
+
+        const notificationModal = document.getElementById("notificationModal");
+
+        function showNotification(type,title,message) {
+            const notificationIconContainer = document.getElementById("notificationIconContainer");
+            const notificationIconElement = document.getElementById("notificationIconElement");
+            const notificationTitle = document.getElementById("notificationTitle");
+            const notificationMessage = document.getElementById("notificationMessage");
+
+            notificationIconContainer.classList = "notification-icon";
+
+            if(type === "success") {
+                notificationIconContainer.classList.add("notification-success");
+                notificationIconElement.className = "bi bi-check-circle-fill";
+            } else if(type === "error") {
+                notificationIconContainer.classList.add("notification-error");
+                notificationIconElement.className = "bi bi-x-circle-fill";
+            }
+
+            notificationTitle.textContent = title;
+            notificationMessage.textContent = message;
+
+            const modal = new bootstrap.Modal(notificationModal);
+            modal.show();
+        }
+
+        // ================= Change Password ===================
+
+        const currentPassword = document.getElementById("currentPassword");
+        const newPassword = document.getElementById("newPassword");
+        const textbtnn = document.getElementById("textbtnn");
+        const submitBtnn = document.getElementById("submitBtnn");
+        const ChangePasswordForm = document.getElementById("ChangePasswordForm");
+
+        function showErrorr(input,message) {
+            input.classList.remove("is-valid");
+            input.classList.add("is-invalid");
+            input.nextElementSibling.innerText = message;
+        }
+
+        function showSuccesss(input) {
+            input.classList.remove("is-invalid");
+            input.classList.add("is-valid");
+            input.nextElementSibling.innerText = "";
+        }
+
+        function validateInputss() {
+            let valid = true;
+
+            // name
+
+            if(currentPassword.value.trim() === "") {
+                showErrorr(currentPassword,"Enter Current Password");
+                valid = false;
+            } else {
+                showSuccesss(currentPassword);
+            }
+
+            // phone no
+
+            if(newPassword.value.trim() === "") {
+                showErrorr(newPassword,"Enter New Password");
+                valid = false;
+            } else {
+                showSuccesss(newPassword);
+            }
+
+            return valid;
+        }
+
+        ChangePasswordForm.addEventListener("input",function() {
+            validateInputss();
+        });
+
+        ChangePasswordForm.addEventListener("submit",async function(e) {
+            e.preventDefault();
+
+            if(!validateInputss()) {
+                return;
+            }
+
+            const changePasswordDetails = {
+                currentPassword : currentPassword.value.trim(),
+                newPassword : newPassword.value.trim(),
+            };
+
+            try {
+                const token = localStorage.getItem("token");
+
+                submitBtnn.disabled = true;
+                textbtnn.innerText = "changing password...";
+
+                const changePasswordResponse = await fetch(`http://localhost:8080/restaurant/user/homepage/userChangePassword/${userId}`,{
+                    method : "PUT",
+                    headers : {
+                        "Content-Type":"application/json",
+                        "Authorization":"Bearer " + token
+                    },
+                    body : JSON.stringify(changePasswordDetails)
+                });
+
+                // =====================
+                // [  AUT - 401 & 403  ]
+                // =====================
+
+                if(changePasswordResponse.status === 401) {
+                    localStorage.removeItem("token");
+                    showNotification("error","Session expired!","Please restart the forgot password process.");
+
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    },2000);
+
+                    return;
+                }
+
+                if(changePasswordResponse.status === 403) {
+                    showNotification("error","Access denied!","You do not have permission to access this resource");
+                    return;
+                }
+
+                const changePasswordData = await changePasswordResponse.json();
+
+                if(changePasswordResponse.ok) {
+                    ChangePasswordForm.reset();
+
+                    [currentPassword,newPassword].forEach(input => {
+                        input.classList.remove("is-invalid","is-valid");
+                        input.nextElementSibling.innerText = "";
+                    });
+
+                    bootstrap.Modal.getInstance(document.getElementById("changePasswordModal")).hide();
+
+                    showNotification("success","Success",changePasswordData.message);
+                    showUserDetails();
+                } else {
+                    if(changePasswordData.currentPassword) {
+                        showErrorr(currentPassword,changePasswordData.currentPassword);
+                    }
+
+                    if(changePasswordData.newPassword) {
+                        showErrorr(newPassword,changePasswordData.newPassword);
+                    }
+
+                    if(changePasswordData.message) {
+                        showNotification("error","Error!",changePasswordData.message);
+                    }
+                }
+
+            } catch (error) {
+                console.log(error);
+                showNotification("error","Server error!","Please try again later.");
+            }
+
+            finally {
+                submitBtnn.disabled = false;
+                textbtnn.innerText = "change password";
+            }
+        });
+
+        // ================= Update User ===================
+
+        const updatename = document.getElementById("updatename");
+        const updatephonenumber = document.getElementById("updatephonenumber");
+        const updateaddress = document.getElementById("updateaddress");
+        const submitBtn = document.getElementById("submitBtn");
+        const textbtn = document.getElementById("textbtn");
+        const UpdateUserForm = document.getElementById("UpdateUserForm");
+
+        function showError(input,message) {
+            input.classList.remove("is-valid");
+            input.classList.add("is-invalid");
+            input.nextElementSibling.innerText = message;
+        }
+
+        function showSuccess(input) {
+            input.classList.remove("is-invalid");
+            input.classList.add("is-valid");
+            input.nextElementSibling.innerText = "";
+        }
+
+        function validateInputs() {
+            let valid = true;
+
+            // name
+
+            if(updatename.value.trim() === "") {
+                showError(updatename,"Update Your Name");
+                valid = false;
+            } else {
+                showSuccess(updatename);
+            }
+
+            // phone no
+
+            if(updatephonenumber.value.trim() === "") {
+                showError(updatephonenumber,"Update Your Phone no");
+                valid = false;
+            } else {
+                showSuccess(updatephonenumber);
+            }
+
+            // address
+
+            if(updateaddress.value.trim() === "") {
+                showError(updateaddress,"Update Your Address");
+                valid = false;
+            } else {
+                showSuccess(updateaddress);
+            }
+
+            return valid;
+        }
+
+        UpdateUserForm.addEventListener("input",function() {
+            validateInputs();
+        });
+
+        UpdateUserForm.addEventListener("submit",async function(e) {
+            e.preventDefault();
+
+            if(!validateInputs()) {
+                return;
+            }
+
+            const UpdateUserInformation = {
+                updatename : updatename.value.trim(),
+                updatephonenumber : updatephonenumber.value.trim(),
+                updateaddress : updateaddress.value.trim()
+            };
+
+            try {
+                const token = localStorage.getItem("token");
+
+                submitBtn.disabled = true;
+                textbtn.innerText = "Updating user";
+
+                const updateUserResponse = await fetch(`http://localhost:8080/restaurant/user/homepage/updateUserProfile/${userId}`,{
+                    method : "PUT",
+                    headers : {
+                        "Content-Type":"application/json",
+                        "Authorization":"Bearer " + token
+                    },
+                    body : JSON.stringify(UpdateUserInformation)
+                });
+
+                // =====================
+                // [  AUT - 401 & 403  ]
+                // =====================
+
+                if(updateUserResponse.status === 401) {
+                    localStorage.removeItem("token");
+                    showNotification("error","Session expired!","Please restart the forgot password process.");
+
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    },2000);
+
+                    return;
+                }
+
+                if(updateUserResponse.status === 403) {
+                    showNotification("error","Access denied!","You do not have permission to access this resource");
+                    return;
+                }
+
+                const updateUserData = await updateUserResponse.json();
+
+                if(updateUserResponse.ok) {
+                    UpdateUserForm.reset();
+
+                    [updatename,updatephonenumber,updateaddress].forEach(input => {
+                        input.classList.remove("is-invalid","is-valid");
+                        input.nextElementSibling.innerText = "";
+                    });
+
+                    bootstrap.Modal.getInstance(document.getElementById("updateUserModal")).hide();
+
+                    showNotification("success","Success",updateUserData.message);
+                    showUserDetails();
+                } else {
+                    if(updateUserData.updatename) {
+                        showError(updatename,updateUserData.updatename);
+                    }
+
+                    if(updateUserData.updatephonenumber) {
+                        showError(updatephonenumber,updateUserData.updatephonenumber);
+                    }
+
+                    if(updateUserData.updateaddress) {
+                        showError(updateaddress,updateUserData.updateaddress);
+                    }
+
+                    if(updateUserData.message) {
+                        showNotification("error","Error!",updateUserData.message);
+                    }
+                }
+
+            } catch (error) {
+                console.log(error);
+                showNotification("error","Server error!","Something went wrong.");
+            }
+
+            finally {
+                submitBtn.disabled = false;
+                textbtn.innerText = "Update user";
+            }
+        });
+
+        // update User Modal function
+
+        function UpdateUserDetails() {
+            const modal = new bootstrap.Modal(updateUserModal);
+            modal.show();
+        }
+
+        // change Password Modal function
+
+        function ChangePassword() {
+            const modal = new bootstrap.Modal(changePasswordModal);
+            modal.show();
+        }
+
+        // =========================================================
+        // Show User Details
+        // =========================================================
+
+        async function showUserDetails() {
+            const token = localStorage.getItem("token");
+
+            try {
+                const userDetailsResponse = await fetch(`http://localhost:8080/restaurant/user/homepage/userProfile/${userId}`,{
+                    method: "GET",
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    }
+                });
+
+                // =====================
+                // [ AUTH - 401 & 403 ]
+                // =====================
+
+                if (userDetailsResponse.status === 401) {
+                    localStorage.removeItem("token");
+
+                    showNotification(
+                        "error",
+                        "Session expired!",
+                        "Please restart the forgot password process."
+                    );
+
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    }, 2000);
+
+                    return;
+                }
+
+                if (userDetailsResponse.status === 403) {
+                    showNotification(
+                        "error",
+                        "Access denied!",
+                        "You do not have permission to access this resource"
+                    );
+
+                    return;
+                }
+
+                const userDetailsData = await userDetailsResponse.json();
+
+                if (userDetailsResponse.ok) {
+                    UserDetails.innerHTML = `
+                        <div class="profile-card">
+
+                            <!-- =========================
+                                 PROFILE HEADER
+                            ========================== -->
+
+                            <div class="profile-header">
+                                <h3>USER PROFILE</h3>
+                                <p>NH15 RESTAURANT</p>
+                            </div>
+
+                            <!-- =========================
+                                 PROFILE INFORMATION
+                            ========================== -->
+
+                            <div class="profile-body">
+
+                                <div class="profile-row">
+                                    <span class="profile-label">Name</span>
+                                    <span class="profile-value">${userDetailsData.name}</span>
+                                </div>
+
+                                <div class="profile-row">
+                                    <span class="profile-label">Email</span>
+                                    <span class="profile-value">${userDetailsData.email}</span>
+                                </div>
+
+                                <div class="profile-row">
+                                    <span class="profile-label">Phone Number</span>
+                                    <span class="profile-value">${userDetailsData.phonenumber}</span>
+                                </div>
+
+                                <div class="profile-row">
+                                    <span class="profile-label">Address</span>
+                                    <span class="profile-value">${userDetailsData.address}</span>
+                                </div>
+
+                            </div>
+
+                            <!-- =========================
+                                 ACTION BUTTONS
+                            ========================== -->
+
+                            <div class="profile-actions">
+                                <button type="button" class="profile-btn" onclick="ChangePassword()">Change Password</button>
+                                <button type="button" class="profile-btn" onclick="UpdateUserDetails()">Update Details</button>
+                            </div>
+
+                            <!-- =========================
+                                 BACK
+                            ========================== -->
+
+                            <div class="profile-back">
+                                <a href="USER_HomePage.html">← Back to Home</a>
+                            </div>
+
+                        </div>
+                    `;
+                } else {
+                    showNotification(
+                        "error",
+                        "Error!",
+                        "Unable to fetch User details."
+                    );
+                }
+
+            } catch (error) {
+                console.log(error);
+
+                showNotification(
+                    "error",
+                    "Server error!",
+                    "Something went wrong."
+                );
+            }
+        }
+
+        window.addEventListener("DOMContentLoaded",function() {
+            if(!checkUserAccess()) {
+                return;
+            }
+
+            showUserDetails();
+        });
+    </script>
+</body>
+
+</html>

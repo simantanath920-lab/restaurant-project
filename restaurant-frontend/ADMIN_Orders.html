@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Orders</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================
+           BODY
+        ========================= */
+
+        body {
+            background-color: #f9ead9;
+            color: #272d21;
+            font-weight: 300;
+            font-family: "Montserrat", sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* =========================
+           NOTIFICATION
+        ========================= */
+
+        #notificationModal {
+            z-index: 2000;
+        }
+
+        .notification-icon {
+            font-size: 55px;
+        }
+
+        .notification-success {
+            color: rgb(149,171,118);
+        }
+
+        .notification-error {
+            color: rgb(220,116,116);
+        }
+
+        .custom-modal {
+            background-color: antiquewhite;
+            border-radius: 30px;
+            overflow: hidden;
+        }
+
+        .custom-header {
+            background-color: #272d21;
+            color: rgb(149,171,118);
+        }
+
+        /* =========================
+           PAGE TITLE
+        ========================= */
+
+        .admin-page-title {
+            font-size: 32px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            color: #272d21;
+            margin-top: 30px;
+            margin-bottom: 35px;
+        }
+
+        /* =========================
+           ORDER RECEIPT CONTAINER
+        ========================= */
+
+        .order-section {
+            background-color: #fffaf3;
+            border: 1px solid rgba(39,45,33,0.25);
+            box-shadow: 0 8px 20px rgba(39,45,33,0.15);
+            margin-bottom: 40px;
+            overflow: hidden;
+        }
+
+        /* =========================
+           RECEIPT HEADER
+        ========================= */
+
+        .order-section-header {
+            background-color: #272d21;
+            color: #f9ead9;
+            padding: 18px 20px;
+            text-align: center;
+        }
+
+        .order-section-header h3 {
+            margin: 0;
+            font-size: 17px;
+            font-weight: 300;
+            letter-spacing: 3px;
+        }
+
+        .order-section-header p {
+            margin: 5px 0 0;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            color: #62794e;
+        }
+
+        /* =========================
+           TABLE WRAPPER
+        ========================= */
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .orders-table {
+            margin-bottom: 0;
+            min-width: 1050px;
+            border-color: rgba(39,45,33,0.20);
+        }
+
+        .orders-table thead {
+            background-color: #62794e;
+            color: #f9ead9;
+        }
+
+        .orders-table thead th {
+            padding: 13px 12px;
+            font-size: 10px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            white-space: nowrap;
+            border-color: rgba(249,234,217,0.25);
+        }
+
+        .orders-table tbody {
+            background-color: #fffaf3;
+        }
+
+        .orders-table tbody td {
+            padding: 13px 12px;
+            font-size: 11px;
+            font-weight: 300;
+            color: #272d21;
+            vertical-align: middle;
+            white-space: nowrap;
+            border-color: rgba(39,45,33,0.15);
+        }
+
+        .orders-table tbody tr {
+            transition: all 0.2s ease;
+        }
+
+        .orders-table tbody tr:hover {
+            background-color: rgba(98,121,78,0.08);
+        }
+
+        /* =========================
+           ORDER ID
+        ========================= */
+
+        .order-id {
+            color: #62794e !important;
+            font-weight: 400 !important;
+        }
+
+        /* =========================
+           PRICE
+        ========================= */
+
+        .order-price {
+            font-weight: 400 !important;
+        }
+
+        /* =========================
+           STATUS
+        ========================= */
+
+        .status-text {
+            font-size: 10px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        /* =========================
+           PAGINATION
+        ========================= */
+
+        .pagination-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 500px;
+            margin: 30px auto 60px;
+        }
+
+        .pagination-button {
+            background-color: #272d21;
+            color: #f9ead9;
+            border: 1px solid #62794e;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            padding: 9px 18px;
+            transition: all 0.3s ease;
+        }
+
+        .pagination-button:hover {
+            background-color: #62794e;
+            color: white;
+        }
+
+        .pagination-button:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+
+        .page-number {
+            font-size: 11px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            color: #62794e;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer-Section-last {
+            background-color: #272d21;
+            color: #62794e;
+            font-weight: 200;
+            margin-top: auto;
+        }
+
+        .icons a {
+            display: inline-flex;
+            border: 1px solid #62794e;
+            width: 50px;
+            height: 50px;
+            border-radius: 50px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icons i {
+            font-size: 22px;
+            color: #62794e;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 767px) {
+            .admin-page-title {
+                font-size: 25px;
+                letter-spacing: 2px;
+                margin-top: 20px;
+                margin-bottom: 25px;
+            }
+
+            .order-section-header {
+                padding: 16px;
+            }
+
+            .order-section-header h3 {
+                font-size: 15px;
+                letter-spacing: 2px;
+            }
+
+            .orders-table {
+                min-width: 1050px;
+            }
+
+            .pagination-section {
+                padding: 0 15px;
+                margin-bottom: 40px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         NOTIFICATION POPUP
+    ========================= -->
+
+    <div class="modal fade" id="notificationModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-center custom-modal">
+
+                <div class="modal-header border-0 custom-header">
+                    <h5 class="mb-0">NH15 Restaurant</h5>
+                    <button class="btn btn-close" type="button" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div id="notificationIconContainer" class="notification-icon">
+                        <i id="notificationIconElement"></i>
+                    </div>
+
+                    <h3 id="notificationTitle"></h3>
+                    <p id="notificationMessage"></p>
+
+                    <button class="btn btn-dark" style="border-radius:20px; width:150px; color:rgb(149,171,118);" type="button" data-bs-dismiss="modal">ok</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <main class="container py-4">
+
+        <h2 class="text-center admin-page-title" style="letter-spacing: 0.7rem;">ORDERS</h2>
+
+        <!-- =========================
+             ORDER SECTION
+        ========================= -->
+
+        <div class="order-section">
+
+            <div class="order-section-header">
+                <h3>NH15 RESTAURANT</h3>
+                <p>ALL ORDERS</p>
+            </div>
+
+            <!-- =========================
+                 TABLE
+            ========================= -->
+
+            <div class="table-container">
+
+                <table class="table table-bordered text-center orders-table">
+
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Total Price</th>
+                            <th>Payment Method</th>
+                            <th>Payment Status</th>
+                            <th>Order Status</th>
+                            <th>Order Created At</th>
+                            <th>User ID</th>
+                            <th>Address ID</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="GetAllDetails"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <!-- =========================
+             PAGINATION
+        ========================= -->
+
+        <div class="pagination-section">
+
+            <button id="previousButton" class="btn pagination-button" onclick="previous()">PREVIOUS</button>
+
+            <span id="pageNumber" class="page-number"></span>
+
+            <button id="nextButton" class="btn pagination-button" onclick="next()">NEXT</button>
+
+        </div>
+
+    </main>
+
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
+    <section class="footer-Section-last text-center py-5">
+
+        <div class="container">
+
+            <div class="d-flex flex-column flex-lg-row justify-content-center align-items-center gap-5">
+
+                <!-- Address -->
+
+                <div>
+                    <h6>Address</h6>
+                    <p class="mb-1">Madurdaha Kolkata</p>
+                    <p class="mb-0">West Bengal 700107</p>
+                </div>
+
+                <!-- Contact -->
+
+                <div>
+                    <h6>Contact</h6>
+                    <p class="mb-1">Phone: +91 863-8148837</p>
+                    <p class="mb-0">Email: nh15restaurantonline@gmail.com</p>
+                </div>
+
+                <!-- Opening Hours -->
+
+                <div>
+                    <h6>Opening Hours</h6>
+                    <p class="mb-1">Mon-Sat: 11AM - 10PM</p>
+                    <p class="mb-0">Sunday: Closed</p>
+                </div>
+
+                <!-- Social -->
+
+                <div class="icons">
+
+                    <h6>Follow Us</h6>
+
+                    <a href="#" class="text-dark me-3"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="text-dark me-3"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="text-dark me-3"><i class="bi bi-linkedin"></i></a>
+                    <a href="#" class="text-dark me-3"><i class="bi bi-twitter-x"></i></a>
+
+                </div>
+
+            </div>
+
+            <hr>
+
+            <h6 class="fw-light mb-0">&copy; NH15 Restaurant</h6>
+
+        </div>
+
+    </section>
+
+    <script>
+        // =====================
+        // [ Access Check ]
+        // =====================
+
+        function checkUserAccess() {
+            const token = localStorage.getItem("token");
+            const role = localStorage.getItem("role");
+
+            if (!token || role !== "ADMIN") {
+                showNotification("error", "Access denied!", "Please login to access this page.");
+
+                setTimeout(() => {
+                    window.location.href = "Login.html";
+                },2000);
+
+                return false;
+            }
+
+            return true;
+        }
+
+        // =====================
+        // [ Notification ]
+        // =====================
+
+        const notificationModal = document.getElementById("notificationModal");
+
+        function showNotification(type, title, message) {
+            const notificationIconContainer = document.getElementById("notificationIconContainer");
+            const notificationIconElement = document.getElementById("notificationIconElement");
+            const notificationTitle = document.getElementById("notificationTitle");
+            const notificationMessage = document.getElementById("notificationMessage");
+
+            notificationIconContainer.classList = "notification-icon";
+
+            if(type === "success") {
+                notificationIconContainer.classList.add("notification-success");
+                notificationIconElement.className = "bi bi-check-circle-fill";
+            }
+            else if(type === "error") {
+                notificationIconContainer.classList.add("notification-error");
+                notificationIconElement.className = "bi bi-x-circle-fill";
+            }
+
+            notificationTitle.textContent = title;
+            notificationMessage.textContent = message;
+
+            const modal = new bootstrap.Modal(notificationModal);
+            modal.show();
+        }
+
+        // =====================
+        // [ Variables ]
+        // =====================
+
+        const userId = localStorage.getItem("userId");
+        const GetAllDetails = document.getElementById("GetAllDetails");
+        const pageNumber = document.getElementById("pageNumber");
+        const previousButton = document.getElementById("previousButton");
+        const nextButton = document.getElementById("nextButton");
+
+        let currentPage = 0;
+        let totalPage = 0;
+        const pageSize = 10;
+
+        // =====================
+        // [ Load On Page ]
+        // =====================
+
+        window.onload = function() {
+            if(!checkUserAccess()) {
+                return;
+            }
+
+            loadDetails(currentPage);
+        };
+
+        // =====================
+        // [ Load Orders ]
+        // =====================
+
+        async function loadDetails(Page) {
+            const token = localStorage.getItem("token");
+
+            try {
+                const response = await fetch(`http://localhost:8080/restaurant/admin/orders?page=${Page}&size=${pageSize}`, {
+                    method : "GET",
+                    headers : {
+                        "Authorization":
+                        "Bearer " + token
+                    }
+                });
+
+                // =====================
+                // [ 401 ]
+                // =====================
+
+                if(response.status === 401) {
+                    localStorage.removeItem("token");
+
+                    showNotification("error", "Session expired!", "Please login again.");
+
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    },2000);
+
+                    return;
+                }
+
+                // =====================
+                // [ 403 ]
+                // =====================
+
+                if(response.status === 403) {
+                    showNotification("error", "Access denied!", "You do not have permission to access this resource");
+
+                    return;
+                }
+
+                const data = await response.json();
+
+                if(response.ok) {
+                    currentPage = data.currentPage;
+                    totalPage = data.totalPages;
+
+                    pageNumber.innerText = `Page ${currentPage + 1} - ${totalPage}`;
+                    GetAllDetails.innerHTML = "";
+
+                    data.content.forEach(order => {
+                        GetAllDetails.innerHTML += `
+                            <tr>
+                                <td class="order-id">${order.orderid}</td>
+                                <td class="order-price">₹${order.totalprice}</td>
+                                <td>${order.paymentMethod}</td>
+                                <td class="status-text">${order.paymentStatus}</td>
+                                <td class="status-text">${order.orderStatus}</td>
+                                <td>${order.orderCreatedAt}</td>
+                                <td>${order.userid}</td>
+                                <td>${order.addressid}</td>
+                            </tr>
+                        `;
+                    });
+
+                    /* =====================
+                       PAGINATION STATE
+                    ===================== */
+
+                    previousButton.disabled = currentPage <= 0;
+                    nextButton.disabled = currentPage >= totalPage - 1;
+                }
+                else {
+                    showNotification("error", "Error!", "Unable to fetch order details.");
+                }
+            }
+            catch(error) {
+                console.log(error);
+
+                showNotification("error", "Server error!", "Please try again later.");
+            }
+        }
+
+        // =====================
+        // [ Previous ]
+        // =====================
+
+        function previous() {
+            if(currentPage > 0) {
+                loadDetails(currentPage - 1);
+            }
+        }
+
+        // =====================
+        // [ Next ]
+        // =====================
+
+        function next() {
+            if(currentPage < totalPage - 1) {
+                loadDetails(currentPage + 1);
+            }
+        }
+
+        // =====================
+        // [ DOM Content Loaded ]
+        // =====================
+
+        window.addEventListener("DOMContentLoaded", function() {
+            if(!checkUserAccess()) {
+                return;
+            }
+        });
+    </script>
+
+</body>
+
+</html>

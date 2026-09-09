@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: "Montserrat", sans-serif;
+        }
+
+        /* Notification Pop up */
+        #notificationModal{
+            z-index: 2000;
+        }
+
+        .notification-icon{
+            font-size: 55px;
+        }
+
+        .notification-success{
+            color: rgb(149,171,118);
+        }
+
+        .notification-error{
+            color: rgb(220, 116, 116);
+        }
+
+        .custom-modal{
+            background-color: antiquewhite;
+            border-radius: 30px;
+            overflow: hidden;
+        }
+
+        .custom-header{ 
+            background-color: black;
+            color: rgb(149,171,118);
+        }
+
+
+
+
+
+        /* Main-Section-Parent */
+          .Main-Section-Parent{
+            position: relative;
+            min-height: 100vh;
+            overflow: hidden;
+
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .MainLogo-Image{
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+            object-position:right center;
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            z-index: -1;
+        }
+        .Main-Section-Parent{
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+
+
+
+
+
+        /* Register Card */
+        .card{
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            text-align: center;
+            width: min(90%,500px);
+            background-color: rgba(250, 235, 215, 0.666);
+        }
+
+        .Input-One{
+            background: antiquewhite;
+            transition: all 1.35s ease-in-out;
+            padding: 14px 40px;
+            border: 1px solid antiquewhite;
+        }
+        .Input-One:hover{
+            background-color: rgb(149, 171, 118);
+            letter-spacing: 2px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+        }
+        .bttnn{
+            border: 1px solid rgb(0, 0, 0);
+            background-color: black;
+            border-radius: 40px;
+            padding: 10px;
+            color: rgb(149, 171, 118);
+            font-weight: 400;
+        }
+        
+        .bttnn:hover{
+            border: 1px solid rgb(0, 0, 0);
+            color: rgb(0, 0, 0);
+            transition: all 0.25s ease-in-out;
+            background-color: rgb(149, 171, 118);
+        }
+        .form-control:focus{
+            background-color: rgb(227, 144, 144);
+        }
+
+        .forgot-Password-btn{
+             color: rgb(7, 48, 15);
+        } 
+        .forgot-Password-btn:hover{
+             color: rgb(7, 48, 15);
+        }
+        .register-btn{
+            color: rgb(7, 48, 15);
+        }
+        .register-btn:hover{
+            color: rgb(7, 48, 15);
+        }
+
+
+
+
+
+
+
+
+        /* Footer Section */
+        .footer-Section-last{
+            background-color: #272d21;
+            color: #62794e;
+            font-weight: 200;
+        }
+
+        .icons a{
+            display: inline-flex;
+            border: 1px solid #62794e;
+            width: 50px;
+            height: 50px;
+            border-radius: 50px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icons i{
+            font-size: 22px;
+            color: #62794e;
+        }
+    </style>
+
+</head>
+<body>
+    <!--Notification Pop Up -->
+    <div class="modal fade" id="notificationModal">
+        <div class="modal-dialog modal-dialog-centered" >
+            <div class="modal-content text-center custom-modal">
+
+                <div class="modal-header border-0 custom-header">
+                    <h5 class="mb-0">NH15 Restaurant</h5>
+                    <button class="btn btn-close" type="button" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div id="notificationIconContainer" class="notification-icon">
+                        <i id="notificationIconElement"></i>
+                    </div>
+
+                    <h3 id="notificationTitle"></h3>
+
+                    <p id="notificationMessage"></p>
+
+                    <button class="btn btn-dark" style="border-radius: 20px; width: 150px; color: rgb(149,171,118);" type="button" data-bs-dismiss="modal">ok</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Main Section --> 
+    <section class="Main-Section-Parent">
+        <img src="67F18543-FEF8-4CA4-AFC2-BAAF29CBDE53.PNG" alt="mainlogo" class="MainLogo-Image shadow-lg">
+
+        <div class="card shadow-lg border-0">   
+            <div class="card-body">
+                <h4 class="ms-auto card-title mb-4" style="letter-spacing: 7px;">VERIFY OTP</h4>
+
+                 <form id="VerifyOtpForm" novalidate>
+                    <div class="mb-3">
+                        <label for="otp" class="form-label text-start d-block">O t p</label>
+                        <input type="text" class="form-control shadow-lg  Input-One text-center" id="otp" placeholder="E n t e r  O T P">
+                        <div class="invalid-feedback"></div>
+                    </div>
+
+                    
+                    <button type="submit" id="verifyOtpBtn" class="bttnn w-50 mt-4 mb-3">
+                        <span id="textBtn">Verify OTP</span>
+                    </button>
+
+                    <div class="back-btn-part">
+                        <a href="Forgot_Password.html" class="register-btn">back</a>
+                    </div>
+        
+                </form>
+
+             </div>
+        </div>
+
+        </img>
+    </section>
+
+
+
+    <!-- Footer Section -->
+    <section class="footer-Section-last text-center py-5">
+            <div class="container">
+                <div class="d-flex flex-column flex-lg-row justify-content-center align-items-center gap-5 gap-lg-5">
+
+                    <!-- Address -->
+                    <div>
+                        <h6>Address</h6>
+                        <p class="mb-1">Madurdaha Kolkata</p>
+                        <p class="mb-0">West bengal 700107</p>
+                    </div>
+
+                    <!-- Contact -->
+                    <div>
+                        <h6>Contact</h6>
+                        <p class="mb-1">Phone: +91 863-8148837</p>
+                        <p class="mb-0">Email: nh15restaurantonline@gmail.com</p>
+                    </div>
+
+                    <!-- Opening Hours -->
+                    <div>
+                        <h6>Opening Hours</h6>
+                        <p class="mb-1">Mon-Sat: 11AM - 10PM</p>
+                        <p class="mb-0">Sunday: Closed</p>
+                    </div>
+
+                    <div class="icons">
+                        <h6>Follow Us</h6>
+                        <a href="#" class="text-dark me-3"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="text-dark me-3"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-dark me-3"><i class="bi bi-linkedin"></i></a>
+                        <a href="#" class="text-dark me-3"><i class="bi bi-twitter-x"></i></a>
+                    </div>
+
+                </div>
+                
+                <hr>
+                <h6 class="fw-light mb-0">&copy; NH15 Restaurant</h6>
+            </div>
+        </section>
+
+
+
+    <script>
+        const notificationModal = document.getElementById("notificationModal");
+         
+        function showNotification(type,title,message){
+
+            const notificationIconContainer = document.getElementById("notificationIconContainer");
+            const notificationIconElement = document.getElementById("notificationIconElement");
+            const notificationTitle = document.getElementById("notificationTitle");
+            const notificationMessage = document.getElementById("notificationMessage");
+
+            notificationIconContainer.classList = "notification-icon";
+
+            if(type === "success"){
+
+                notificationIconContainer.classList.add("notification-success");
+                notificationIconElement.className = "bi bi-check-circle-fill";
+
+            }else if(type === "error"){
+
+                notificationIconContainer.classList.add("notification-error");               
+                notificationIconElement.className = "bi bi-x-circle-fill";
+
+            }
+
+            notificationTitle.textContent = title;
+            notificationMessage.textContent = message;
+
+            const modal = new bootstrap.Modal(notificationModal);
+            modal.show();
+        }
+
+
+        // Elements
+        const VerifyOtpForm = document.getElementById("VerifyOtpForm");
+        const otp = document.getElementById("otp");
+
+        const verifyOtpBtn = document.getElementById("verifyOtpBtn");
+        const textBtn = document.getElementById("textBtn");
+
+
+        // Show Error
+        function showError(input,message){
+            input.classList.remove("is-valid");
+            input.classList.add("is-invalid");
+
+            input.nextElementSibling.innerText = message;
+        }
+ 
+        // Show Success
+        function showSuccess(input){
+            input.classList.remove("is-invalid");
+            input.classList.add("is-valid");
+
+            input.nextElementSibling.innerText = "";
+        }
+
+
+        // Validation
+        function validateInputs(){
+
+            let isValid = true;
+
+            if(otp.value.trim() === ""){
+                showError(otp,"OTP is required");
+                isValid = false;
+            }else{
+                showSuccess(otp);
+            }
+
+            return isValid;
+        }
+
+ 
+        // Real Time Validation
+        VerifyOtpForm.addEventListener("input",function(){
+            validateInputs();
+        });
+
+
+        // Submit Form
+        VerifyOtpForm.addEventListener("submit",async function(e){
+
+            e.preventDefault();
+
+            if(!validateInputs()){
+                return;
+            }
+
+            const email = localStorage.getItem("resetEmail");
+
+            const verifyOtpRequest = {
+                email : email,
+                otp : otp.value.trim()
+            };
+
+            try{
+                verifyOtpBtn.disabled = true;
+                textBtn.innerText = "Verifying...";
+
+                const response = await fetch("http://localhost:8080/restaurant/api/auth/verify-otp",{
+
+                        method : "POST",
+
+                        headers : {
+                            "Content-Type":"application/json"
+                        },
+
+                        body : JSON.stringify(verifyOtpRequest)
+                    });
+
+                const data = await response.json();
+
+                if(response.ok){
+
+                    localStorage.setItem("resetToken",data.resetToken);
+
+                    // alert(data.message);
+
+                    window.location.href = "Reset_password.html";
+
+                }else{
+                    if(data.otp){
+                        showError(otp,data.otp);
+                    }
+
+                    if(data.message){
+                        showNotification("error","Error!",data.message);
+                    }
+                }
+
+            }
+            catch(error){
+
+                console.error(error);
+                showNotification("error","Server error!","Please try again later.");
+            }
+            finally{
+
+                verifyOtpBtn.disabled = false;
+                textBtn.innerText = "Verify OTP";
+            }
+        });
+    </script>
+</body>
+</html>

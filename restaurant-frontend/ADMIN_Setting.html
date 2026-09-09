@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - NH15</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <style>
+
+        /* =========================
+           NH15 MAIN DESIGN
+        ========================= */
+
+        body {
+            background-color: #f9ead9;
+            color: #272d21;
+            font-weight: 300;
+            font-family: "Montserrat", sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* =========================
+           MAIN SECTION
+        ========================= */
+
+        .settings-main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 50px 20px;
+        }
+
+        .settings-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* =========================
+           PAGE TITLE
+        ========================= */
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            color: #272d21;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* =========================
+           SETTINGS CARD
+        ========================= */
+
+        .settings-card {
+            width: min(94%, 700px);
+            background-color: #fffaf3;
+            border: 1px solid rgba(39, 45, 33, 0.25);
+            box-shadow: 0 8px 20px rgba(39, 45, 33, 0.15);
+            overflow: hidden;
+        }
+
+        /* =========================
+           CARD HEADER
+        ========================= */
+
+        .settings-header {
+            background-color: #272d21;
+            color: #f9ead9;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .settings-header h3 {
+            font-size: 18px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            margin: 0;
+        }
+
+        .settings-header p {
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            color: #62794e;
+            margin: 7px 0 0;
+        }
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .settings-card .card-body {
+            padding: 30px;
+        }
+
+        .form-label {
+            color: #68705f;
+            font-size: 11px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin-bottom: 7px;
+        }
+
+        .form-control {
+            background-color: #fffaf3;
+            color: #272d21;
+            border: 1px solid rgba(39, 45, 33, 0.25);
+            border-radius: 2px;
+            font-family: "Montserrat", sans-serif;
+            font-size: 12px;
+            font-weight: 300;
+            padding: 11px 13px;
+        }
+
+        .form-control::placeholder {
+            color: #9a9d94;
+            font-weight: 300;
+        }
+
+        .form-control:focus {
+            background-color: #fffaf3;
+            color: #272d21;
+            border-color: #62794e;
+            box-shadow: 0 0 0 0.15rem rgba(98, 121, 78, 0.15);
+        }
+
+        .form-control.is-invalid {
+            border-color: rgb(220, 116, 116);
+        }
+
+        .form-control.is-valid {
+            border-color: #62794e;
+        }
+
+        .invalid-feedback {
+            font-size: 10px;
+            letter-spacing: 0.3px;
+        }
+
+        /* =========================
+           CONFIRM BUTTON
+        ========================= */
+
+        #submitBtn {
+            width: 180px;
+            background-color: #272d21;
+            color: rgb(149,171,118);
+            border: 1px solid #272d21;
+            border-radius: 3px;
+            font-family: "Montserrat", sans-serif;
+            font-size: 11px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            padding: 11px 20px;
+            transition: 0.3s;
+        }
+
+        #submitBtn:hover {
+            background-color: #62794e;
+            border-color: #62794e;
+            color: #f9ead9;
+        }
+
+        #submitBtn:disabled {
+            opacity: 0.6;
+        }
+
+        /* =========================
+           ADMIN USER BUTTON
+        ========================= */
+
+        .admin-management {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .admin-management-btn {
+            background-color: transparent;
+            color: #272d21;
+            border: 1px solid #272d21;
+            border-radius: 3px;
+            font-family: "Montserrat", sans-serif;
+            font-size: 10px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            padding: 10px 20px;
+            transition: 0.3s;
+        }
+
+        .admin-management-btn:hover {
+            background-color: #272d21;
+            color: rgb(149,171,118);
+        }
+
+        /* =========================
+           NOTIFICATION POP UP
+           SAME NOTIFICATION
+        ========================= */
+
+        #notificationModal {
+            z-index: 2000;
+        }
+
+        .notification-icon {
+            font-size: 55px;
+        }
+
+        .notification-success {
+            color: rgb(149,171,118);
+        }
+
+        .notification-error {
+            color: rgb(220, 116, 116);
+        }
+
+        .custom-modal {
+            background-color: antiquewhite;
+            border-radius: 30px;
+            overflow: hidden;
+        }
+
+        .custom-header {
+            background-color: black;
+            color: rgb(149,171,118);
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        /* Footer Section */
+        .footer-Section-last {
+            background-color: #272d21;
+            color: #62794e;
+            font-weight: 200;
+            margin-top: auto;
+        }
+
+        .icons a {
+            display: inline-flex;
+            border: 1px solid #62794e;
+            width: 50px;
+            height: 50px;
+            border-radius: 50px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icons i {
+            font-size: 22px;
+            color: #62794e;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 768px) {
+
+            .settings-main {
+                padding: 35px 10px;
+            }
+
+            .page-title {
+                font-size: 25px;
+                letter-spacing: 2px;
+                margin-bottom: 25px;
+            }
+
+            .settings-card {
+                width: 100%;
+            }
+
+            .settings-header {
+                padding: 17px 12px;
+            }
+
+            .settings-header h3 {
+                font-size: 16px;
+                letter-spacing: 2px;
+            }
+
+            .settings-card .card-body {
+                padding: 22px;
+            }
+
+            #submitBtn {
+                width: 170px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         NOTIFICATION POP UP
+         SAME AS YOUR ORIGINAL
+    ========================== -->
+
+    <div class="modal fade" id="notificationModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-center custom-modal">
+                <div class="modal-header border-0 custom-header">
+                    <h5 class="mb-0">NH15 Restaurant</h5>
+                    <button class="btn btn-close" type="button" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div id="notificationIconContainer" class="notification-icon">
+                        <i id="notificationIconElement"></i>
+                    </div>
+
+                    <h3 id="notificationTitle"></h3>
+                    <p id="notificationMessage"></p>
+
+                    <button class="btn btn-dark" style="border-radius: 20px; width: 150px; color: rgb(149,171,118);" type="button" data-bs-dismiss="modal">ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <section class="settings-main">
+        <div class="settings-container">
+
+            <h1 class="page-title" style="letter-spacing: 0.7rem;">SETTINGS</h1>
+
+            <div class="settings-card">
+
+                <div class="settings-header">
+                    <h3>RESTAURANT SETTINGS</h3>
+                    <p>NH15 RESTAURANT • CONFIGURATION</p>
+                </div>
+
+                <div class="card-body">
+
+                    <form id="SettingForm" novalidate>
+
+                        <!-- Restaurant Name -->
+
+                        <div class="mb-4">
+                            <label for="restaurantname" class="form-label">Restaurant Name</label>
+                            <input type="text" name="restaurantname" id="restaurantname" class="form-control" placeholder="Enter Restaurant name">
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <!-- Restaurant Phone -->
+
+                        <div class="mb-4">
+                            <label for="restaurantphonenumber" class="form-label">Restaurant Phone No</label>
+                            <input type="text" name="restaurantphonenumber" id="restaurantphonenumber" class="form-control" placeholder="Enter Restaurant phone no">
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <!-- Restaurant Address -->
+
+                        <div class="mb-4">
+                            <label for="restaurantaddress" class="form-label">Restaurant Address</label>
+                            <input type="text" name="restaurantaddress" id="restaurantaddress" class="form-control" placeholder="Enter Restaurant address">
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <!-- Confirm -->
+
+                        <div class="text-center mt-4">
+                            <button id="submitBtn" type="submit" class="btn"><span id="textBtn">Confirm</span></button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+            <!-- ADMIN / USER MANAGEMENT -->
+
+            <div class="admin-management">
+                <button class="btn admin-management-btn" onclick="window.location.href='ADMIN_USER_Management.html'"><span>ADMIN / USER MANAGEMENT</span></button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <!-- Footer Section -->
+
+    <section class="footer-Section-last text-center py-5">
+        <div class="container">
+            <div class="d-flex flex-column flex-lg-row justify-content-center align-items-center gap-5 gap-lg-5">
+
+                <!-- Address -->
+
+                <div>
+                    <h6>Address</h6>
+                    <p class="mb-1">Madurdaha Kolkata</p>
+                    <p class="mb-0">West bengal 700107</p>
+                </div>
+
+                <!-- Contact -->
+
+                <div>
+                    <h6>Contact</h6>
+                    <p class="mb-1">Phone: +91 863-8148837</p>
+                    <p class="mb-0">Email: nh15restaurantonline@gmail.com</p>
+                </div>
+
+                <!-- Opening Hours -->
+
+                <div>
+                    <h6>Opening Hours</h6>
+                    <p class="mb-1">Mon-Sat: 11AM - 10PM</p>
+                    <p class="mb-0">Sunday: Closed</p>
+                </div>
+
+                <div class="icons">
+                    <h6>Follow Us</h6>
+                    <a href="#" class="text-dark me-3"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="text-dark me-3"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="text-dark me-3"><i class="bi bi-linkedin"></i></a>
+                    <a href="#" class="text-dark me-3"><i class="bi bi-twitter-x"></i></a>
+                </div>
+
+            </div>
+
+            <hr>
+            <h6 class="fw-light mb-0">&copy; NH15 Restaurant</h6>
+        </div>
+    </section>
+
+    <script>
+
+        // =====================
+        // [    Access Check   ]
+        // =====================
+
+        function checkUserAccess() {
+            const token = localStorage.getItem("token");
+            const role = localStorage.getItem("role");
+
+            if (!token || role !== "ADMIN") {
+                showNotification("error", "Access denied!", "Please login to access this page.");
+
+                setTimeout(() => {
+                    window.location.href = "Login.html";
+                }, 2000);
+
+                return false;
+            }
+
+            return true;
+        }
+
+        // =====================
+        // [    Notification    ]
+        // =====================
+
+        const notificationModal = document.getElementById("notificationModal");
+
+        function showNotification(type, title, message) {
+            const notificationIconContainer = document.getElementById("notificationIconContainer");
+            const notificationIconElement = document.getElementById("notificationIconElement");
+            const notificationTitle = document.getElementById("notificationTitle");
+            const notificationMessage = document.getElementById("notificationMessage");
+
+            notificationIconContainer.classList = "notification-icon";
+
+            if (type === "success") {
+                notificationIconContainer.classList.add("notification-success");
+                notificationIconElement.className = "bi bi-check-circle-fill";
+            } else if (type === "error") {
+                notificationIconContainer.classList.add("notification-error");
+                notificationIconElement.className = "bi bi-x-circle-fill";
+            }
+
+            notificationTitle.textContent = title;
+            notificationMessage.textContent = message;
+
+            const modal = new bootstrap.Modal(notificationModal);
+            modal.show();
+        }
+
+        // =====================
+        // [ Form Elements ]
+        // =====================
+
+        const SettingForm = document.getElementById("SettingForm");
+        const restaurantname = document.getElementById("restaurantname");
+        const restaurantphonenumber = document.getElementById("restaurantphonenumber");
+        const restaurantaddress = document.getElementById("restaurantaddress");
+        const submitBtn = document.getElementById("submitBtn");
+        const textBtn = document.getElementById("textBtn");
+        const userId = localStorage.getItem("userId");
+
+        // =====================
+        // [ Validation ]
+        // =====================
+
+        function showError(input, message) {
+            input.classList.add("is-invalid");
+            input.classList.remove("is-valid");
+            input.nextElementSibling.innerText = message;
+        }
+
+        function showSuccess(input) {
+            input.classList.remove("is-invalid");
+            input.classList.add("is-valid");
+            input.nextElementSibling.innerText = "";
+        }
+
+        function validatesInputs() {
+            let valid = true;
+
+            // Restaurant name
+
+            if (restaurantname.value.trim() === "") {
+                showError(restaurantname, "Enter Restaurant Name");
+                valid = false;
+            } else {
+                showSuccess(restaurantname);
+            }
+
+            // Restaurant phone
+
+            if (restaurantphonenumber.value.trim() === "") {
+                showError(restaurantphonenumber, "Enter Restaurant Phone No");
+                valid = false;
+            } else {
+                showSuccess(restaurantphonenumber);
+            }
+
+            // Restaurant address
+
+            if (restaurantaddress.value.trim() === "") {
+                showError(restaurantaddress, "Enter Restaurant Address");
+                valid = false;
+            } else {
+                showSuccess(restaurantaddress);
+            }
+
+            return valid;
+        }
+
+        // =====================
+        // [ Input Event ]
+        // =====================
+
+        SettingForm.addEventListener("input", function() {
+            validatesInputs();
+        });
+
+        // =====================
+        // [ Submit Event ]
+        // =====================
+
+        SettingForm.addEventListener("submit", async function(e) {
+            e.preventDefault();
+
+            if (!validatesInputs()) {
+                return;
+            }
+
+            const settingDetails = {
+                restaurantname: restaurantname.value.trim(),
+                restaurantphonenumber: restaurantphonenumber.value.trim(),
+                restaurantaddress: restaurantaddress.value.trim()
+            };
+
+            try {
+                const token = localStorage.getItem("token");
+
+                submitBtn.disabled = true;
+                textBtn.innerText = "Confirming...";
+
+                const settingResponse = await fetch("http://localhost:8080/restaurant/admin/setting", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + token
+                    },
+                    body: JSON.stringify(settingDetails)
+                });
+
+                // =====================
+                // [ 401 & 403 ]
+                // =====================
+
+                if (settingResponse.status === 401) {
+                    localStorage.removeItem("token");
+
+                    showNotification("error", "Session expired!", "Please restart the forgot password process.");
+
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    }, 2000);
+
+                    return;
+                }
+
+                if (settingResponse.status === 403) {
+                    showNotification("error", "Access denied!", "You do not have permission to access this resource");
+                    return;
+                }
+
+                const settingData = await settingResponse.json();
+
+                if (settingResponse.ok) {
+                    showNotification("success", "Success", settingData.message);
+
+                    SettingForm.reset();
+
+                    [
+                        restaurantname,
+                        restaurantphonenumber,
+                        restaurantaddress
+                    ].forEach(input => {
+                        input.classList.remove("is-invalid", "is-valid");
+                        input.nextElementSibling.innerText = "";
+                    });
+
+                } else {
+
+                    if (settingData.restaurantname) {
+                        showError(restaurantname, settingData.restaurantname);
+                    }
+
+                    if (settingData.restaurantphonenumber) {
+                        showError(restaurantphonenumber, settingData.restaurantphonenumber);
+                    }
+
+                    if (settingData.restaurantaddress) {
+                        showError(restaurantaddress, settingData.restaurantaddress);
+                    }
+
+                    if (settingData.message) {
+                        showNotification("error", "Error!", settingData.message);
+                    }
+                }
+
+            } catch (error) {
+                console.log(error);
+                showNotification("error", "Server error!", "Please try again later.");
+
+            } finally {
+                submitBtn.disabled = false;
+                textBtn.innerText = "Confirm";
+            }
+        });
+
+        // =====================
+        // [ DOM Loaded ]
+        // =====================
+
+        window.addEventListener("DOMContentLoaded", function() {
+            if (!checkUserAccess()) {
+                return;
+            }
+        });
+
+    </script>
+
+</body>
+</html>

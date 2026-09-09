@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <style>
+
+        body {
+            background-color: #f9ead9;
+            color: #272d21;
+            font-weight: 300;
+            font-family: "Montserrat", sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        /* =========================
+           Notification Pop up
+        ========================= */
+
+        #notificationModal {
+            z-index: 2000;
+        }
+
+        .notification-icon {
+            font-size: 55px;
+        }
+
+        .notification-success {
+            color: rgb(149,171,118);
+        }
+
+        .notification-error {
+            color: rgb(220, 116, 116);
+        }
+
+        .custom-modal {
+            background-color: antiquewhite;
+            border-radius: 30px;
+            overflow: hidden;
+        }
+
+        .custom-header {
+            background-color: black;
+            color: rgb(149,171,118);
+        }
+
+
+        /* =========================
+           Page Heading
+        ========================= */
+
+        .address-page-title {
+            font-size: 32px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            color: #272d21;
+        }
+
+
+        /* =========================
+           Address Card
+        ========================= */
+
+        .address-card {
+            background-color: rgba(249, 234, 217, 0.92);
+            border: 1px solid rgba(39, 45, 33, 0.25) !important;
+            border-radius: 12px !important;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .address-card:hover {
+            transform: translateY(-5px);
+            border-color: #62794e !important;
+            box-shadow: 0 10px 25px rgba(39, 45, 33, 0.18) !important;
+        }
+
+        .address-card.border-success {
+            border: 1px solid #62794e !important;
+            box-shadow: 0 0 0 1px #62794e, 0 10px 25px rgba(39, 45, 33, 0.15) !important;
+        }
+
+
+        /* =========================
+           Card Body
+        ========================= */
+
+        .address-card .card-body {
+            padding: 25px;
+        }
+
+        .address-card p {
+            margin-bottom: 10px;
+            font-size: 13px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            color: #272d21;
+        }
+
+        .address-card p strong {
+            display: inline-block;
+            min-width: 105px;
+            font-weight: 300;
+            color: #62794e;
+        }
+
+
+        /* =========================
+           Card Footer
+        ========================= */
+
+        .address-card .card-footer {
+            background-color: #272d21 !important;
+            padding: 15px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .address-card .card-footer button {
+            flex: 1;
+            background-color: transparent;
+            color: #f9ead9;
+            border: 1px solid rgba(249, 234, 217, 0.45);
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 300;
+            letter-spacing: 0.7px;
+            padding: 7px 10px;
+            transition: all 0.3s ease;
+        }
+
+        .address-card .card-footer button:hover {
+            background-color: #62794e;
+            border-color: #62794e;
+            color: white;
+        }
+
+
+        /* =========================
+           Continue Checkout
+        ========================= */
+
+        .checkout-button {
+            background-color: #272d21;
+            color: #f9ead9;
+            border: 1px solid #62794e;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            padding: 9px 20px;
+            transition: all 0.3s ease;
+        }
+
+        .checkout-button:hover {
+            background-color: #62794e;
+            color: white;
+        }
+
+
+        /* =========================
+           No Address
+        ========================= */
+
+        .no-address-card {
+            background-color: rgba(249, 234, 217, 0.92);
+            border: 1px solid rgba(39, 45, 33, 0.25);
+            border-radius: 12px;
+            padding: 40px 20px;
+        }
+
+        .no-address-card h3 {
+            font-size: 20px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+
+        /* =========================
+           Add New Button
+        ========================= */
+
+        .add-address-button {
+            background-color: #272d21;
+            color: #f9ead9;
+            border: 1px solid #62794e;
+            border-radius: 3px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            padding: 8px 25px;
+            transition: all 0.3s ease;
+        }
+
+        .add-address-button:hover {
+            background-color: #62794e;
+            color: white;
+        }
+
+
+        /* =========================
+           Add Address Cart
+        ========================= */
+
+        .Input-One {
+            background: antiquewhite;
+            transition: all 1.35s ease-in-out;
+            padding: 14px 40px;
+            border: 1px solid antiquewhite;
+        }
+
+        .Input-One:hover {
+            background-color: rgb(149, 171, 118);
+            letter-spacing: 2px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+        }
+
+        .bttnn {
+            border: 1px solid rgb(0, 0, 0);
+            background-color: black;
+            border-radius: 40px;
+            padding: 10px;
+            color: rgb(149, 171, 118);
+            font-weight: 400;
+        }
+
+        .bttnn:hover {
+            border: 1px solid rgb(0, 0, 0);
+            color: rgb(0, 0, 0);
+            transition: all 0.25s ease-in-out;
+            background-color: rgb(149, 171, 118);
+        }
+
+        .form-control:focus {
+            background-color: rgb(227, 144, 144);
+        }
+
+        .register-btn {
+            color: rgb(7, 48, 15);
+        }
+
+        .register-btn:hover {
+            color: rgb(7, 48, 15);
+        }
+
+        /* Remove Bootstrap validation icons */
+        .form-control.is-valid,
+        .form-control.is-invalid,
+        .form-select.is-valid,
+        .form-select.is-invalid {
+            background-image: none !important;
+            padding-right: 40px !important;
+        }
+
+
+        /* =========================
+           Footer Section
+        ========================= */
+
+        .footer-Section-last {
+            background-color: #272d21;
+            color: #62794e;
+            font-weight: 200;
+            margin-top: auto;
+        }
+
+        .icons a {
+            display: inline-flex;
+            border: 1px solid #62794e;
+            width: 50px;
+            height: 50px;
+            border-radius: 50px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icons i {
+            font-size: 22px;
+            color: #62794e;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- Notification Pop Up -->
+    <div class="modal fade" id="notificationModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-center custom-modal">
+
+                <div class="modal-header border-0 custom-header">
+                    <h5 class="mb-0">NH15 Restaurant</h5>
+                    <button class="btn btn-close" type="button" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div id="notificationIconContainer" class="notification-icon">
+                        <i id="notificationIconElement"></i>
+                    </div>
+
+                    <h3 id="notificationTitle"></h3>
+
+                    <p id="notificationMessage"></p>
+
+                    <button class="btn btn-dark" style="border-radius: 20px; width: 150px; color: rgb(149,171,118);" type="button" data-bs-dismiss="modal">ok</button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- =========================
+         1 Add Address Pop Up
+    ========================= -->
+
+    <div class="modal fade" id="addAddressModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header border-0" style="background-color:rgb(250, 235, 215);">
+                    <h3 class="modal-title" style="letter-spacing: 7px; font-weight: 400;">Add address</h3>
+                    <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <form id="AddAddressForm" novalidate>
+
+                    <div class="modal-body" style="background-color:rgb(250, 235, 215);">
+
+                        <div class="mb-3 mb-4">
+                            <label for="fullName" class="form-label text-start d-block" style="letter-spacing: 7px;">Name</label>
+                            <input type="text" class="form-control shadow-lg  Input-One text-center" name="fullName" id="fullName" placeholder="E n t e r  n a m e">
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="phoneNumber" class="form-label text-start d-block" style="letter-spacing: 7px;">Phone no</label>
+                            <input type="text" class="form-control shadow-lg  Input-One text-center" name="phoneNumber" id="phoneNumber" placeholder="E n t e r  P h o n e  n o">
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="street" class="form-label text-start d-block" style="letter-spacing: 7px;">Street</label>
+                            <input type="text" class="form-control shadow-lg  Input-One text-center" name="street" id="street" placeholder="E n t e r  s t r e e t">
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="area" class="form-label text-start d-block" style="letter-spacing: 7px;">Area</label>
+                            <input type="text" class="form-control shadow-lg  Input-One text-center" name="area" id="area" placeholder="E n t e r  a r e a">
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="city" class="form-label text-start d-block" style="letter-spacing: 7px;">City</label>
+                            <input type="text" class="form-control shadow-lg  Input-One text-center" name="city" id="city" placeholder="E n t e r  c i t y">
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="state" class="form-label text-start d-block" style="letter-spacing: 7px;">State</label>
+                            <input type="text" class="form-control shadow-lg  Input-One text-center" name="state" id="state" placeholder="E n t e r  s t a t e">
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="pincode" class="form-label text-start d-block" style="letter-spacing: 7px;">Pincode</label>
+                            <input type="text" class="form-control shadow-lg  Input-One text-center" name="pincode" id="pincode" placeholder="E n t e r  p i n c o d e">
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="country" class="form-label text-start d-block" style="letter-spacing: 7px;">Country</label>
+                            <input type="text" class="form-control shadow-lg  Input-One text-center" name="country" id="country" placeholder="E n t e r  c o u n t r y">
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="addressType" class="form-label text-start d-block" style="letter-spacing: 7px;">Address type</label>
+
+                            <select name="addressType" id="addressType" class="form-select shadow-lg Input-One text-center">
+                                <option value="">Select Address Type</option>
+                                <option value="HOME">HOME</option>
+                                <option value="WORK">WORK</option>
+                                <option value="OTHER">OTHER</option>
+                            </select>
+
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="modal-footer justify-content-center">
+                            <button type="submit" class="bttnn w-50 mb-3" id="submitBtn"><span id="textbtn">Add Address</span></button>
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- =========================
+         2 Update Address Pop Up
+    ========================= -->
+
+    <div class="modal fade" id="updateAddressModal">
+
+        <div class="modal-dialog modal-dialog-centered">
+
+            <div class="modal-content">
+
+                <div class="modal-header border-0" style="background-color:rgb(250, 235, 215);">
+                    <h3 class="modal-title" style="letter-spacing: 7px; font-weight: 400;">Update address</h3>
+                    <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <form id="UpdateForm" novalidate>
+
+                    <div class="modal-body" style="background-color:rgb(250, 235, 215);">
+
+                        <input type="hidden" id="Updateid">
+
+                        <div class="mb-3">
+                            <label for="UpdatefullName" class="form-label text-start d-block" style="letter-spacing: 7px;">Name</label>
+                            <input type="text" class="form-control shadow-lg  Input-One text-center" name="UpdatefullName" id="UpdatefullName" placeholder="E n t e r  n a m e">
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="UpdatephoneNumber" class="form-label text-start d-block" style="letter-spacing: 7px;">Phone no</label>
+                            <input type="text" class="form-control shadow-lg  Input-One text-center" name="UpdatephoneNumber" id="UpdatephoneNumber" placeholder="E n t e r  p h o n e  n o">
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="Updatestreet" class="form-label text-start d-block" style="letter-spacing: 7px;">Street</label>
+                            <input type="text" class="form-control shadow-lg  Input-One text-center" name="Updatestreet" id="Updatestreet" placeholder="E n t e r  s t r e e t">
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="Updatearea" class="form-label text-start d-block" style="letter-spacing: 7px;">Area</label>
+                            <input type="text" class="form-control shadow-lg  Input-One text-center" name="Updatearea" id="Updatearea" placeholder="E n t e r  a r e a">
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="Updatecity" class="form-label text-start d-block" style="letter-spacing: 7px;">City</label>
+                            <input type="text" class="form-control shadow-lg  Input-One text-center" name="Updatecity" id="Updatecity" placeholder="E n t e r  c i t y">
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="Updatestate" class="form-label text-start d-block" style="letter-spacing: 7px;">State</label>
+                            <input type="text" class="form-control shadow-lg  Input-One text-center" name="Updatestate" id="Updatestate" placeholder="E n t e r  s t a t e">
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="Updatepincode" class="form-label text-start d-block" style="letter-spacing: 7px;">Pincode</label>
+                            <input type="text" class="form-control shadow-lg  Input-One text-center" name="Updatepincode" id="Updatepincode" placeholder="E n t e r  p i n c o d e">
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="Updatecountry" class="form-label text-start d-block" style="letter-spacing: 7px;">Country</label>
+                            <input type="text" class="form-control shadow-lg  Input-One text-center" name="Updatecountry" id="Updatecountry" placeholder="E n t e r  c o u n t r y">
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="UpdateaddressType" class="form-label text-start d-block" style="letter-spacing: 7px;">Address type</label>
+
+                            <select name="UpdateaddressType" id="UpdateaddressType" class="form-select shadow-lg Input-One text-center">
+                                <option value="">Select Address Type</option>
+                                <option value="HOME">HOME</option>
+                                <option value="WORK">WORK</option>
+                                <option value="OTHER">OTHER</option>
+                            </select>
+
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="modal-footer justify-content-center">
+                            <button type="submit" class="bttnn w-50" id="submitUpdateBtn"><span id="textUpdatebtn">Update Address</span></button>
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         ADDRESS LIST
+    ========================= -->
+
+    <div class="container mt-5">
+
+        <h4 class="text-center address-page-title" style="letter-spacing: 0.3rem;">CHOOSE A DELIVERY ADDRESS</h4>
+
+        <div class="row justify-content-center" id="UserAddress"></div>
+
+    </div>
+
+
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
+    <section class="footer-Section-last text-center py-5">
+
+        <div class="container">
+
+            <div class="d-flex flex-column flex-lg-row justify-content-center align-items-center gap-5 gap-lg-5">
+
+                <!-- Address -->
+                <div>
+                    <h6>Address</h6>
+                    <p class="mb-1">Madurdaha Kolkata</p>
+                    <p class="mb-0">West bengal 700107</p>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h6>Contact</h6>
+                    <p class="mb-1">Phone: +91 863-8148837</p>
+                    <p class="mb-0">Email: nh15restaurantonline@gmail.com</p>
+                </div>
+
+                <!-- Opening Hours -->
+                <div>
+                    <h6>Opening Hours</h6>
+                    <p class="mb-1">Mon-Sat: 11AM - 10PM</p>
+                    <p class="mb-0">Sunday: Closed</p>
+                </div>
+
+                <div class="icons">
+                    <h6>Follow Us</h6>
+                    <a href="#" class="text-dark me-3"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="text-dark me-3"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="text-dark me-3"><i class="bi bi-linkedin"></i></a>
+                    <a href="#" class="text-dark me-3"><i class="bi bi-twitter-x"></i></a>
+                </div>
+
+            </div>
+
+            <hr>
+
+            <h6 class="fw-light mb-0">&copy; NH15 Restaurant</h6>
+
+        </div>
+
+    </section>
+
+
+    <script>
+
+        // =====================
+        // [    Access Check   ]
+        // =====================
+
+        function checkUserAccess() {
+
+            const token = localStorage.getItem("token");
+            const role = localStorage.getItem("role");
+
+            if (!token || role !== "USER") {
+
+                showNotification("error","Access denied!","Please login to access this page.");
+
+                setTimeout(() => {
+                    window.location.href = "Login.html";
+                },2000);
+
+                return false;
+            }
+
+            return true;
+        }
+
+
+        const notificationModal = document.getElementById("notificationModal");
+
+        function showNotification(type,title,message) {
+
+            const notificationIconContainer = document.getElementById("notificationIconContainer");
+            const notificationIconElement = document.getElementById("notificationIconElement");
+            const notificationTitle = document.getElementById("notificationTitle");
+            const notificationMessage = document.getElementById("notificationMessage");
+
+            notificationIconContainer.classList = "notification-icon";
+
+            if (type === "success") {
+
+                notificationIconContainer.classList.add("notification-success");
+                notificationIconElement.className = "bi bi-check-circle-fill";
+
+            } else if (type === "error") {
+
+                notificationIconContainer.classList.add("notification-error");
+                notificationIconElement.className = "bi bi-x-circle-fill";
+            }
+
+            notificationTitle.textContent = title;
+            notificationMessage.textContent = message;
+
+            const modal = new bootstrap.Modal(notificationModal);
+            modal.show();
+        }
+
+
+        const userId = localStorage.getItem("userId");
+        const UserAddress = document.getElementById("UserAddress");
+
+        let allAddress = [];
+
+
+        // =========================
+        // 5 View Addresses
+        // =========================
+
+        async function viewAddress() {
+
+            const token = localStorage.getItem("token");
+
+            try {
+
+                const response = await fetch(`http://localhost:8080/restaurant/user/api/address/view/${userId}`, {
+
+                    method : "GET",
+
+                    headers : {
+                        "Authorization":"Bearer " + token
+                    }
+                });
+
+
+                // =====================
+                // [  AUT - 401 & 403  ]
+                // =====================
+
+                if (response.status === 401) {
+
+                    localStorage.removeItem("token");
+
+                    showNotification("error","Session expired!","Please restart the forgot password process.");
+
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    },2000);
+
+                    return;
+                }
+
+                if (response.status === 403) {
+
+                    showNotification("error","Access denied!","You do not have permission to access this resource");
+
+                    return;
+                }
+
+
+                const data = await response.json();
+
+                if (response.ok) {
+
+                    allAddress = data;
+
+                    UserAddress.innerHTML = "";
+
+                    if (data.length === 0) {
+
+                        UserAddress.innerHTML = `
+                            <div class="col-12">
+
+                                <div class="no-address-card text-center border-0">
+
+                                    <h3>NO ADDRESS ADDED</h3>
+
+                                    <p class="mt-3 mb-4">
+                                        Add a delivery address to continue your order.
+                                    </p>
+
+                                    <button class="btn add-address-button" onclick="addAddress()">Add New Address</button>
+
+                                </div>
+
+                            </div>
+                        `;
+
+                        return;
+                    }
+
+
+                    data.forEach(address => {
+
+                        UserAddress.innerHTML += `
+
+                            <div class="col-12 col-md-6 col-lg-4 mt-4">
+
+                                <div class="card address-card h-100 ${address.isDefault ? "border-success" : "" }" id="address-${address.id}" onclick="selectAddressDefault(${address.id})">
+
+                                    <div class="card-body">
+
+                                        <p><strong>Name</strong> ${address.fullName}</p>
+
+                                        <p><strong>Phone</strong> ${address.phoneNumber}</p>
+
+                                        <p><strong>Street</strong> ${address.street}</p>
+
+                                        <p><strong>Area</strong> ${address.area}</p>
+
+                                        <p><strong>City</strong> ${address.city}</p>
+
+                                        <p><strong>State</strong> ${address.state}</p>
+
+                                        <p><strong>Pincode</strong> ${address.pincode}</p>
+
+                                        <p><strong>Country</strong> ${address.country}</p>
+
+                                        <p><strong>Type</strong> ${address.addressType}</p>
+
+                                        <p class="mb-0"><strong>Default</strong> ${address.isDefault ? "Yes" : "No"}</p>
+
+                                    </div>
+
+                                    <div class="card-footer">
+                                        <button type="button" onclick="event.stopPropagation(); addAddress()">Add New</button>
+                                        <button type="button" onclick="event.stopPropagation(); updateAddress(${address.id})">Update</button>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        `;
+                    });
+
+
+                    UserAddress.innerHTML += `
+                        <div class="mt-4 mb-4 text-center">
+                            <button class="btn checkout-button" onclick="window.location.href='USER_Checkout_Summery.html'">Continue to Checkout</button>
+                        </div>
+                    `;
+
+                } else {
+
+                    showNotification("error","Error!","Unable to view Address.");
+                }
+
+            } catch (error) {
+
+                console.log(error);
+
+                showNotification("error","Server error!","Please try again later.");
+            }
+        }
+
+
+        // =========================
+        // 4 Update Address
+        // =========================
+
+        function updateAddress(addressid) {
+
+            const address = allAddress.find(listAddress =>
+                listAddress.id == addressid
+            );
+
+            document.getElementById("Updateid").value = address.id;
+            document.getElementById("UpdatefullName").value = address.fullName;
+            document.getElementById("UpdatephoneNumber").value = address.phoneNumber;
+            document.getElementById("Updatestreet").value = address.street;
+            document.getElementById("Updatearea").value = address.area;
+            document.getElementById("Updatecity").value = address.city;
+            document.getElementById("Updatestate").value = address.state;
+            document.getElementById("Updatepincode").value = address.pincode;
+            document.getElementById("Updatecountry").value = address.country;
+            document.getElementById("UpdateaddressType").value = address.addressType;
+
+            const modal = new bootstrap.Modal(document.getElementById("updateAddressModal"));
+
+            modal.show();
+        }
+
+
+        // - - - - - - - - - - Update Address Section
+
+        const UpdateForm = document.getElementById("UpdateForm");
+
+        const Updateid = document.getElementById("Updateid");
+        const UpdatefullName = document.getElementById("UpdatefullName");
+        const UpdatephoneNumber = document.getElementById("UpdatephoneNumber");
+        const Updatestreet = document.getElementById("Updatestreet");
+        const Updatearea = document.getElementById("Updatearea");
+        const Updatecity = document.getElementById("Updatecity");
+        const Updatestate = document.getElementById("Updatestate");
+        const Updatepincode = document.getElementById("Updatepincode");
+        const Updatecountry = document.getElementById("Updatecountry");
+        const UpdateaddressType = document.getElementById("UpdateaddressType");
+
+        const submitUpdateBtn = document.getElementById("submitUpdateBtn");
+        const textUpdatebtn = document.getElementById("textUpdatebtn");
+
+
+        function showUpdateError(input,message) {
+
+            input.classList.remove("is-valid");
+            input.classList.add("is-invalid");
+            input.nextElementSibling.innerText = message;
+        }
+
+
+        function showUpdateSuccess(input) {
+
+            input.classList.remove("is-invalid");
+            input.classList.add("is-valid");
+            input.nextElementSibling.innerText = "";
+        }
+
+
+        function validateUpdateInputs() {
+
+            let isValid = true;
+
+            // Name Validate
+
+            if (UpdatefullName.value.trim() === "") {
+
+                showUpdateError(UpdatefullName,"Name is required");
+                isValid = false;
+
+            } else {
+
+                showUpdateSuccess(UpdatefullName);
+            }
+
+
+            // phoneNumber Validate
+
+            if (UpdatephoneNumber.value.trim() === "") {
+
+                showUpdateError(UpdatephoneNumber,"Phone no is required");
+                isValid = false;
+
+            } else {
+
+                showUpdateSuccess(UpdatephoneNumber);
+            }
+
+
+            // street Validate
+
+            if (Updatestreet.value.trim() === "") {
+
+                showUpdateError(Updatestreet,"Street is required");
+                isValid = false;
+
+            } else {
+
+                showUpdateSuccess(Updatestreet);
+            }
+
+
+            // area Validate
+
+            if (Updatearea.value.trim() === "") {
+
+                showUpdateError(Updatearea,"Area is required");
+                isValid = false;
+
+            } else {
+
+                showUpdateSuccess(Updatearea);
+            }
+
+
+            // city Validate
+
+            if (Updatecity.value.trim() === "") {
+
+                showUpdateError(Updatecity,"City is required");
+                isValid = false;
+
+            } else {
+
+                showUpdateSuccess(Updatecity);
+            }
+
+
+            // state Validate
+
+            if (Updatestate.value.trim() === "") {
+
+                showUpdateError(Updatestate,"State is required");
+                isValid = false;
+
+            } else {
+
+                showUpdateSuccess(Updatestate);
+            }
+
+
+            // pincode Validate
+
+            if (Updatepincode.value.trim() === "") {
+
+                showUpdateError(Updatepincode,"Pincode is required");
+                isValid = false;
+
+            } else {
+
+                showUpdateSuccess(Updatepincode);
+            }
+
+
+            // country Validate
+
+            if (Updatecountry.value.trim() === "") {
+
+                showUpdateError(Updatecountry,"Country is required");
+                isValid = false;
+
+            } else {
+
+                showUpdateSuccess(Updatecountry);
+            }
+
+
+            // addressType Validate
+
+            if (UpdateaddressType.value.trim() === "") {
+
+                showUpdateError(UpdateaddressType,"AddressType is required");
+                isValid = false;
+
+            } else {
+
+                showUpdateSuccess(UpdateaddressType);
+            }
+
+            return isValid;
+        }
+
+
+        UpdateForm.addEventListener("input",function() {
+            validateUpdateInputs();
+        });
+
+
+        UpdateForm.addEventListener("submit",async function(e) {
+
+            e.preventDefault();
+
+            if (!validateUpdateInputs()) {
+                return;
+            }
+
+            submitUpdateBtn.disabled = true;
+            textUpdatebtn.innerText = "Updating Address";
+
+            const addressid = Updateid.value;
+
+            const updateAddressDetails = {
+                fullName : UpdatefullName.value.trim(),
+                phoneNumber : UpdatephoneNumber.value.trim(),
+                street : Updatestreet.value.trim(),
+                area : Updatearea.value.trim(),
+                city : Updatecity.value.trim(),
+                state : Updatestate.value.trim(),
+                pincode : Updatepincode.value.trim(),
+                country : Updatecountry.value.trim(),
+                addressType : UpdateaddressType.value.trim()
+            };
+
+            try {
+
+                const token = localStorage.getItem("token");
+
+                const response = await fetch(`http://localhost:8080/restaurant/user/api/address/update/${userId}/${addressid}`, {
+
+                    method : "PUT",
+
+                    headers : {
+                        "Content-Type":"application/json",
+                        "Authorization":"Bearer " + token
+                    },
+
+                    body : JSON.stringify(updateAddressDetails)
+                });
+
+
+                // =====================
+                // [  AUT - 401 & 403  ]
+                // =====================
+
+                if (response.status === 401) {
+
+                    localStorage.removeItem("token");
+
+                    showNotification("error","Session expired!","Please restart the forgot password process.");
+
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    },2000);
+
+                    return;
+                }
+
+                if (response.status === 403) {
+
+                    showNotification("error","Access denied!","You do not have permission to access this resource");
+
+                    return;
+                }
+
+
+                const data = await response.json();
+
+                if (response.ok) {
+
+                    showNotification("success","Success",data.message);
+
+                    viewAddress();
+
+                    UpdateForm.reset();
+
+                    [
+                        UpdatefullName,
+                        UpdatephoneNumber,
+                        Updatestreet,
+                        Updatearea,
+                        Updatecity,
+                        Updatestate,
+                        Updatestate,
+                        Updatecountry,
+                        UpdateaddressType
+                    ]
+                    .forEach(input => {
+
+                        input.classList.remove("is-invalid","is-valid");
+                        input.nextElementSibling.innerText = "";
+
+                    });
+
+                    bootstrap.Modal.getInstance(document.getElementById("updateAddressModal")).hide();
+
+                } else {
+
+                    if (data.fullName) {
+                        showUpdateError(UpdatefullName,data.fullName);
+                    }
+
+                    if (data.phoneNumber) {
+                        showUpdateError(UpdatephoneNumber,data.phoneNumber);
+                    }
+
+                    if (data.street) {
+                        showUpdateError(Updatestreet,data.street);
+                    }
+
+                    if (data.area) {
+                        showUpdateError(Updatearea,data.area);
+                    }
+
+                    if (data.city) {
+                        showUpdateError(Updatecity,data.city);
+                    }
+
+                    if (data.state) {
+                        showUpdateError(Updatestate,data.state);
+                    }
+
+                    if (data.pincode) {
+                        showUpdateError(Updatepincode,data.pincode);
+                    }
+
+                    if (data.country) {
+                        showUpdateError(Updatecountry,data.country);
+                    }
+
+                    if (data.addressType) {
+                        showUpdateError(UpdateaddressType,data.addressType);
+                    }
+
+                    if (data.message) {
+                        showNotification("error","Error!",data.message);
+                    }
+                }
+
+            } catch (error) {
+
+                console.log(error);
+
+                showNotification("error","Server error!","Please try again later.");
+
+            } finally {
+
+                submitUpdateBtn.disabled = false;
+                textUpdatebtn.innerText = "Update Address";
+
+            };
+
+        });
+
+
+        // =========================
+        // 3 Set Default Address
+        // =========================
+
+        let selectedAddressId = null;
+
+        async function selectAddressDefault(addressId) {
+
+            selectedAddressId = addressId;
+
+            document.querySelectorAll(".address-card")
+                .forEach(card => card.classList.remove("border-success"));
+
+            document.getElementById("address-" + addressId)
+                .classList.add("border-success");
+
+            try {
+
+                const token = localStorage.getItem("token");
+
+                const response = await fetch(`http://localhost:8080/restaurant/user/api/address/setIsDefault/${userId}/${addressId}`, {
+
+                    method : "PUT",
+
+                    headers : {
+                        "Authorization":"Bearer " + token
+                    }
+                });
+
+
+                // =====================
+                // [  AUT - 401 & 403  ]
+                // =====================
+
+                if (response.status === 401) {
+
+                    localStorage.removeItem("token");
+
+                    showNotification("error","Session expired!","Please restart the forgot password process.");
+
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    },2000);
+
+                    return;
+                }
+
+                if (response.status === 403) {
+
+                    showNotification("error","Access denied!","You do not have permission to access this resource");
+
+                    return;
+                }
+
+
+                const data = await response.json();
+
+                if (response.ok) {
+
+                    // alert(data.message);
+                    viewAddress();
+
+                } else {
+
+                    showNotification("error","Error!","Unable to Set Address to default.");
+                }
+
+            } catch (error) {
+
+                console.log(error);
+                ashowNotification("error","Server error!","Please try again later.");
+            }
+        }
+
+
+        // =========================
+        // 2 Delete Address
+        // =========================
+
+        async function deleteAddress(addressid) {
+
+            try {
+
+                const token = localStorage.getItem("token");
+
+                const response = await fetch(`http://localhost:8080/restaurant/user/api/address/delete/${userId}/${addressid}`, {
+
+                    method : "DELETE",
+
+                    headers : {
+                        "Content-Type":"application/json",
+                        "Authorization":"Bearer " + token
+                    }
+                });
+
+
+                // =====================
+                // [  AUT - 401 & 403  ]
+                // =====================
+
+                if (response.status === 401) {
+
+                    localStorage.removeItem("token");
+
+                    showNotification("error","Session expired!","Please restart the forgot password process.");
+
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    },2000);
+
+                    return;
+                }
+
+                if (response.status === 403) {
+
+                    showNotification("error","Access denied!","You do not have permission to access this resource");
+
+                    return;
+                }
+
+
+                const data = await response.json();
+
+                if (response.ok) {
+
+                    showNotification("success","Success",data.message);
+                    viewAddress();
+
+                } else {
+
+                    showNotification("error","Error!","Unable to Delete Address.");
+                }
+
+            } catch (error) {
+
+                console.log(error);
+
+                showNotification("error","Server error!","Please try again later.");
+            }
+        }
+
+
+        // =========================
+        // 1 Add Address
+        // =========================
+
+        function addAddress() {
+
+            //  await viewAddress();
+
+            const modal = new bootstrap.Modal(document.getElementById("addAddressModal"));
+
+            modal.show();
+        }
+
+
+        // Add Address Functions and Validations
+
+        const AddAddressForm = document.getElementById("AddAddressForm");
+
+        const fullName = document.getElementById("fullName");
+        const phoneNumber = document.getElementById("phoneNumber");
+        const street = document.getElementById("street");
+        const area = document.getElementById("area");
+        const city = document.getElementById("city");
+        const state = document.getElementById("state");
+        const pincode = document.getElementById("pincode");
+        const country = document.getElementById("country");
+        const addressType = document.getElementById("addressType");
+
+        const submitBtn = document.getElementById("submitBtn");
+        const textbtn = document.getElementById("textbtn");
+
+
+        function showError(input,message) {
+
+            input.classList.remove("is-valid");
+            input.classList.add("is-invalid");
+            input.nextElementSibling.innerText = message;
+        }
+
+
+        function showSuccess(input) {
+
+            input.classList.remove("is-invalid");
+            input.classList.add("is-valid");
+            input.nextElementSibling.innerText = "";
+        }
+
+
+        function validateInputs() {
+
+            let isValid = true;
+
+            // Name Validate
+
+            if (fullName.value.trim() === "") {
+
+                showError(fullName,"Name is required");
+                isValid = false;
+
+            } else {
+
+                showSuccess(fullName);
+            }
+
+
+            // phoneNumber Validate
+
+            if (phoneNumber.value.trim() === "") {
+
+                showError(phoneNumber,"Phone no is required");
+                isValid = false;
+
+            } else {
+
+                showSuccess(phoneNumber);
+            }
+
+
+            // street Validate
+
+            if (street.value.trim() === "") {
+
+                showError(street,"Street is required");
+                isValid = false;
+
+            } else {
+
+                showSuccess(street);
+            }
+
+
+            // area Validate
+
+            if (area.value.trim() === "") {
+
+                showError(area,"Area is required");
+                isValid = false;
+
+            } else {
+
+                showSuccess(area);
+            }
+
+
+            // city Validate
+
+            if (city.value.trim() === "") {
+
+                showError(city,"City is required");
+                isValid = false;
+
+            } else {
+
+                showSuccess(city);
+            }
+
+
+            // state Validate
+
+            if (state.value.trim() === "") {
+
+                showError(state,"State is required");
+                isValid = false;
+
+            } else {
+
+                showSuccess(state);
+            }
+
+
+            // pincode Validate
+
+            if (pincode.value.trim() === "") {
+
+                showError(pincode,"Pincode is required");
+                isValid = false;
+
+            } else {
+
+                showSuccess(pincode);
+            }
+
+
+            // country Validate
+
+            if (country.value.trim() === "") {
+
+                showError(country,"Country is required");
+                isValid = false;
+
+            } else {
+
+                showSuccess(country);
+            }
+
+
+            // addressType Validate
+
+            if (addressType.value.trim() === "") {
+
+                showError(addressType,"AddressType is required");
+                isValid = false;
+
+            } else {
+
+                showSuccess(addressType);
+            }
+
+            return isValid;
+        }
+
+
+        addressType.addEventListener("input",function() {
+
+        });
+
+
+        AddAddressForm.addEventListener("input",function() {
+            validateInputs();
+        });
+
+
+        AddAddressForm.addEventListener("submit",async function(e) {
+
+            e.preventDefault();
+
+            if (!validateInputs()) {
+                return;
+            }
+
+            const userAddress = {
+                fullName : fullName.value.trim(),
+                phoneNumber : phoneNumber.value.trim(),
+                street : street.value.trim(),
+                area : area.value.trim(),
+                city : city.value.trim(),
+                state : state.value.trim(),
+                pincode : pincode.value.trim(),
+                country : country.value.trim(),
+                addressType : addressType.value.trim()
+            };
+
+            try {
+
+                const token = localStorage.getItem("token");
+
+                submitBtn.disabled = true;
+                textbtn.innerText = "Adding Address...";
+
+                const response = await fetch(`http://localhost:8080/restaurant/user/api/address/add/${userId}`, {
+
+                    method : "POST",
+
+                    headers : {
+                        "Content-Type":"application/json",
+                        "Authorization":"Bearer " + token
+                    },
+
+                    body : JSON.stringify(userAddress)
+                });
+
+
+                // =====================
+                // [  AUT - 401 & 403  ]
+                // =====================
+
+                if (response.status === 401) {
+
+                    localStorage.removeItem("token");
+
+                    showNotification("error","Session expired!","Please restart the forgot password process.");
+
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    },2000);
+
+                    return;
+                }
+
+                if (response.status === 403) {
+
+                    showNotification("error","Access denied!","You do not have permission to access this resource");
+
+                    return;
+                }
+
+
+                const data = await response.json();
+
+                if (response.ok) {
+
+                    showNotification("success","Success",data.message);
+
+                    viewAddress();
+
+                    AddAddressForm.reset();
+
+                    [
+                        fullName,
+                        phoneNumber,
+                        street,
+                        area,
+                        city,
+                        state,
+                        pincode,
+                        country,
+                        addressType
+                    ]
+                    .forEach(input => {
+
+                        input.classList.remove("is-invalid","is-valid");
+                        input.nextElementSibling.innerText = "";
+
+                    });
+
+                    bootstrap.Modal.getInstance(document.getElementById("addAddressModal")).hide();
+
+                } else {
+
+                    if (data.fullName) {
+                        showError(fullName,data.fullName);
+                    }
+
+                    if (data.phoneNumber) {
+                        showError(phoneNumber,data.phoneNumber);
+                    }
+
+                    if (data.street) {
+                        showError(street,data.street);
+                    }
+
+                    if (data.area) {
+                        showError(area,data.area);
+                    }
+
+                    if (data.city) {
+                        showError(city,data.city);
+                    }
+
+                    if (data.state) {
+                        showError(state,data.state);
+                    }
+
+                    if (data.pincode) {
+                        showError(pincode,data.pincode);
+                    }
+
+                    if (data.country) {
+                        showError(country,data.country);
+                    }
+
+                    if (data.addressType) {
+                        showError(addressType,data.addressType);
+                    }
+
+                    if (data.message) {
+                        showNotification("error","Error!",data.message);
+                    }
+                }
+
+            } catch (error) {
+
+                console.log(error);
+
+                showNotification("error","Server error!","Please try again later.");
+            }
+
+            finally {
+
+                submitBtn.disabled = false;
+                textbtn.innerText = "Add Address";
+            }
+        });
+
+
+        window.addEventListener("DOMContentLoaded",function() {
+
+            if (!checkUserAccess()) {
+                return;
+            }
+
+            viewAddress();
+        });
+
+    </script>
+
+</body>
+</html>
