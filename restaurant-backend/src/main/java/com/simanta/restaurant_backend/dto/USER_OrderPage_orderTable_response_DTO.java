@@ -1,6 +1,6 @@
 package com.simanta.restaurant_backend.dto;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.simanta.restaurant_backend.model.OrderStatus;
@@ -11,7 +11,7 @@ public class USER_OrderPage_orderTable_response_DTO {
 
     private Long orderid;
 
-    private Date createdAt;
+    private LocalDateTime createdAt;
  
     private OrderStatus orderStatus;
  
@@ -30,7 +30,7 @@ public class USER_OrderPage_orderTable_response_DTO {
     private String phoneNumber;
     
 
-    public USER_OrderPage_orderTable_response_DTO(Long orderid,Date createdAt,OrderStatus orderStatus,List<USER_OrderPage_orderitemTable_response_DTO> orderitems,PaymentStatus paymentStatus,
+    public USER_OrderPage_orderTable_response_DTO(Long orderid,LocalDateTime createdAt,OrderStatus orderStatus,List<USER_OrderPage_orderitemTable_response_DTO> orderitems,PaymentStatus paymentStatus,
         PaymentMethod paymentMethod,String city,String area,String street,String phoneNumber){
             this.orderid = orderid;
             this.createdAt = createdAt;
@@ -54,12 +54,12 @@ public class USER_OrderPage_orderTable_response_DTO {
     }
 
 
-    public Date getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 

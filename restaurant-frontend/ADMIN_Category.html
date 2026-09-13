@@ -330,19 +330,12 @@
             const role = localStorage.getItem("role");
 
             if (!token || role !== "ADMIN") {
-                showNotification(
-                    "error",
-                    "Access denied!",
-                    "Please login to access this page."
-                );
-
+                showNotification("error","Access denied!","Please login to access this page.");
                 setTimeout(() => {
                     window.location.href = "Login.html";
                 },2000);
-
                 return false;
             }
-
             return true;
         }
 

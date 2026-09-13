@@ -23,6 +23,9 @@ import jakarta.transaction.Transactional;
 @Service
 public class PaymentService_USER {
 
+    @Value("${restaurant.owner.email}")
+    private String ownerEmail;
+
     @Value("${razorpay.key_id}")
     private String keyId;
 
@@ -32,11 +35,13 @@ public class PaymentService_USER {
     private final PaymentRepository paymentRepository;
     private final OrderRepository orderRepository;
     private final Message_SendingInEmail_for_Updates_Service message_SendingInEmail_for_Updates_Service;
+    private final OwnerNotificationService ownerNotificationService;
 
-    public PaymentService_USER(PaymentRepository paymentRepository,OrderRepository orderRepository,Message_SendingInEmail_for_Updates_Service message_SendingInEmail_for_Updates_Service) {
+    public PaymentService_USER(PaymentRepository paymentRepository,OrderRepository orderRepository,Message_SendingInEmail_for_Updates_Service message_SendingInEmail_for_Updates_Service,OwnerNotificationService ownerNotificationService) {
         this.paymentRepository = paymentRepository;
         this.orderRepository = orderRepository;
         this.message_SendingInEmail_for_Updates_Service = message_SendingInEmail_for_Updates_Service;
+        this.ownerNotificationService = ownerNotificationService;
     }
 
     // Create Payment
@@ -103,6 +108,8 @@ public class PaymentService_USER {
         paymentRepository.save(payment);
 
         message_SendingInEmail_for_Updates_Service.Sending_Message_for_Notification(payment.getOrder().getUser().getEmail(),payment.getOrder().getId());
+
+        ownerNotificationService.Sending_Message_for_OwnerNotification(ownerEmail,payment.getOrder(),payment.getPaymentMethod());
 
         return new Razorpay_VerifyPaymen_response_Service_DTO("Payment successful! Your order is confirmed");
     }

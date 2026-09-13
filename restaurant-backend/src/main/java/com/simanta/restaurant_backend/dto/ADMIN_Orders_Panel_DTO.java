@@ -1,5 +1,5 @@
 package com.simanta.restaurant_backend.dto;
-import java.util.Date;
+import java.time.LocalDateTime;
 import com.simanta.restaurant_backend.model.OrderStatus;
 import com.simanta.restaurant_backend.model.PaymentMethod;
 import com.simanta.restaurant_backend.model.PaymentStatus;
@@ -16,13 +16,13 @@ public class ADMIN_Orders_Panel_DTO {
 
     private OrderStatus orderStatus;
 
-    private Date orderCreatedAt;
+    private LocalDateTime orderCreatedAt;
 
     private Long userid;
 
     private Long addressid;
 
-    public ADMIN_Orders_Panel_DTO(Long orderid,double totalprice ,PaymentMethod paymentMethod ,PaymentStatus paymentStatus ,OrderStatus orderStatus ,Date orderCreatedAt ,
+    public ADMIN_Orders_Panel_DTO(Long orderid,double totalprice ,PaymentMethod paymentMethod ,PaymentStatus paymentStatus ,OrderStatus orderStatus ,LocalDateTime orderCreatedAt ,
          Long userid ,Long addressid){
 
             this.orderid = orderid;
@@ -75,11 +75,11 @@ public class ADMIN_Orders_Panel_DTO {
         this.orderStatus = orderStatus;
     }
 
-    public Date getOrderCreatedAt() {
+    public LocalDateTime getOrderCreatedAt() {
         return orderCreatedAt;
     }
 
-    public void setOrderCreatedAt(Date orderCreatedAt) {
+    public void setOrderCreatedAt(LocalDateTime orderCreatedAt) {
         this.orderCreatedAt = orderCreatedAt;
     }
 

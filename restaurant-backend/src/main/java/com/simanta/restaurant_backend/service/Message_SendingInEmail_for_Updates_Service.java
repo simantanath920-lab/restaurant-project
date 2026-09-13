@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
-
+ 
 @Service
 public class Message_SendingInEmail_for_Updates_Service {
 

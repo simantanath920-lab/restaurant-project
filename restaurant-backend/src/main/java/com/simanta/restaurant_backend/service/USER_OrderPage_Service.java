@@ -42,7 +42,7 @@ public class USER_OrderPage_Service {
         final User user =  authRepository.findByEmail(email)
             .orElseThrow(()-> new USER_OrderPage_Service_Exception("User not found"));
 
-        Page<Order> orders = orderRepository.findByUserId(user.getId(),pageable);
+        Page<Order> orders = orderRepository.findByUserIdOrderByCreatedAtDesc(user.getId(),pageable);
 
         Page<USER_OrderPage_orderTable_response_DTO> dtoResponse = orders.map(order ->{
 

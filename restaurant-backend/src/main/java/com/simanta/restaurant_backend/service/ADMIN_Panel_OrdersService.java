@@ -25,7 +25,7 @@ public class ADMIN_Panel_OrdersService {
     // Admin Order panel
     public PageResponse<ADMIN_Orders_Panel_DTO> getAllOrders(Pageable pageable){
 
-        Page<Order> orders = orderRepository.findAll(pageable);
+        Page<Order> orders = orderRepository.findAllByOrderByCreatedAtDesc(pageable);
 
         Page<ADMIN_Orders_Panel_DTO> dtoPage = orders.map(order -> {
 

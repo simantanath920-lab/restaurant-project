@@ -1,7 +1,7 @@
 package com.simanta.restaurant_backend.model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -43,7 +43,7 @@ public class Order {
 
     private double totalprice;
 
-    private Date createdAt = new Date();
+    private LocalDateTime createdAt;
 
 
     public Long getId() {
@@ -94,11 +94,11 @@ public class Order {
         this.totalprice = totalprice;
     }
 
-    public Date getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 

@@ -892,7 +892,9 @@
                 if (response.status === 403) {
 
                     showNotification("error", "Access denied!", "You do not have permission to access this resource");
-
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    },2000);
                     return;
                 }
 
@@ -1018,7 +1020,9 @@
                 if (response.status === 403) {
 
                     showNotification("error", "Access denied!", "You do not have permission to access this resource");
-
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    },2000);
                     return;
                 }
 
@@ -1082,7 +1086,9 @@
                 if (response.status === 403) {
 
                     showNotification("error", "Access denied!", "You do not have permission to access this resource");
-
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    },2000);
                     return;
                 }
 
@@ -1096,21 +1102,18 @@
                 } else {
 
                     showNotification("error", "Error!", "Unable to fetch all menu.");
-
                 }
 
             } catch (error) {
 
                 console.log(error);
-
                 showNotification("error", "Server error!", "Please try after sometime.");
-
             }
 
         }
 
         // =====================
-        // [ DOM Loaded ]
+        // [    DOM Loaded     ]
         // =====================
 
         window.addEventListener("DOMContentLoaded", function() {
@@ -1120,7 +1123,6 @@
             }
 
             ViewAllMenu();
-
         });
 
     </script>

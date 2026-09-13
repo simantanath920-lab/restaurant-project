@@ -560,11 +560,15 @@
 
                 if(response.status === 403) {
                     showNotification("error", "Access denied!", "You do not have permission to access this resource");
-
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    },2000);
                     return;
                 }
 
                 const data = await response.json();
+
+                console.log(data.content[0]);
 
                 if(response.ok) {
                     currentPage = data.currentPage;
@@ -574,6 +578,17 @@
                     GetAllDetails.innerHTML = "";
 
                     data.content.forEach(order => {
+
+                        const date = new Date(order.orderCreatedAt);
+                        const friendlyDate = date.toLocaleString("en-In",{
+                                day : "2-digit",
+                                month : "short",
+                                year : "numeric",
+                                hour : "2-digit",
+                                minute : "2-digit",
+                                hour12 : true
+                        });
+
                         GetAllDetails.innerHTML += `
                             <tr>
                                 <td class="order-id">${order.orderid}</td>
@@ -581,7 +596,7 @@
                                 <td>${order.paymentMethod}</td>
                                 <td class="status-text">${order.paymentStatus}</td>
                                 <td class="status-text">${order.orderStatus}</td>
-                                <td>${order.orderCreatedAt}</td>
+                                <td>${friendlyDate}</td>
                                 <td>${order.userid}</td>
                                 <td>${order.addressid}</td>
                             </tr>
@@ -631,6 +646,7 @@
         // =====================
 
         window.addEventListener("DOMContentLoaded", function() {
+            
             if(!checkUserAccess()) {
                 return;
             }

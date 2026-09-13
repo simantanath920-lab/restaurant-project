@@ -585,9 +585,9 @@
 
                 return false;
             }
-
             return true;
         }
+
 
         // =====================
         // [ Notification ]
@@ -619,7 +619,7 @@
         }
 
         // =====================
-        // [ Variables ]
+        // [     Variables     ]
         // =====================
 
         const CategoryBodyTable = document.getElementById("CategoryBodyTable");
@@ -636,11 +636,15 @@
                 CategoryBodyTable.innerHTML += `
                     <tr>
                         <td>${Category.id}</td>
+
                         <td>${Category.name}</td>
+                        
                         <td>${Category.description}</td>
+                        
                         <td>
                             <img src="http://localhost:8080${Category.imageUrl}" alt="${Category.name}" class="category-image">
                         </td>
+                        
                         <td>
                             ${
                                 Category.isAvailable
@@ -648,6 +652,7 @@
                                 : `<span class="status-unavailable">Non Available</span>`
                             }
                         </td>
+                        
                         <td>
                             <button class="category-action-btn edit-btn" onclick="editCategory(${Category.id})">Edit</button>
                             <button class="category-action-btn status-btn" onclick="UpdateStatus(${Category.id},${Category.isAvailable})">Change status</button>
@@ -675,7 +680,7 @@
         }
 
         // =========================
-        // ========= Update category
+        // [    Update category    ]
         // =========================
 
         const updateCategory = document.getElementById("updateCategory");
@@ -749,14 +754,15 @@
                 submitBtn.disabled = true;
                 textbtn.innerText = "Updating...";
 
-                const response = await fetch(
-                    `http://localhost:8080/restaurant/admin/api/auth/update-category/${id}`,
-                    {
+                const response = await fetch(`http://localhost:8080/restaurant/admin/api/auth/update-category/${id}`,{
+
                         method: "PUT",
+                    
                         headers: {
                             "Content-Type": "application/json",
                             "Authorization": "Bearer " + token
                         },
+
                         body: JSON.stringify(categoryItem)
                     }
                 );
@@ -767,27 +773,18 @@
 
                 if (response.status === 401) {
                     localStorage.removeItem("token");
-
-                    showNotification(
-                        "error",
-                        "Session expired!",
-                        "Please restart the forgot password process."
-                    );
-
+                    showNotification("error","Session expired!","Please restart the forgot password process.");
                     setTimeout(() => {
                         window.location.href = "Login.html";
                     }, 2000);
-
                     return;
                 }
 
                 if (response.status === 403) {
-                    showNotification(
-                        "error",
-                        "Access denied!",
-                        "You do not have permission to access this resource"
-                    );
-
+                    showNotification("error","Access denied!","You do not have permission to access this resource");
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    }, 2000);
                     return;
                 }
 
@@ -805,40 +802,25 @@
                         input.nextElementSibling.innerText = "";
                     });
 
-                    bootstrap.Modal
-                        .getInstance(document.getElementById("editModal"))
-                        .hide();
+                    bootstrap.Modal.getInstance(document.getElementById("editModal")).hide();
+
                 } else {
                     if (data.name) {
-                        showError(
-                            editName,
-                            data.name
-                        );
+                        showError(editName,data.name);
                     }
 
                     if (data.description) {
-                        showError(
-                            editDescription,
-                            data.description
-                        );
+                        showError(editDescription,data.description);
                     }
 
                     if (data.message) {
-                        showNotification(
-                            "error",
-                            "Error!",
-                            data.message
-                        );
+                        showNotification("error","Error!",data.message);
                     }
                 }
             } catch (error) {
                 console.log(error);
+                showNotification("error","Server error!","Please try again later.");
 
-                showNotification(
-                    "error",
-                    "Server error!",
-                    "Please try again later."
-                );
             } finally {
                 submitBtn.disabled = false;
                 textbtn.innerText = "Update";
@@ -857,10 +839,10 @@
             try {
                 const token = localStorage.getItem("token");
 
-                const response = await fetch(
-                    `http://localhost:8080/restaurant/admin/api/auth/delete-category/${id}`,
-                    {
+                const response = await fetch(`http://localhost:8080/restaurant/admin/api/auth/delete-category/${id}`,{
+
                         method : "PATCH",
+
                         headers : {
                             "Content-Type": "application/json",
                             "Authorization": "Bearer " + token
@@ -876,11 +858,7 @@
                 if (response.status === 401) {
                     localStorage.removeItem("token");
 
-                    showNotification(
-                        "error",
-                        "Session expired!",
-                        "Please restart the forgot password process."
-                    );
+                    showNotification("error","Session expired!","Please restart the forgot password process.");
 
                     setTimeout(() => {
                         window.location.href = "Login.html";
@@ -890,40 +868,25 @@
                 }
 
                 if (response.status === 403) {
-                    showNotification(
-                        "error",
-                        "Access denied!",
-                        "You do not have permission to access this resource"
-                    );
-
+                    showNotification("error","Access denied!","You do not have permission to access this resource");
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    }, 2000);
                     return;
                 }
 
                 const data = await response.json();
 
                 if (response.ok) {
-                    showNotification(
-                        "success",
-                        "Seccess",
-                        data.message
-                    );
+                    showNotification("success","Seccess",data.message);
 
                     ViewAllCategory();
                 } else {
-                    showNotification(
-                        "error",
-                        "Error!",
-                        data.message
-                    );
+                    showNotification("error","Error!",data.message);
                 }
             } catch (error) {
                 console.log(error);
-
-                showNotification(
-                    "error",
-                    "Server error!",
-                    "Please try again later."
-                );
+                showNotification("error","Server error!","Please try again later.");
             }
         }
 
@@ -932,13 +895,14 @@
         // =========================
 
         async function ViewAllCategory() {
+
             const token = localStorage.getItem("token");
 
             try {
-                const response = await fetch(
-                    "http://localhost:8080/restaurant/admin/api/auth/get-all-category",
-                    {
+                const response = await fetch("http://localhost:8080/restaurant/admin/api/auth/get-all-category",{
+
                         method : "GET",
+
                         headers : {
                             "Authorization": "Bearer " + token
                         }
@@ -952,12 +916,7 @@
                 if (response.status === 401) {
                     localStorage.removeItem("token");
 
-                    showNotification(
-                        "error",
-                        "Session expired!",
-                        "Please restart the forgot password process."
-                    );
-
+                    showNotification("error","Session expired!","Please restart the forgot password process.");
                     setTimeout(() => {
                         window.location.href = "Login.html";
                     }, 2000);
@@ -966,12 +925,10 @@
                 }
 
                 if (response.status === 403) {
-                    showNotification(
-                        "error",
-                        "Access denied!",
-                        "You do not have permission to access this resource"
-                    );
-
+                    showNotification("error","Access denied!","You do not have permission to access this resource");
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    }, 2000);
                     return;
                 }
 
@@ -981,25 +938,16 @@
                     allCategory = data;
                     ConvertDataIntoHTML(data);
                 } else {
-                    showNotification(
-                        "error",
-                        "Error!",
-                        "Unable to fetch all category."
-                    );
+                    showNotification("error","Error!","Unable to fetch all category.");
                 }
             } catch (error) {
                 console.log(error);
-
-                showNotification(
-                    "error",
-                    "Server error!",
-                    "Please try again later."
-                );
+                showNotification("error","Server error!","Please try again later.");
             }
         }
 
         // =========================
-        // MAIN FUNCTION
+        // [     MAIN FUNCTION     ]
         // =========================
 
         window.addEventListener("DOMContentLoaded", function() {

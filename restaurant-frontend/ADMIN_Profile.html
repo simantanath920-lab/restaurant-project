@@ -658,11 +658,7 @@
                 if(viewAdminResponse.status === 401) {
                     localStorage.removeItem("token");
 
-                    showNotification(
-                        "error",
-                        "Session expired!",
-                        "Please restart the forgot password process."
-                    );
+                    showNotification("error","Session expired!","Please restart the forgot password process.");
 
                     setTimeout(() => {
                         window.location.href = "Login.html";
@@ -672,12 +668,10 @@
                 }
 
                 if(viewAdminResponse.status === 403) {
-                    showNotification(
-                        "error",
-                        "Access denied!",
-                        "You do not have permission to access this resource"
-                    );
-
+                    showNotification("error","Access denied!","You do not have permission to access this resource");
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    },2000);
                     return;
                 }
 
@@ -893,12 +887,10 @@
                     }
 
                     if(updateAdminResponse.status === 403) {
-                        showNotification(
-                            "error",
-                            "Access denied!",
-                            "You do not have permission to access this resource"
-                        );
-
+                        showNotification("error","Access denied!","You do not have permission to access this resource");
+                        setTimeout(() => {
+                            window.location.href = "Login.html";
+                        },2000);
                         return;
                     }
 
@@ -1125,7 +1117,9 @@
                             "Access denied!",
                             "You do not have permission to access this resource"
                         );
-
+                        setTimeout(() => {
+                            window.location.href = "Login.html";
+                        },2000);
                         return;
                     }
 
@@ -1196,9 +1190,8 @@
         // DOM CONTENT LOADED
         // =========================
 
-        window.addEventListener(
-            "DOMContentLoaded",
-            function() {
+        window.addEventListener("DOMContentLoaded",function() {
+            
                 if(!checkUserAccess()) {
                     return;
                 }

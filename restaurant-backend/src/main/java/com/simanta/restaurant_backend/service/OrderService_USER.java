@@ -3,6 +3,7 @@ package com.simanta.restaurant_backend.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 
@@ -35,19 +36,23 @@ import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 
 @Service
-public class OrderService_USER {
+public class OrderService_USER { 
+
+    @Value("${restaurant.owner.email}")
+    private String ownerEmail;
 
     private final OrderRepository orderRepository;
     private final CartRepository cartRepository;
     private final AddressRepository addressRepository;
-    private final AuthRepository authRepository;
+    private final AuthRepository authRepository; 
     private final Message_SendingInEmail_for_Updates_Service message_SendingInEmail_for_Updates_Service;
     private final PaymentRepository paymentRepository;
     private final Message_SendingInEmail_for_OrderCalcel email_for_OrderCancel;
+    private final OwnerNotificationService ownerNotificationService;
 
     public OrderService_USER(OrderRepository orderRepository,CartRepository cartRepository,AddressRepository addressRepository,
             AuthRepository authRepository, Message_SendingInEmail_for_Updates_Service message_SendingInEmail_for_Updates_Service,
-                PaymentRepository paymentRepository,Message_SendingInEmail_for_OrderCalcel email_for_OrderCancel) {
+                PaymentRepository paymentRepository,Message_SendingInEmail_for_OrderCalcel email_for_OrderCancel,OwnerNotificationService ownerNotificationService) {
         this.orderRepository = orderRepository;
         this.cartRepository = cartRepository;
         this.addressRepository = addressRepository;
@@ -55,6 +60,7 @@ public class OrderService_USER {
         this.message_SendingInEmail_for_Updates_Service = message_SendingInEmail_for_Updates_Service;
         this.paymentRepository = paymentRepository;
         this.email_for_OrderCancel = email_for_OrderCancel;
+        this.ownerNotificationService = ownerNotificationService;
     }
  
     @Transactional
@@ -102,19 +108,22 @@ public class OrderService_USER {
         order.setTotalprice(finaltotalprice);
         order.setOrderStatus(OrderStatus.PENDING);
 
-        orderRepository.save(order);
+        orderRepository.save(order); 
 
         // Cash on Delivery
         if(order_PostOrder_request_USER_DTO.getPaymentMethod() == PaymentMethod.COD){
 
             Payment payment = new Payment();
-            payment.setOrder(order);
+            payment.setOrder(order); 
             payment.setPaymentMethod(PaymentMethod.COD);
             payment.setTotalAmount(order.getTotalprice());
             payment.setPaymentStatus(PaymentStatus.CREATED);
             paymentRepository.save(payment);
 
             message_SendingInEmail_for_Updates_Service.Sending_Message_for_Notification(order.getUser().getEmail(),order.getId());
+
+
+            ownerNotificationService.Sending_Message_for_OwnerNotification(ownerEmail,order,payment.getPaymentMethod());
         }
 
         cart.getCartItem().clear();

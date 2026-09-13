@@ -19,9 +19,9 @@ public class CategoryService_USER {
     // Get All Category
     public List<Get_All_Category_USER_response> get_All_Category() {
 
-    try {
+    try { 
  
-        List<Category> categories = categoryRepository.findAll();
+        List<Category> categories = categoryRepository.findByIsAvailableTrue();
 
         List<Get_All_Category_USER_response> responses = new ArrayList<>();
 

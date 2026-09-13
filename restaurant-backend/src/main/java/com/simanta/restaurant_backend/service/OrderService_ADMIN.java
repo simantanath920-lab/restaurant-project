@@ -83,7 +83,7 @@ public class OrderService_ADMIN {
     }
 
 
-
+ 
 
     // Order status AND Payment Status
     @Transactional(readOnly = true)
@@ -96,7 +96,7 @@ public class OrderService_ADMIN {
             throw new OrderService_ADMIN_Exception("Access Denied for this profile.");
         }
 
-        Page<Order> orders = orderRepository.findAll(pageable);
+        Page<Order> orders = orderRepository.findAllByOrderByCreatedAtDesc(pageable);
 
         Page<Order_Table_orderstatus_AND_paymentstatus_response_DTO> Response = orders.map(order -> {
 

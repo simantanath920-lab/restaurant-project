@@ -263,25 +263,18 @@
     ========================= -->
 
     <div class="modal fade" id="notificationModal">
-
         <div class="modal-dialog modal-dialog-centered">
-
             <div class="modal-content text-center custom-modal">
 
                 <div class="modal-header border-0 custom-header">
-
                     <h5 class="mb-0">NH15 Restaurant</h5>
-
                     <button class="btn btn-close" type="button" data-bs-dismiss="modal"></button>
-
                 </div>
 
                 <div class="modal-body">
 
                     <div id="notificationIconContainer" class="notification-icon">
-
                         <i id="notificationIconElement"></i>
-
                     </div>
 
                     <h3 id="notificationTitle"></h3>
@@ -293,27 +286,22 @@
                 </div>
 
             </div>
-
         </div>
-
     </div>
 
-    <!-- =========================
-         MAIN
-    ========================= -->
-
+    <!-- ========================
+         [         MAIN         ]
+         ======================== -->
     <main class="container py-4">
 
         <!-- =========================
              PAGE TITLE
         ========================= -->
-
         <h2 class="text-center admin-page-title" style="letter-spacing: 0.7rem;">ENTIRE CUSTOMERS</h2>
 
         <!-- =========================
              USER SECTION
         ========================= -->
-
         <div class="user-section">
 
             <!-- =========================
@@ -323,7 +311,6 @@
             <div class="user-section-header">
 
                 <h3>NH15 RESTAURANT</h3>
-
                 <p>ALL USERS</p>
 
             </div>
@@ -333,30 +320,23 @@
             ========================= -->
 
             <div class="table-container">
-
                 <table class="table table-bordered text-center users-table">
 
                     <thead>
-
                         <tr>
-
                             <th>Name</th>
                             <th>Email</th>
                             <th>Phone No</th>
                             <th>Status</th>
                             <th>User Created At</th>
                             <th>Total Orders</th>
-
                         </tr>
-
                     </thead>
 
                     <tbody id="AdminGetAllUserDetails"></tbody>
 
                 </table>
-
             </div>
-
         </div>
 
     </main>
@@ -366,58 +346,38 @@
     ========================= -->
 
     <section class="footer-Section-last text-center py-5">
-
         <div class="container">
-
             <div class="d-flex flex-column flex-lg-row justify-content-center align-items-center gap-5">
 
                 <!-- Address -->
-
                 <div>
-
                     <h6>Address</h6>
-
                     <p class="mb-1">Madurdaha Kolkata</p>
-
                     <p class="mb-0">West Bengal 700107</p>
-
                 </div>
 
                 <!-- Contact -->
-
                 <div>
-
                     <h6>Contact</h6>
-
                     <p class="mb-1">Phone: +91 863-8148837</p>
-
                     <p class="mb-0">Email: nh15restaurantonline@gmail.com</p>
-
                 </div>
 
                 <!-- Opening Hours -->
-
                 <div>
-
                     <h6>Opening Hours</h6>
-
                     <p class="mb-1">Mon-Sat: 11AM - 10PM</p>
-
                     <p class="mb-0">Sunday: Closed</p>
-
                 </div>
 
                 <!-- Social -->
-
                 <div class="icons">
-
                     <h6>Follow Us</h6>
 
                     <a href="#" class="text-dark me-3"><i class="bi bi-instagram"></i></a>
                     <a href="#" class="text-dark me-3"><i class="bi bi-facebook"></i></a>
                     <a href="#" class="text-dark me-3"><i class="bi bi-linkedin"></i></a>
                     <a href="#" class="text-dark me-3"><i class="bi bi-twitter-x"></i></a>
-
                 </div>
 
             </div>
@@ -425,13 +385,11 @@
             <hr>
 
             <h6 class="fw-light mb-0">&copy; NH15 Restaurant</h6>
-
         </div>
 
     </section>
 
     <script>
-
         // =====================
         // [ Access Check ]
         // =====================
@@ -442,21 +400,13 @@
             const role = localStorage.getItem("role");
 
             if (!token || role !== "ADMIN") {
-
                 showNotification("error", "Access denied!", "Please login to access this page.");
-
                 setTimeout(() => {
-
                     window.location.href = "Login.html";
-
                 },2000);
-
                 return false;
-
             }
-
             return true;
-
         }
 
         // =====================
@@ -478,14 +428,11 @@
 
                 notificationIconContainer.classList.add("notification-success");
                 notificationIconElement.className = "bi bi-check-circle-fill";
-
             }
-
             else if (type === "error") {
 
                 notificationIconContainer.classList.add("notification-error");
                 notificationIconElement.className = "bi bi-x-circle-fill";
-
             }
 
             notificationTitle.textContent = title;
@@ -494,7 +441,6 @@
             const modal = new bootstrap.Modal(notificationModal);
 
             modal.show();
-
         }
 
         // =====================
@@ -512,48 +458,39 @@
             const token = localStorage.getItem("token");
 
             try {
+                const userResponse = await fetch("http://localhost:8080/restaurant/admin/customer",{
 
-                const userResponse = await fetch(
-                    "http://localhost:8080/restaurant/admin/customer",
-                    {
                         method: "GET",
+
                         headers: {
-                            "Authorization":
-                            "Bearer " + token
+                            "Authorization":"Bearer " + token
                         }
                     }
                 );
 
                 // =====================
-                // [ 401 ]
+                // [        401        ]
                 // =====================
 
                 if (userResponse.status === 401) {
-
                     localStorage.removeItem("token");
 
                     showNotification("error", "Session expired!", "Please restart the forgot password process.");
-
                     setTimeout(() => {
-
                         window.location.href = "Login.html";
-
                     },2000);
-
                     return;
-
                 }
 
                 // =====================
                 // [ 403 ]
                 // =====================
-
                 if (userResponse.status === 403) {
-
                     showNotification("error", "Access denied!", "You do not have permission to access this resource");
-
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    },2000);
                     return;
-
                 }
 
                 const userData = await userResponse.json();
@@ -567,56 +504,39 @@
                         AdminGetAllUserDetails.innerHTML += `
 
                             <tr>
-
                                 <td class="user-name">${userDetails.name}</td>
                                 <td class="user-email">${userDetails.email}</td>
                                 <td>${userDetails.phonenumber}</td>
                                 <td class="status-text">${userDetails.isActive}</td>
                                 <td>${userDetails.createdAt}</td>
                                 <td class="status-text">${userDetails.totalOrders}</td>
-
                             </tr>
-
                         `;
-
                     });
-
                 }
 
                 else {
-
                     showNotification("error", "Error!", "Unable to fetch admin customer details.");
-
                 }
-
             }
 
             catch (error) {
-
                 console.log(error);
-
                 showNotification("error", "Server error!", "Please try again later.");
-
             }
-
         }
 
         // =====================
         // [ DOM Content Loaded ]
         // =====================
 
-        window.addEventListener(
-            "DOMContentLoaded",
-            function() {
-
+        window.addEventListener("DOMContentLoaded",function() {
+            
                 if (!checkUserAccess()) {
-
                     return;
-
                 }
 
                 getAllUser();
-
             }
         );
 

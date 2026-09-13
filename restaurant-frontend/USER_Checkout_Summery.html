@@ -634,7 +634,9 @@
                         "Access denied!",
                         "You do not have permission to access this resource"
                     );
-
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    },2000);
                     return;
                 }
 
@@ -948,7 +950,9 @@
                                         </span>
 
                                         <span class="free-delivery">
-                                            ${data.freeDelivery}
+                                            ${data.freeDelivery
+                                            ? "Yap bro" 
+                                            : "Nope bro"}
                                         </span>
 
                                     </div>

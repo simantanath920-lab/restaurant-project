@@ -505,29 +505,19 @@
         // =====================
         // [    Access Check   ]
         // =====================
-
         function checkUserAccess() {
 
             const token = localStorage.getItem("token");
-
             const role = localStorage.getItem("role");
 
             if (!token || role !== "ADMIN") {
-
                 showNotification("error", "Access denied!", "Please login to access this page.");
-
                 setTimeout(() => {
-
                     window.location.href = "Login.html";
-
                 },2000);
-
                 return false;
-
             }
-
             return true;
-
         }
 
 
@@ -535,50 +525,33 @@
         // NOTIFICATION
         // SAME AS ORIGINAL
         // =========================
-
         const notificationModal = document.getElementById("notificationModal");
-
 
         function showNotification(type, title, message) {
 
             const notificationIconContainer = document.getElementById("notificationIconContainer");
-
             const notificationIconElement = document.getElementById("notificationIconElement");
-
             const notificationTitle = document.getElementById("notificationTitle");
-
             const notificationMessage = document.getElementById("notificationMessage");
 
-
             notificationIconContainer.classList = "notification-icon";
-
 
             if (type === "success") {
 
                 notificationIconContainer.classList.add("notification-success");
-
                 notificationIconElement.className = "bi bi-check-circle-fill";
-
             }
-
             else if (type === "error") {
 
                 notificationIconContainer.classList.add("notification-error");
-
                 notificationIconElement.className = "bi bi-x-circle-fill";
-
             }
 
-
             notificationTitle.textContent = title;
-
             notificationMessage.textContent = message;
 
-
             const modal = new bootstrap.Modal(notificationModal);
-
             modal.show();
-
         }
 
 
@@ -587,9 +560,7 @@
         // =========================
 
         const token = localStorage.getItem("token");
-
         const userId = localStorage.getItem("userId");
-
 
         // =========================
         // LOGOUT
@@ -598,39 +569,25 @@
         function LogoutADMIN() {
 
             localStorage.removeItem("token");
-
             localStorage.removeItem("role");
-
             localStorage.removeItem("userId");
 
             showNotification("success", "Logged out!", "You have been successfully loggged out.");
-
             setTimeout(() => {
-
                 window.location.href = "Login.html";
-
             },1000);
-
         }
-
 
         // =========================
         // DOM CONTENT LOADED
         // =========================
-
-        window.addEventListener(
-            "DOMContentLoaded",
-            function() {
+        window.addEventListener("DOMContentLoaded",function() {
 
                 if (!checkUserAccess()) {
-
                     return;
-
                 }
-
             }
         );
-
 
     </script>
 

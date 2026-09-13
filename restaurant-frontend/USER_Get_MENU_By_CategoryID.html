@@ -532,6 +532,9 @@
                                 }
                                 if(response.status === 403){
                                     showNotification("error","Access denied!","You do not have permission to access this resource");
+                                    setTimeout(() => {
+                                        window.location.href = "Login.html";
+                                    },2000);
                                     return;
                                 }
 
@@ -732,6 +735,9 @@
                             }
                             if(response.status === 403){
                                 showNotification("error","Access denied!","You do not have permission to access this resource");
+                                setTimeout(() => {
+                                    window.location.href = "Login.html";
+                                },2000);
                                 return;
                             }
 
@@ -813,6 +819,9 @@
                             }
                             if(ClearCartResponse.status === 403){
                                 showNotification("error","Access denied!","You do not have permission to access this resource");
+                                setTimeout(() => {
+                                    window.location.href = "Login.html";
+                                },2000);
                                 return;
                             }
 
@@ -878,6 +887,9 @@
                             }
                             if(response.status === 403){
                                 showNotification("error","Access denied!","You do not have permission to access this resource");
+                                setTimeout(() => {
+                                    window.location.href = "Login.html";
+                                },2000);
                                 return;
                             }
 
@@ -941,6 +953,9 @@
                             }
                             if(response.status === 403){
                                 showNotification("error","Access denied!","You do not have permission to access this resource");
+                                setTimeout(() => {
+                                    window.location.href = "Login.html";
+                                },2000);
                                 return;
                             }
 
