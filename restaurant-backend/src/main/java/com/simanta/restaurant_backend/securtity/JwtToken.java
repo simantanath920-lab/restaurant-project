@@ -13,7 +13,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class JwtToken {
 
     final String SECRET_KEY = "KoliTheDev04";    
-    final int EXPIRATION_TOKEN_TIME = 86400000;
+    final int EXPIRATION_TOKEN_TIME = 604800000;
 
     public String createToken(String email,String role){
         Map<String,Object> claims = new HashMap<>();
