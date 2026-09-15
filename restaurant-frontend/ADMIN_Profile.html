@@ -643,7 +643,7 @@
             try {
                 const token = localStorage.getItem("token");
 
-                const viewAdminResponse = await fetch(`http://localhost:8080/restaurant/admin/AdminProfile/viewAdminDetails/${userId}`, {
+                const viewAdminResponse = await fetch(`https://restaurant-project-production-38d4.up.railway.app/restaurant/admin/AdminProfile/viewAdminDetails/${userId}`, {
                     method : "GET",
                     headers : {
                         "Authorization":
@@ -850,7 +850,7 @@
                     submitBtnn.disabled = true;
                     textBtnn.innerText = "Updating profile...";
 
-                    const updateAdminResponse = await fetch(`http://localhost:8080/restaurant/admin/AdminProfile/updateAdminProfile/${userId}`, {
+                    const updateAdminResponse = await fetch(`https://restaurant-project-production-38d4.up.railway.app/restaurant/admin/AdminProfile/updateAdminProfile/${userId}`, {
                         method : "PUT",
                         headers : {
                             "Content-Type":
@@ -1075,7 +1075,7 @@
                     submitBtn.disabled = true;
                     textBtn.innerText = "Confirming Password...";
 
-                    const changePasswordResponse = await fetch(`http://localhost:8080/restaurant/admin/AdminProfile/ChangeAdminPassword/${userId}`, {
+                    const changePasswordResponse = await fetch(`https://restaurant-project-production-38d4.up.railway.app/restaurant/admin/AdminProfile/ChangeAdminPassword/${userId}`, {
                         method : "PUT",
                         headers : {
                             "Content-Type":

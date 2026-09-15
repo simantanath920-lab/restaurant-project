@@ -507,7 +507,7 @@
 
             try {
 
-                const response = await fetch(`http://localhost:8080/restaurant/user/api/auth/get-all-Menu-By-Category/${categoryId}`,{
+                const response = await fetch(`https://restaurant-project-production-38d4.up.railway.app/restaurant/user/api/auth/get-all-Menu-By-Category/${categoryId}`,{
 
                         method: "GET",
 
@@ -570,7 +570,7 @@
                                 <div class="menu-card shadow-lg h-100">
 
                                     <!-- Food Image -->
-                                    <img src="http://localhost:8080${menu.imageUrl}" alt="${menu.name}">
+                                    <img src="https://restaurant-project-production-38d4.up.railway.app${menu.imageUrl}" alt="${menu.name}">
 
 
                                     <!-- Overlay -->
@@ -713,7 +713,7 @@
 
             const token = localStorage.getItem("token");
 
-            const response = await fetch(`http://localhost:8080/restaurant/user/api/cart/view/${userId}`,{
+            const response = await fetch(`https://restaurant-project-production-38d4.up.railway.app/restaurant/user/api/cart/view/${userId}`,{
                 
                     headers: {
                         "Authorization": "Bearer " + token
@@ -796,7 +796,7 @@
 
             try {
                 
-                const ClearCartResponse = await fetch(`http://localhost:8080/restaurant/user/api/cart/delete/${userId}/${cartid}`,{
+                const ClearCartResponse = await fetch(`https://restaurant-project-production-38d4.up.railway.app/restaurant/user/api/cart/delete/${userId}/${cartid}`,{
 
                     method : "DELETE",
 
@@ -859,7 +859,7 @@
 
             const token = localStorage.getItem("token");
 
-            const response = await fetch(`http://localhost:8080/restaurant/user/api/cart/update/${userId}`,{
+            const response = await fetch(`https://restaurant-project-production-38d4.up.railway.app/restaurant/user/api/cart/update/${userId}`,{
                 
                     method: "PUT",
 
@@ -925,7 +925,7 @@
 
                 const token = localStorage.getItem("token");
 
-                const response = await fetch(`http://localhost:8080/restaurant/user/api/cart/add/${userId}`,{
+                const response = await fetch(`https://restaurant-project-production-38d4.up.railway.app/restaurant/user/api/cart/add/${userId}`,{
 
                     method:"POST",
 

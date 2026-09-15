@@ -530,7 +530,7 @@
             const token = localStorage.getItem("token");
 
             try {
-                const response = await fetch(`http://localhost:8080/restaurant/admin/orders?page=${Page}&size=${pageSize}`, {
+                const response = await fetch(`https://restaurant-project-production-38d4.up.railway.app/restaurant/admin/orders?page=${Page}&size=${pageSize}`, {
                     method : "GET",
                     headers : {
                         "Authorization":

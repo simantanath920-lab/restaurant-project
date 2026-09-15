@@ -516,7 +516,7 @@
             const token = localStorage.getItem("token");
 
             try {
-                const currentOrderResponse = await fetch(`http://localhost:8080/restaurant/user/homepage/currentOrder/${userId}`, {
+                const currentOrderResponse = await fetch(`https://restaurant-project-production-38d4.up.railway.app/restaurant/user/homepage/currentOrder/${userId}`, {
                     method: "GET",
                     headers: {
                         "Authorization": "Bearer " + token
@@ -728,7 +728,7 @@
             const token = localStorage.getItem("token");
 
             try {
-                const cancelOrderResponse = await fetch(`http://localhost:8080/restaurant/user/api/order/cancel-order/${userId}/${orderid}`, {
+                const cancelOrderResponse = await fetch(`https://restaurant-project-production-38d4.up.railway.app/restaurant/user/api/order/cancel-order/${userId}/${orderid}`, {
                     method: "PATCH",
                     headers: {
                         "Authorization": "Bearer " + token

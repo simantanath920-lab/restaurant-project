@@ -863,7 +863,7 @@
                 submitBtn.disabled = true;
                 textbtn.innerText = "Updating...";
 
-                const response = await fetch(`http://localhost:8080/restaurant/admin/api/update-menu/${menuId}`, {
+                const response = await fetch(`https://restaurant-project-production-38d4.up.railway.app/restaurant/admin/api/update-menu/${menuId}`, {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json",
@@ -991,7 +991,7 @@
 
                 const token = localStorage.getItem("token");
 
-                const response = await fetch(`http://localhost:8080/restaurant/admin/api/delete-menu/${id}`, {
+                const response = await fetch(`https://restaurant-project-production-38d4.up.railway.app/restaurant/admin/api/delete-menu/${id}`, {
                     method: "PATCH",
                     headers: {
                         "Content-Type": "application/json",
@@ -1059,7 +1059,7 @@
 
                 const token = localStorage.getItem("token");
 
-                const response = await fetch("http://localhost:8080/restaurant/admin/api/get-all-menu", {
+                const response = await fetch("https://restaurant-project-production-38d4.up.railway.app/restaurant/admin/api/get-all-menu", {
                     method: "GET",
                     headers: {
                         "Authorization": "Bearer " + token

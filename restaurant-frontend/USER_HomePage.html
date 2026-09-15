@@ -451,7 +451,7 @@
 
             try {
 
-                const response = await fetch("http://localhost:8080/restaurant/user/api/auth/get-all-category",{
+                const response = await fetch("https://restaurant-project-production-38d4.up.railway.app/restaurant/user/api/auth/get-all-category",{
 
                         method: "GET",
                         
@@ -498,7 +498,7 @@
 
                                 <div class="category-card shadow-lg" onclick="openCategory(${category.id})">
 
-                                    <img src="http://localhost:8080${category.imageUrl}" alt="${category.name}">
+                                    <img src="https://restaurant-project-production-38d4.up.railway.app${category.imageUrl}" alt="${category.name}">
 
                                     <div class="category-overlay">
                                         <h5>${category.name}</h5>

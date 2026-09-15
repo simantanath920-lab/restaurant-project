@@ -605,7 +605,7 @@
                 submitBtnn.disabled = true;
                 textbtnn.innerText = "changing password...";
 
-                const changePasswordResponse = await fetch(`http://localhost:8080/restaurant/user/homepage/userChangePassword/${userId}`,{
+                const changePasswordResponse = await fetch(`https://restaurant-project-production-38d4.up.railway.app/restaurant/user/homepage/userChangePassword/${userId}`,{
                     method : "PUT",
                     headers : {
                         "Content-Type":"application/json",
@@ -753,7 +753,7 @@
                 submitBtn.disabled = true;
                 textbtn.innerText = "Updating user";
 
-                const updateUserResponse = await fetch(`http://localhost:8080/restaurant/user/homepage/updateUserProfile/${userId}`,{
+                const updateUserResponse = await fetch(`https://restaurant-project-production-38d4.up.railway.app/restaurant/user/homepage/updateUserProfile/${userId}`,{
                     method : "PUT",
                     headers : {
                         "Content-Type":"application/json",
@@ -850,7 +850,7 @@
             const token = localStorage.getItem("token");
 
             try {
-                const userDetailsResponse = await fetch(`http://localhost:8080/restaurant/user/homepage/userProfile/${userId}`,{
+                const userDetailsResponse = await fetch(`https://restaurant-project-production-38d4.up.railway.app/restaurant/user/homepage/userProfile/${userId}`,{
                     method: "GET",
                     headers: {
                         "Authorization": "Bearer " + token

@@ -767,7 +767,7 @@
                 textBtnn.innerText = "Updating status...";
 
                 const paymentStatusResponse = await fetch(
-                    `http://localhost:8080/restaurant/user/api/order/admin/updatepayment-status/${userId}`,
+                    `https://restaurant-project-production-38d4.up.railway.app/restaurant/user/api/order/admin/updatepayment-status/${userId}`,
                     {
                         method: "PATCH",
                         headers: {
@@ -908,7 +908,7 @@
                 textBtn.innerText = "Updating status...";
 
                 const orderStatusResponse = await fetch(
-                    `http://localhost:8080/restaurant/user/api/order/admin/updateOrder-status/${userId}`,
+                    `https://restaurant-project-production-38d4.up.railway.app/restaurant/user/api/order/admin/updateOrder-status/${userId}`,
                     {
                         method: "PATCH",
                         headers: {
@@ -996,7 +996,7 @@
 
             try {
                 const OrderstatusPaymentstatusResponse = await fetch(
-                    `http://localhost:8080/restaurant/user/api/order/admin/orderstatuspaymentstatus/${userId}?page=${page}&size=${pageSize}`,
+                    `https://restaurant-project-production-38d4.up.railway.app/restaurant/user/api/order/admin/orderstatuspaymentstatus/${userId}?page=${page}&size=${pageSize}`,
                     {
                         method: "GET",
                         headers: {

@@ -107,7 +107,7 @@
 
             try{
 
-                const response = await fetch(`http://localhost:8080/restaurant/api/auth/verify-email?token=${encodeURIComponent(token)}`,{
+                const response = await fetch(`https://restaurant-project-production-38d4.up.railway.app/restaurant/api/auth/verify-email?token=${encodeURIComponent(token)}`,{
 
                     method: "GET"
                 });
@@ -151,7 +151,7 @@
 
                     resendVerificationLink.innerText = "Sending...";
 
-                    const response = await fetch(`http://localhost:8080/restaurant/api/auth/resend-verification-Link?email=${encodeURIComponent(email)}`,{
+                    const response = await fetch(`https://restaurant-project-production-38d4.up.railway.app/restaurant/api/auth/resend-verification-Link?email=${encodeURIComponent(email)}`,{
 
                          method: "POST"
                     });
