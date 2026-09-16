@@ -51,12 +51,13 @@ public class SecurityConfiguration {
 
         http.cors(cors -> cors.configurationSource(request -> {
             var config = new org.springframework.web.cors.CorsConfiguration();
-            config.setAllowedOrigins(java.util.List.of("https://incomparable-beijinho-e46688.netlify.app"));
+            config.setAllowedOrigins(java.util.List.of("https://incomparable-beijinho-e46688.netlify.app","http://localhost:5500","http://127.0.0.1:5500"));
             config.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
             config.setAllowedHeaders(java.util.List.of("*"));
             config.setAllowCredentials(true);
             return config;
         }));
+
         
         http.csrf(csrf -> csrf.disable());
         http.sessionManagement(Session -> Session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
