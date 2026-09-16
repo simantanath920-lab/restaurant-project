@@ -32,7 +32,6 @@ import com.simanta.restaurant_backend.repository.CartRepository;
 import com.simanta.restaurant_backend.repository.OrderRepository;
 import com.simanta.restaurant_backend.repository.PaymentRepository;
 
-import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -64,7 +63,7 @@ public class OrderService_USER {
     }
  
     @Transactional
-    public Order_PostOrder_response_USER_DTO placedOrder(final User user,final Order_PostOrder_request_USER_DTO order_PostOrder_request_USER_DTO) throws MessagingException{
+    public Order_PostOrder_response_USER_DTO placedOrder(final User user,final Order_PostOrder_request_USER_DTO order_PostOrder_request_USER_DTO){
 
         final Cart cart = cartRepository.findByUser(user)
                 .orElseThrow(()-> new OrderService_USER_Exception("Cart not found"));
@@ -195,7 +194,7 @@ public class OrderService_USER {
 
     // Cancel order by id
     @Transactional  
-    public Order_Cancel_response_USER_DTO cancel_order(final Long orderId,final Long userId) throws MessagingException{
+    public Order_Cancel_response_USER_DTO cancel_order(final Long orderId,final Long userId){
 
         final Order order = orderRepository.findById(orderId)
             .orElseThrow(()-> new OrderService_USER_Exception("Order not found"));

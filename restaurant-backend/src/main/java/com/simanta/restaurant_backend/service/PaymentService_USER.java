@@ -16,8 +16,6 @@ import com.simanta.restaurant_backend.model.PaymentMethod;
 import com.simanta.restaurant_backend.model.PaymentStatus;
 import com.simanta.restaurant_backend.repository.OrderRepository;
 import com.simanta.restaurant_backend.repository.PaymentRepository;
-
-import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -86,7 +84,7 @@ public class PaymentService_USER {
     // Verify Payment
     @Transactional
     public Razorpay_VerifyPaymen_response_Service_DTO verify_payment(final String razorpayOrderId,final String razorpayPaymentId,final String razorpaySignature) 
-                    throws RazorpayException, MessagingException{
+                    throws RazorpayException{
 
         final Payment payment = paymentRepository.findByRazorpayOrderId(razorpayOrderId)
             .orElseThrow(()-> new PaymentService_USER_Exception("Payment not found"));

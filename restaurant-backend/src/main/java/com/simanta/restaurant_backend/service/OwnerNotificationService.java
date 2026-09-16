@@ -1,40 +1,31 @@
 package com.simanta.restaurant_backend.service;
 
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.simanta.restaurant_backend.model.Order;
 import com.simanta.restaurant_backend.model.PaymentMethod;
 
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
-
 @Service
 public class OwnerNotificationService {
 
-    private final JavaMailSender javaMailSender;
+    private final ResendEmailService resendEmailService;
 
-    public OwnerNotificationService(JavaMailSender javaMailSender) {
-        this.javaMailSender = javaMailSender;
+    public OwnerNotificationService(ResendEmailService resendEmailService) {
+        this.resendEmailService = resendEmailService;
     }
 
     @Async
-    public void Sending_Message_for_OwnerNotification(final String email,final Order order,final PaymentMethod paymentMethod) throws MessagingException {
-
-        MimeMessage message = javaMailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true);
-
-        helper.setTo(email);
-        helper.setSubject("NH15 Restaurant - New Order Received");
+    public void Sending_Message_for_OwnerNotification(
+            final String email,
+            final Order order,
+            final PaymentMethod paymentMethod) {
 
         String payment = paymentMethod == PaymentMethod.COD
                 ? "Cash on Delivery"
                 : "Online Payment";
 
         String htmlContent = """
-
                 <html>
                 <body>
 
@@ -61,16 +52,17 @@ public class OwnerNotificationService {
 
                 </body>
                 </html>
-
                 """.formatted(
-                    order.getId(),
-                    order.getUser().getName(),
-                    order.getTotalprice(),
-                    payment
+                        order.getId(),
+                        order.getUser().getName(),
+                        order.getTotalprice(),
+                        payment
                 );
 
-        helper.setText(htmlContent, true);
-
-        javaMailSender.send(message);
+        resendEmailService.sendHtmlEmail(
+                email,
+                "NH15 Restaurant - New Order Received",
+                htmlContent
+        );
     }
 }

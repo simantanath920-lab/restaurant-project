@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.mail.MailException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -43,7 +42,6 @@ import com.simanta.restaurant_backend.model.User;
 import com.simanta.restaurant_backend.repository.AuthRepository;
 import com.simanta.restaurant_backend.securtity.JwtToken;
 
-import jakarta.mail.MessagingException;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -70,51 +68,50 @@ public class AuthService {
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthService.class);
 
     // Register
-   @Transactional
-   public Register_Response_DTO register(final Register_request_DTO register_request_DTO){
-        
+    @Transactional
+    public Register_Response_DTO register(final Register_request_DTO register_request_DTO) {
+
         final String normalizeEmail = register_request_DTO.getEmail().trim().toLowerCase();
 
-        if(authRepository.existsByEmailIgnoreCase(normalizeEmail)){
+        if (authRepository.existsByEmailIgnoreCase(normalizeEmail)) {
             throw new EmailAlreadyExistsException("Email already exists.");
         }
- 
+
         final User user = new User();
 
         user.setName(register_request_DTO.getName().trim());
         user.setEmail(normalizeEmail);
         user.setPhonenumber(register_request_DTO.getPhonenumber().trim());
         user.setAddress(register_request_DTO.getAddress().trim());
-        
+
         final String hashPassword = passwordEncoder.encode(register_request_DTO.getPassword());
+
         user.setPassword(hashPassword);
         user.setRole("USER");
         user.setIsActive(true);
         user.setEmailverified(false);
-        
+
         final String verificationToken = UUID.randomUUID().toString();
+
         user.setVerificationToken(verificationToken);
         user.setVerificationTokenExpire(LocalDateTime.now().plusMinutes(30));
 
         try {
-            
+
             final User savedUser = authRepository.save(user);
-            verificationSend_Service.emailVerificationLink(savedUser.getEmail(), verificationToken);
-            return new Register_Response_DTO("Registration successful. Verify your email.", LocalDateTime.now(), 201);
-        } 
-	
-		    // EMAIL SENDING ISSUE
-		    catch (MailException e) {
-		        LOGGER.error("Email sending failed for email: {}",normalizeEmail,e);
-		        throw new EmailSendingFailedException("Unable to send verification email.");
-		    }
-	
-		    // UNKNOWN ERROR
-		    catch (Exception e) {
-	        LOGGER.error("Unexpected error during registration for email: {}",normalizeEmail,e);
-	        throw new RegistrationFailedException("Registration failed. Please try again later.");
-      }   
-   }
+
+            verificationSend_Service.emailVerificationLink(savedUser.getEmail(),verificationToken);
+
+            return new Register_Response_DTO("Registration successful. Verify your email.",LocalDateTime.now(),201);
+
+        } catch (EmailSendingFailedException e) {
+            LOGGER.error("Email sending failed for email: {}",normalizeEmail,e);
+            throw e;
+        } catch (Exception e) {
+            LOGGER.error("Unexpected error during registration for email: {}",normalizeEmail,e);
+            throw new RegistrationFailedException("Registration failed. Please try again later.");
+        }
+    }
 
 
     //Recend Verification Link
@@ -141,8 +138,11 @@ public class AuthService {
 
             verificationSend_Service.emailVerificationLink(user.getEmail(),resendVerificationToken);
             return new ResendVerificationLinkToEmail_Response_DTO("A new verification link has been send to your email.");
-        }
-        catch (MessagingException e) {
+
+        } catch (EmailSendingFailedException e) {
+            throw e;
+
+        } catch (Exception e) {
             throw new EmailSendingFailedException("Unable to send verification email.");
         }
     }
@@ -227,8 +227,8 @@ public class AuthService {
 
                 return new ForgotPassword_response_DTO("OTP has been sent to your email.");
 
-            } catch (MailException e) {
-                throw new EmailSendingFailedException("Unable to send OTP. Please try again later.");
+            } catch (EmailSendingFailedException e) {
+                throw e;
 
             } catch (Exception e) {
                 throw new AuthServiceException("Unable to process forgot password request.");
