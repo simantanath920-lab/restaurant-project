@@ -21,7 +21,7 @@ public class EmailVerification_Send_Service {
     @Transactional  
     public void emailVerificationLink(String email, String verificationToken)throws MessagingException {
  
-        String verifyLink = "http://127.0.0.1:5500/restaurant-frontend/Verify_Email.html?token=" + verificationToken;
+        String verifyLink = "https://incomparable-beijinho-e46688.netlify.app/Verify_Email.html?token=" + verificationToken;
 
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
