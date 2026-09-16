@@ -340,8 +340,16 @@
         ========================= */
 
         @media (max-width: 768px) {
+
             .profile-main {
+                width: 100%;
                 padding: 30px 15px;
+                box-sizing: border-box;
+            }
+
+            .profile-container {
+                width: 100%;
+                max-width: 100%;
             }
 
             .page-title {
@@ -351,7 +359,9 @@
             }
 
             .profile-card {
-                width: 430px;
+                width: 100%;
+                max-width: 600px;
+                box-sizing: border-box;
             }
 
             .profile-body {
@@ -360,16 +370,22 @@
 
             .profile-row {
                 display: block;
+                width: 100%;
+                box-sizing: border-box;
             }
 
             .profile-label {
                 display: block;
                 margin-bottom: 6px;
+                min-width: 0;
             }
 
             .profile-value {
+                display: block;
+                width: 100%;
                 text-align: left;
                 font-size: 12px;
+                overflow-wrap: anywhere;
             }
 
             .profile-actions {
