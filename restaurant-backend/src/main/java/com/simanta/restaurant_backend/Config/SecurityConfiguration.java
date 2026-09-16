@@ -48,7 +48,16 @@ public class SecurityConfiguration {
  
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-        http.cors(cors -> {});
+
+        http.cors(cors -> cors.configurationSource(request -> {
+            var config = new org.springframework.web.cors.CorsConfiguration();
+            config.setAllowedOrigins(java.util.List.of("https://incomparable-beijinho-e46688.netlify.app"));
+            config.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+            config.setAllowedHeaders(java.util.List.of("*"));
+            config.setAllowCredentials(true);
+            return config;
+        }));
+        
         http.csrf(csrf -> csrf.disable());
         http.sessionManagement(Session -> Session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
