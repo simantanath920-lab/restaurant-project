@@ -12,11 +12,17 @@ public class Razorpay_CreatePayment_response_Service_DTO {
 
     private String razorpayOrderId;
 
-    public Razorpay_CreatePayment_response_Service_DTO(Long orderId, double totalamount, PaymentStatus paymentStatus, String razorpayOrderId) {
+    private String key;
+
+    private long amount;
+
+    public Razorpay_CreatePayment_response_Service_DTO(Long orderId, double totalamount, PaymentStatus paymentStatus, String razorpayOrderId,String key,long amount) {
         this.orderId = orderId;
         this.totalamount = totalamount;
         this.paymentStatus = paymentStatus;
         this.razorpayOrderId = razorpayOrderId;
+        this.key = key;
+        this.amount = amount;
     }
 
     public Long getOrderId() {
@@ -49,5 +55,21 @@ public class Razorpay_CreatePayment_response_Service_DTO {
 
     public void setRazorpayOrderId(String razorpayOrderId) {
         this.razorpayOrderId = razorpayOrderId;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public long getAmount() {
+        return amount;
+    }
+
+    public void setAmount(long amount) {
+        this.amount = amount;
     }
 }

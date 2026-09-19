@@ -3,17 +3,22 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-
+ 
 @Component
 public class JwtToken {
 
-    final String SECRET_KEY = "KoliTheDev04";    
-    final int EXPIRATION_TOKEN_TIME = 604800000;
+    @Value("${jwt.secret}")
+    private String SECRET_KEY;
+
+    @Value("${jwt.expiration}")
+    private int EXPIRATION_TOKEN_TIME;
+
 
     public String createToken(String email,String role){
         Map<String,Object> claims = new HashMap<>();

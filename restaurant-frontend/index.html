@@ -41,10 +41,6 @@
         }
         .nav-link:hover{
             color: #000000;
-            border: 1px solid #6e6e6e;
-            transition: all 0.50s ease-in-out;
-            box-shadow:0 5px 43px rgb(17, 39, 15);
-
         }
         .navbar-toggler i{
             color: rgb(255, 255, 255);
@@ -370,5 +366,26 @@
             </div>
         </section>
         
+
+        <script>
+            const token = localStorage.getItem("token");
+
+            if (token) {
+                try {
+                    const payload = JSON.parse(atob(token.split(".")[1]));
+                    const currentTime = Math.floor(Date.now() / 1000);
+
+                    if (payload.exp && payload.exp > currentTime) {
+                        window.location.href = "USER_HomePage.html";
+                    } else {
+                        localStorage.removeItem("token");
+                    }
+
+                } catch (error) {
+                    localStorage.removeItem("token");
+                }
+            }
+        </script>
+
 </body>
 </html>

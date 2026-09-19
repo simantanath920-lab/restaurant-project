@@ -1,4 +1,5 @@
 package com.simanta.restaurant_backend.service;
+
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import com.simanta.restaurant_backend.model.PaymentMethod;
 import com.simanta.restaurant_backend.model.PaymentStatus;
 import com.simanta.restaurant_backend.repository.OrderRepository;
 import com.simanta.restaurant_backend.repository.PaymentRepository;
+
 import jakarta.transaction.Transactional;
 
 @Service
@@ -30,9 +32,13 @@ public class PaymentService_USER {
     @Value("${razorpay.key_secret}")
     private String keySecret;
 
+
     private final PaymentRepository paymentRepository;
+
     private final OrderRepository orderRepository;
+
     private final Message_SendingInEmail_for_Updates_Service message_SendingInEmail_for_Updates_Service;
+
     private final OwnerNotificationService ownerNotificationService;
 
     public PaymentService_USER(PaymentRepository paymentRepository,OrderRepository orderRepository,Message_SendingInEmail_for_Updates_Service message_SendingInEmail_for_Updates_Service,OwnerNotificationService ownerNotificationService) {
@@ -42,71 +48,101 @@ public class PaymentService_USER {
         this.ownerNotificationService = ownerNotificationService;
     }
 
-    // Create Payment
+
+    // =========================
+    // CREATE PAYMENT
+    // =========================
+
     @Transactional
-    public Razorpay_CreatePayment_response_Service_DTO create_payment(final Long userid,final Long orderid) throws RazorpayException{
+    public Razorpay_CreatePayment_response_Service_DTO create_payment(final Long userid,final Long orderid) throws RazorpayException {
+
 
         final Order order = orderRepository.findById(orderid)
-                .orElseThrow(()-> new PaymentService_USER_Exception("Order not found"));
+                .orElseThrow(() -> new PaymentService_USER_Exception("Order not found"));
 
-        if(!order.getUser().getId().equals(userid)){
+
+        if (!order.getUser().getId().equals(userid)) {
             throw new PaymentService_USER_Exception("User not found");
         }
 
-        if(order.getTotalprice() < 1){
+        if (order.getTotalprice() < 1) {
             throw new PaymentService_USER_Exception("Transaction cannot be less than 1");
         }
 
+
+        // Create Razorpay client
         RazorpayClient client = new RazorpayClient(keyId, keySecret);
 
+        // Convert rupees to paise
         long amountInPaisa = Math.round(order.getTotalprice() * 100);
 
-        JSONObject jSONObject = new JSONObject();
-        jSONObject.put("amount",amountInPaisa);
-        jSONObject.put("currency","INR");
-        jSONObject.put("receipt","order_" + order.getId());
+        // Razorpay order data
+        JSONObject razorpayOrderRequest = new JSONObject();
 
-        com.razorpay.Order razorOrder = client.orders.create(jSONObject);
-        
+        razorpayOrderRequest.put("amount",amountInPaisa);
+        razorpayOrderRequest.put("currency","INR");
+        razorpayOrderRequest.put("receipt","order_" + order.getId());
+
+
+        // Create Razorpay order
+        com.razorpay.Order razorOrder = client.orders.create(razorpayOrderRequest);
+
+        String razorpayOrderId = razorOrder.get("id").toString();
+
+
+        // Save payment in database
         Payment payment = new Payment();
+
         payment.setOrder(order);
         payment.setTotalAmount(order.getTotalprice());
         payment.setPaymentMethod(PaymentMethod.ONLINE);
         payment.setPaymentStatus(PaymentStatus.CREATED);
-        payment.setRazorpayOrderId(razorOrder.get("id").toString());
-
+        payment.setRazorpayOrderId(razorpayOrderId);
         paymentRepository.save(payment);
-        
-        return new Razorpay_CreatePayment_response_Service_DTO(order.getId(),order.getTotalprice(),PaymentStatus.CREATED,razorOrder.get("id").toString());
+
+
+        // Send data required by Checkout
+        return new Razorpay_CreatePayment_response_Service_DTO(order.getId(),order.getTotalprice(),PaymentStatus.CREATED,razorpayOrderId,keyId,amountInPaisa);
     }
 
- 
-    // Verify Payment
+
+    // =========================
+    // VERIFY PAYMENT
+    // =========================
+
     @Transactional
-    public Razorpay_VerifyPaymen_response_Service_DTO verify_payment(final String razorpayOrderId,final String razorpayPaymentId,final String razorpaySignature) 
-                    throws RazorpayException{
+    public Razorpay_VerifyPaymen_response_Service_DTO verify_payment(final String razorpayOrderId,final String razorpayPaymentId,final String razorpaySignature)throws RazorpayException {
 
-        final Payment payment = paymentRepository.findByRazorpayOrderId(razorpayOrderId)
-            .orElseThrow(()-> new PaymentService_USER_Exception("Payment not found"));
 
-        String generatedSignature = Utils.getHash(razorpayOrderId + "|" + razorpayPaymentId , keySecret);
+        final Payment payment =paymentRepository.findByRazorpayOrderId(razorpayOrderId)
+            .orElseThrow(() -> new PaymentService_USER_Exception("Payment not found"));
 
-        if(!generatedSignature.equals(razorpaySignature)){
+
+        String generatedSignature = Utils.getHash(razorpayOrderId+ "|"
+                                + razorpayPaymentId,keySecret);
+
+
+        // Signature verification failed
+        if (!generatedSignature.equals(razorpaySignature)) {
+
             payment.setPaymentStatus(PaymentStatus.FAILED);
             paymentRepository.save(payment);
+
             return new Razorpay_VerifyPaymen_response_Service_DTO("Payment failed! Please try again");
         }
 
+
+        // Successful payment
         payment.setRazorpayPaymentId(razorpayPaymentId);
         payment.setRazorpaySignature(razorpaySignature);
-
         payment.setPaymentStatus(PaymentStatus.SUCCESS);
         payment.getOrder().setOrderStatus(OrderStatus.CONFIRMED);
-
         paymentRepository.save(payment);
 
+        // Customer notification
         message_SendingInEmail_for_Updates_Service.Sending_Message_for_Notification(payment.getOrder().getUser().getEmail(),payment.getOrder().getId());
 
+        // Owner notification
         ownerNotificationService.Sending_Message_for_OwnerNotification(ownerEmail,payment.getOrder(),payment.getPaymentMethod());
 
         return new Razorpay_VerifyPaymen_response_Service_DTO("Payment successful! Your order is confirmed");

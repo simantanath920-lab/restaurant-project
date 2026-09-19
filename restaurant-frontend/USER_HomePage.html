@@ -41,9 +41,7 @@
             border-radius: 20px;
         }
         .nav-link:hover{
-            color: rgb(0, 0, 0);
-            border: 1px solid rgb(48, 59, 46);
-            transition: all 0.50s ease-in-out;
+            color: #000000;
         }
         .navbar-toggler i{
             color: #000;
@@ -428,20 +426,54 @@
             // =====================
             function checkUserAccess(){
 
-                const token = localStorage.getItem("token");
-                const role = localStorage.getItem("role");
-    
-                if(!token || role !== "USER"){
+            const token = localStorage.getItem("token");
+            const role = localStorage.getItem("role");
 
-                    showNotification("error","Access denied!","Please login to access this page.");
+            if(!token || role !== "USER"){
+                showNotification("error","Access denied!","Please login to access this page.");
+
+                setTimeout(() => {
+                    window.location.href = "Login.html";
+                }, 2000);
+
+                return false;
+            }
+
+            try {
+                const payload = JSON.parse(atob(token.split(".")[1]));
+                const currentTime = Math.floor(Date.now() / 1000);
+
+                if(!payload.exp || payload.exp <= currentTime){
+
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("role");
+                    localStorage.removeItem("userId");
+
+                    showNotification("error","Session expired!","Please login again.");
+
                     setTimeout(() => {
                         window.location.href = "Login.html";
-                    },2000);
+                    }, 2000);
 
                     return false;
                 }
-                return true;
+
+            } catch(error){
+
+                localStorage.removeItem("token");
+                localStorage.removeItem("role");
+                localStorage.removeItem("userId");
+
+                showNotification("error","Invalid session!","Please login again.");
+
+                setTimeout(() => {
+                    window.location.href = "Login.html";
+                }, 2000);
+
+                return false;
             }
+            return true;
+        }
 
 
 

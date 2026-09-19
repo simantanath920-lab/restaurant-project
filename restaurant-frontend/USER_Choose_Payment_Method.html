@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="format-detection" content="telephone=no">
+
     <title>Payment</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,7 +35,6 @@
             display: flex;
             flex-direction: column;
         }
-
 
         /* =========================
            NOTIFICATION
@@ -64,7 +67,6 @@
             color: rgb(149,171,118);
         }
 
-
         /* =========================
            PAGE TITLE
         ========================= */
@@ -75,7 +77,6 @@
             letter-spacing: 3px;
             color: #272d21;
         }
-
 
         /* =========================
            PAYMENT RECEIPT
@@ -96,7 +97,6 @@
             transform: translateY(-4px);
             box-shadow: 0 12px 25px rgba(39,45,33,0.20);
         }
-
 
         /* =========================
            RECEIPT HEADER
@@ -123,7 +123,6 @@
             color: #62794e;
         }
 
-
         /* =========================
            RECEIPT BODY
         ========================= */
@@ -143,7 +142,6 @@
             border-top: 1px dashed rgba(39,45,33,0.45);
             margin: 18px 0;
         }
-
 
         /* =========================
            PAYMENT OPTIONS
@@ -196,7 +194,6 @@
             margin-top: 3px;
         }
 
-
         /* =========================
            PAYMENT BUTTON
         ========================= */
@@ -219,7 +216,6 @@
             color: white;
         }
 
-
         /* =========================
            RECEIPT BOTTOM
         ========================= */
@@ -231,7 +227,6 @@
             margin-top: 20px;
             letter-spacing: 0.5px;
         }
-
 
         /* =========================
            POPUP
@@ -280,18 +275,17 @@
             color: white;
         }
 
-
         /* =========================
            FOOTER
         ========================= */
 
-        .footer-Section-last{
-            background-color: #272d21; 
+        .footer-Section-last {
+            background-color: #272d21;
             color: #a7bd94;
             font-weight: 500;
         }
 
-        .icons a{
+        .icons a {
             display: inline-flex;
             border: 1px solid #dfe6d8;
             width: 50px;
@@ -301,11 +295,10 @@
             justify-content: center;
         }
 
-        .icons i{
+        .icons i {
             font-size: 22px;
             color: #a7bd94;
         }
-
 
         /* =========================
            MOBILE
@@ -346,8 +339,8 @@
         }
 
     </style>
-</head>
 
+</head>
 
 <body>
 
@@ -389,17 +382,13 @@
 
     </div>
 
-
     <!-- =========================
          MAIN
     ========================= -->
 
     <main class="container py-5">
 
-        <h2 class="text-center payment-page-title" style="letter-spacing: 0.7rem;">
-            PAYMENT
-        </h2>
-
+        <h2 class="text-center payment-page-title" style="letter-spacing: 0.7rem;">PAYMENT</h2>
 
         <!-- =========================
              PAYMENT RECEIPT
@@ -417,7 +406,6 @@
 
             </div>
 
-
             <!-- Receipt Body -->
 
             <div class="payment-receipt-body">
@@ -428,7 +416,6 @@
                 </p>
 
                 <div class="receipt-line"></div>
-
 
                 <!-- =========================
                      CASH ON DELIVERY
@@ -459,7 +446,6 @@
                     <button onclick="CashOnDelivery()" class="btn payment-button">SELECT</button>
 
                 </div>
-
 
                 <!-- =========================
                      ONLINE PAYMENT
@@ -503,7 +489,6 @@
 
     </main>
 
-
     <!-- =========================
          POPUP
     ========================= -->
@@ -525,7 +510,9 @@
                 </div>
 
                 <div class="modal-body">
+
                     <p id="messageInsideModal"></p>
+
                 </div>
 
                 <div class="modal-footer">
@@ -539,7 +526,6 @@
         </div>
 
     </div>
-
 
     <!-- =========================
          FOOTER
@@ -563,7 +549,6 @@
 
                 </div>
 
-
                 <!-- Contact -->
 
                 <div>
@@ -575,7 +560,6 @@
                     <p class="mb-0">Email: nh15restaurantonline@gmail.com</p>
 
                 </div>
-
 
                 <!-- Opening Hours -->
 
@@ -589,28 +573,16 @@
 
                 </div>
 
-
                 <!-- Social -->
 
                 <div class="icons">
 
                     <h6>Follow Us</h6>
 
-                    <a href="#" class="text-dark me-3">
-                        <i class="bi bi-instagram"></i>
-                    </a>
-
-                    <a href="#" class="text-dark me-3">
-                        <i class="bi bi-facebook"></i>
-                    </a>
-
-                    <a href="#" class="text-dark me-3">
-                        <i class="bi bi-linkedin"></i>
-                    </a>
-
-                    <a href="#" class="text-dark me-3">
-                        <i class="bi bi-twitter-x"></i>
-                    </a>
+                    <a href="#" class="text-dark me-3"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="text-dark me-3"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="text-dark me-3"><i class="bi bi-linkedin"></i></a>
+                    <a href="#" class="text-dark me-3"><i class="bi bi-twitter-x"></i></a>
 
                 </div>
 
@@ -618,14 +590,11 @@
 
             <hr>
 
-            <h6 class="fw-light mb-0">
-                &copy; NH15 Restaurant
-            </h6>
+            <h6 class="fw-light mb-0">&copy; NH15 Restaurant</h6>
 
         </div>
 
     </section>
-
 
     <script>
 
@@ -633,12 +602,12 @@
         // [ Access Check ]
         // =====================
 
-        function checkUserAccess(){
+        function checkUserAccess() {
 
             const token = localStorage.getItem("token");
             const role = localStorage.getItem("role");
 
-            if(!token || role !== "USER"){
+            if (!token || role !== "USER") {
 
                 showNotification(
                     "error",
@@ -656,14 +625,13 @@
             return true;
         }
 
-
         // =====================
         // [ Notification ]
         // =====================
 
         const notificationModal = document.getElementById("notificationModal");
 
-        function showNotification(type,title,message){
+        function showNotification(type,title,message) {
 
             const notificationIconContainer = document.getElementById("notificationIconContainer");
             const notificationIconElement = document.getElementById("notificationIconElement");
@@ -672,7 +640,7 @@
 
             notificationIconContainer.classList = "notification-icon";
 
-            if(type === "success"){
+            if (type === "success") {
 
                 notificationIconContainer.classList.add(
                     "notification-success"
@@ -683,7 +651,7 @@
 
             }
 
-            else if(type === "error"){
+            else if (type === "error") {
 
                 notificationIconContainer.classList.add(
                     "notification-error"
@@ -702,12 +670,11 @@
 
         }
 
-
         // =====================
         // [ Popup ]
         // =====================
 
-        function ShowPop(message){
+        function ShowPop(message) {
 
             const messageInsideModal = document.getElementById("messageInsideModal");
 
@@ -721,17 +688,15 @@
 
         }
 
-
         const userId = localStorage.getItem("userId");
 
-
         // =====================
-        // [ Online Payment ]
+        // [ Start Online Payment ]
         // =====================
 
-        async function startOnlinePayment(){
+        async function startOnlinePayment() {
 
-            if(!checkUserAccess()){
+            if (!checkUserAccess()) {
                 return;
             }
 
@@ -745,15 +710,14 @@
                         method : "GET",
 
                         headers : {
-                            "Authorization":"Bearer " + token
+                            "Authorization" : "Bearer " + token
                         }
                     }
                 );
 
-
                 // 401
 
-                if(summeryCheckOutResponse.status === 401){
+                if (summeryCheckOutResponse.status === 401) {
 
                     localStorage.removeItem("token");
 
@@ -770,44 +734,60 @@
                     return;
                 }
 
-
                 // 403
 
-                if(summeryCheckOutResponse.status === 403){
+                if (summeryCheckOutResponse.status === 403) {
 
                     showNotification(
                         "error",
                         "Access denied!",
                         "You do not have permission to access this resource"
                     );
+
                     setTimeout(() => {
                         window.location.href = "Login.html";
                     },2000);
+
                     return;
                 }
 
+                const summeryCheckOutData =
+                    await summeryCheckOutResponse.json();
 
-                const summeryCheckOutData = await summeryCheckOutResponse.json();
-
-
-                if(!summeryCheckOutResponse.ok){
+                if (!summeryCheckOutResponse.ok) {
 
                     showNotification(
                         "error",
                         "Error!",
-                        "Unable to reach Summery_CheckOut"
+                        summeryCheckOutData.message ||
+                        "Unable to reach checkout summary."
                     );
 
                     return;
                 }
 
+                if (
+                    !summeryCheckOutData.address ||
+                    !summeryCheckOutData.address.id
+                ) {
 
-                const addressId = summeryCheckOutData.address.id;
+                    showNotification(
+                        "error",
+                        "Address Required!",
+                        "Please add a delivery address before payment."
+                    );
+
+                    return;
+                }
+
+                const addressId =
+                    summeryCheckOutData.address.id;
 
                 const orderDetails = {
                     addressId : addressId
                 };
 
+                // Create restaurant order
 
                 const orderPlacedResponse = await fetch(
                     `https://restaurant-project-production-38d4.up.railway.app/restaurant/user/api/order/placed-order/${userId}`,
@@ -815,18 +795,17 @@
                         method : "POST",
 
                         headers : {
-                            "Content-Type":"application/json",
-                            "Authorization":"Bearer " + token
+                            "Content-Type" : "application/json",
+                            "Authorization" : "Bearer " + token
                         },
 
                         body : JSON.stringify(orderDetails)
                     }
                 );
 
-
                 // 401
 
-                if(orderPlacedResponse.status === 401){
+                if (orderPlacedResponse.status === 401) {
 
                     localStorage.removeItem("token");
 
@@ -843,49 +822,62 @@
                     return;
                 }
 
-
                 // 403
 
-                if(orderPlacedResponse.status === 403){
+                if (orderPlacedResponse.status === 403) {
 
                     showNotification(
                         "error",
                         "Access denied!",
                         "You do not have permission to access this resource"
                     );
+
                     setTimeout(() => {
                         window.location.href = "Login.html";
                     },2000);
+
                     return;
                 }
 
+                const orderPlacedData =
+                    await orderPlacedResponse.json();
 
-                const orderPlacedData = await orderPlacedResponse.json();
-
-
-                if(orderPlacedResponse.ok){
-
-                    const orderid = orderPlacedData.orderid;
-
-                    await onlinePayment(orderid);
-
-                }
-
-                else{
+                if (!orderPlacedResponse.ok) {
 
                     showNotification(
                         "error",
                         "Error!",
-                        orderPlacedData.message
+                        orderPlacedData.message ||
+                        "Unable to place order."
                     );
 
+                    return;
                 }
+
+                const orderid =
+                    orderPlacedData.orderid;
+
+                if (!orderid) {
+
+                    showNotification(
+                        "error",
+                        "Payment Error!",
+                        "Order ID was not received."
+                    );
+
+                    return;
+                }
+
+                await onlinePayment(orderid);
 
             }
 
-            catch(error){
+            catch (error) {
 
-                console.log(error);
+                console.error(
+                    "Start online payment error:",
+                    error
+                );
 
                 showNotification(
                     "error",
@@ -897,14 +889,13 @@
 
         }
 
-
         // =====================
-        // [ Online Payment ]
+        // [ Create Razorpay Payment ]
         // =====================
 
-        async function onlinePayment(orderid){
+        async function onlinePayment(orderid) {
 
-            if(!checkUserAccess()){
+            if (!checkUserAccess()) {
                 return;
             }
 
@@ -918,15 +909,15 @@
                         method : "POST",
 
                         headers : {
-                            "Authorization":"Bearer " + token
+                            "Authorization" :
+                                "Bearer " + token
                         }
                     }
                 );
 
-
                 // 401
 
-                if(paymentResponse.status === 401){
+                if (paymentResponse.status === 401) {
 
                     localStorage.removeItem("token");
 
@@ -943,47 +934,75 @@
                     return;
                 }
 
-
                 // 403
 
-                if(paymentResponse.status === 403){
+                if (paymentResponse.status === 403) {
 
                     showNotification(
                         "error",
                         "Access denied!",
                         "You do not have permission to access this resource"
                     );
+
                     setTimeout(() => {
                         window.location.href = "Login.html";
                     },2000);
+
                     return;
                 }
 
+                const paymentData =
+                    await paymentResponse.json();
 
-                const paymentData = await paymentResponse.json();
-
-
-                if(paymentResponse.ok){
-
-                    openRazorpay(paymentData);
-
-                }
-
-                else{
+                if (!paymentResponse.ok) {
 
                     showNotification(
                         "error",
-                        "Error!",
-                        paymentData.message
+                        "Payment Error!",
+                        paymentData.message ||
+                        "Unable to create payment."
                     );
 
+                    return;
                 }
+
+                console.log(
+                    "Razorpay payment data:",
+                    paymentData
+                );
+
+                // Validate backend response
+
+                if (
+                    !paymentData.key ||
+                    !paymentData.razorpayOrderId ||
+                    !paymentData.amount
+                ) {
+
+                    console.error(
+                        "Invalid Razorpay data:",
+                        paymentData
+                    );
+
+                    showNotification(
+                        "error",
+                        "Payment Error!",
+                        "Invalid payment information received."
+                    );
+
+                    return;
+                }
+
+                await openRazorpay(paymentData);
 
             }
 
-            catch(error){
+            catch (error) {
 
-                console.log(error);
+                console.error(
+                    "Create payment error:",
+                    error
+                );
 
                 showNotification(
                     "error",
@@ -995,44 +1014,137 @@
 
         }
 
-
         // =====================
-        // [ Razorpay ]
+        // [ Razorpay Checkout ]
         // =====================
 
-        async function openRazorpay(paymentData){
+        async function openRazorpay(paymentData) {
 
-            const sendingDataToRazorpay = {
+            console.log(
+                "Razorpay Key:",
+                paymentData.key
+            );
+
+            console.log(
+                "Razorpay Order ID:",
+                paymentData.razorpayOrderId
+            );
+
+            console.log(
+                "Razorpay Amount:",
+                paymentData.amount
+            );
+
+            // Basic validation
+
+            if (
+                !paymentData.key ||
+                !paymentData.razorpayOrderId ||
+                !paymentData.amount
+            ) {
+
+                showNotification(
+                    "error",
+                    "Payment Error!",
+                    "Invalid payment information."
+                );
+
+                return;
+            }
+
+            // Make sure Razorpay Checkout library exists
+
+            if (typeof Razorpay === "undefined") {
+
+                showNotification(
+                    "error",
+                    "Payment Error!",
+                    "Razorpay Checkout could not be loaded."
+                );
+
+                return;
+            }
+
+            const options = {
 
                 key : paymentData.key,
 
                 amount : paymentData.amount,
 
+                currency : "INR",
+
+                name : "NH15 Restaurant",
+
+                description : "Restaurant Order",
+
                 order_id : paymentData.razorpayOrderId,
 
-                "name" : "NH15 Restaurant",
+                handler : async function(response) {
 
-                "currency": "INR",
-
-                handler : async function(response){
+                    console.log(
+                        "Razorpay successful response:",
+                        response
+                    );
 
                     await verifyPayment(
-                        paymentData.razorpayOrderId,
+                        response.razorpay_order_id,
                         response.razorpay_payment_id,
                         response.razorpay_signature
                     );
 
+                },
+
+                modal : {
+
+                    ondismiss : function() {
+
+                        console.log(
+                            "Razorpay Checkout closed by user."
+                        );
+
+                    }
+
+                },
+
+                theme : {
+                    color : "#62794e"
                 }
 
             };
 
+            const razorpay =
+                new Razorpay(options);
 
-            const razorpay = new Razorpay(sendingDataToRazorpay);
+            // Payment failure event
+
+            razorpay.on(
+                "payment.failed",
+                function(response) {
+
+                    console.error(
+                        "Razorpay payment failed:",
+                        response
+                    );
+
+                    const errorDescription =
+                        response &&
+                        response.error &&
+                        response.error.description
+                            ? response.error.description
+                            : "Please try another payment method.";
+
+                    showNotification(
+                        "error",
+                        "Payment Failed!",
+                        errorDescription
+                    );
+
+                }
+            );
 
             razorpay.open();
 
         }
-
 
         // =====================
         // [ Verify Payment ]
@@ -1042,45 +1154,61 @@
             razorpayOrderId,
             razorpayPaymentId,
             razorpaySignature
-        ){
+        ) {
 
-            if(!checkUserAccess()){
+            if (!checkUserAccess()) {
                 return;
             }
 
-            const token = localStorage.getItem("token");
+            const token =
+                localStorage.getItem("token");
 
             try {
 
                 const verifyDetails = {
 
-                    razorpayOrderId : razorpayOrderId,
+                    razorpayOrderId :
+                        razorpayOrderId,
 
-                    razorpayPaymentId : razorpayPaymentId,
+                    razorpayPaymentId :
+                        razorpayPaymentId,
 
-                    razorpaySignature : razorpaySignature
+                    razorpaySignature :
+                        razorpaySignature
 
                 };
 
-
-                const verifyPaymentResponse = await fetch(
-                    `https://restaurant-project-production-38d4.up.railway.app/restaurant/user/api/payment/verify-payment/${userId}`,
-                    {
-                        method : "POST",
-
-                        headers : {
-                            "Content-Type":"application/json",
-                            "Authorization":"Bearer " + token
-                        },
-
-                        body : JSON.stringify(verifyDetails)
-                    }
+                console.log(
+                    "Verifying Razorpay payment:",
+                    verifyDetails
                 );
 
+                const verifyPaymentResponse =
+                    await fetch(
+                        `https://restaurant-project-production-38d4.up.railway.app/restaurant/user/api/payment/verify-payment/${userId}`,
+                        {
+                            method : "POST",
+
+                            headers : {
+
+                                "Content-Type" :
+                                    "application/json",
+
+                                "Authorization" :
+                                    "Bearer " + token
+
+                            },
+
+                            body :
+                                JSON.stringify(
+                                    verifyDetails
+                                )
+                        }
+                    );
 
                 // 401
 
-                if(verifyPaymentResponse.status === 401){
+                if (verifyPaymentResponse.status === 401) {
 
                     localStorage.removeItem("token");
 
@@ -1097,27 +1225,27 @@
                     return;
                 }
 
-
                 // 403
 
-                if(verifyPaymentResponse.status === 403){
+                if (verifyPaymentResponse.status === 403) {
 
                     showNotification(
                         "error",
                         "Access denied!",
-                        "You do not have permission to access this resource"
+                        "You do not have permission to access this resource."
                     );
+
                     setTimeout(() => {
                         window.location.href = "Login.html";
                     },2000);
+
                     return;
                 }
 
+                const verifyPaymentData =
+                    await verifyPaymentResponse.json();
 
-                const verifyPaymentData = await verifyPaymentResponse.json();
-
-
-                if(verifyPaymentResponse.ok){
+                if (verifyPaymentResponse.ok) {
 
                     showNotification(
                         "success",
@@ -1126,26 +1254,33 @@
                     );
 
                     setTimeout(() => {
-                        window.location.href = "USER_HomePage.html";
+
+                        window.location.href =
+                            "USER_HomePage.html";
+
                     },1000);
 
                 }
 
-                else{
+                else {
 
                     showNotification(
                         "error",
-                        "Error!",
-                        verifyPaymentData.message
+                        "Payment Error!",
+                        verifyPaymentData.message ||
+                        "Payment verification failed."
                     );
 
                 }
 
             }
 
-            catch(error){
+            catch (error) {
 
-                console.log(error);
+                console.error(
+                    "Verify payment error:",
+                    error
+                );
 
                 showNotification(
                     "error",
@@ -1157,14 +1292,13 @@
 
         }
 
-
         // =====================
         // [ Cash On Delivery ]
         // =====================
 
-        async function CashOnDelivery(){
+        async function CashOnDelivery() {
 
-            if(!checkUserAccess()){
+            if (!checkUserAccess()) {
                 return;
             }
 
@@ -1183,10 +1317,9 @@
                     }
                 );
 
-
                 // 401
 
-                if(response.status === 401){
+                if (response.status === 401) {
 
                     localStorage.removeItem("token");
 
@@ -1203,27 +1336,26 @@
                     return;
                 }
 
-
                 // 403
 
-                if(response.status === 403){
+                if (response.status === 403) {
 
                     showNotification(
                         "error",
                         "Access denied!",
                         "You do not have permission to access this resource"
                     );
+
                     setTimeout(() => {
                         window.location.href = "Login.html";
                     },2000);
+
                     return;
                 }
 
-
                 const data = await response.json();
 
-
-                if(!response.ok){
+                if (!response.ok) {
 
                     showNotification(
                         "error",
@@ -1234,9 +1366,7 @@
                     return;
                 }
 
-
                 const addressId = data.address.id;
-
 
                 const placedOrderDetails = {
 
@@ -1245,7 +1375,6 @@
                     paymentMethod : "COD"
 
                 };
-
 
                 const placedOrderResponse = await fetch(
                     `https://restaurant-project-production-38d4.up.railway.app/restaurant/user/api/order/placed-order/${userId}`,
@@ -1261,10 +1390,9 @@
                     }
                 );
 
-
                 // 401
 
-                if(placedOrderResponse.status === 401){
+                if (placedOrderResponse.status === 401) {
 
                     localStorage.removeItem("token");
 
@@ -1281,27 +1409,27 @@
                     return;
                 }
 
-
                 // 403
 
-                if(placedOrderResponse.status === 403){
+                if (placedOrderResponse.status === 403) {
 
                     showNotification(
                         "error",
                         "Access denied!",
                         "You do not have permission to access this resource"
                     );
+
                     setTimeout(() => {
                         window.location.href = "Login.html";
                     },2000);
+
                     return;
                 }
 
+                const placedOrderData =
+                    await placedOrderResponse.json();
 
-                const placedOrderData = await placedOrderResponse.json();
-
-
-                if(placedOrderResponse.ok){
+                if (placedOrderResponse.ok) {
 
                     showNotification(
                         "success",
@@ -1315,7 +1443,7 @@
 
                 }
 
-                else{
+                else {
 
                     showNotification(
                         "error",
@@ -1327,7 +1455,7 @@
 
             }
 
-            catch(error){
+            catch (error) {
 
                 console.log(error);
 
@@ -1341,14 +1469,13 @@
 
         }
 
-
         // =====================
         // [ DOM CONTENT LOADED ]
         // =====================
 
-        window.addEventListener("DOMContentLoaded", function(){
+        window.addEventListener("DOMContentLoaded", function() {
 
-            if(!checkUserAccess()){
+            if (!checkUserAccess()) {
                 return;
             }
 
@@ -1357,4 +1484,5 @@
     </script>
 
 </body>
+
 </html>
