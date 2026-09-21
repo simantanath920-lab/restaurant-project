@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +14,6 @@ import com.simanta.restaurant_backend.service.MenuService_USER;
 
 @RestController 
 @RequestMapping("/restaurant/user/api/auth")
-@CrossOrigin(origins = "http://127.0.0.1:5500")
 public class MenuController_USER {
 
     private final MenuService_USER menuService_USER;

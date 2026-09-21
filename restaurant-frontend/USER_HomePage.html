@@ -568,6 +568,7 @@
             localStorage.removeItem("token");
             localStorage.removeItem("role");
             localStorage.removeItem("userId");
+            localStorage.removeItem("lastPage");
             showNotification("success","Logged out!","You have been successfully loggged out.");
 
             setTimeout(() => {
@@ -576,14 +577,20 @@
         }
 
 
-        window.addEventListener("DOMContentLoaded", () => {
+       window.addEventListener("DOMContentLoaded", () => {
 
-            if(!checkUserAccess()){
-                return;
-            }
+        if(!checkUserAccess()){
+            return;
+        }
 
-            loadCategories();
-        });
+        // Remember the last protected page
+        const currentPage = window.location.pathname.split("/").pop();
+        if(currentPage){
+            localStorage.setItem("lastPage", currentPage);
+        }
+
+        loadCategories();
+    });
        
     </script>
 </body>

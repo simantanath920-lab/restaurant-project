@@ -216,7 +216,7 @@
         /* =========================
            Add Address Cart
         ========================= */
-
+ 
         .Input-One {
             background: antiquewhite;
             transition: all 1.35s ease-in-out;
@@ -586,20 +586,131 @@
         function checkUserAccess() {
 
             const token = localStorage.getItem("token");
-            const role = localStorage.getItem("role");
 
-            if (!token || role !== "USER") {
+            if (!token) {
 
-                showNotification("error","Access denied!","Please login to access this page.");
+                showNotification(
+                    "error",
+                    "Access denied!",
+                    "Please login to access this page."
+                );
 
                 setTimeout(() => {
                     window.location.href = "Login.html";
-                },2000);
+                }, 2000);
 
                 return false;
             }
 
-            return true;
+            try {
+
+                const payload = JSON.parse(atob(token.split(".")[1]));
+                const currentTime = Math.floor(Date.now() / 1000);
+
+                // =========================
+                // Token Expiry Check
+                // =========================
+
+                if (!payload.exp || payload.exp <= currentTime) {
+
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("role");
+                    localStorage.removeItem("userId");
+                    localStorage.removeItem("lastPage");
+                    localStorage.removeItem("lastPageRole");
+
+                    showNotification(
+                        "error",
+                        "Session expired!",
+                        "Please login again."
+                    );
+
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    }, 2000);
+
+                    return false;
+                }
+
+
+                // =========================
+                // Role Check
+                // =========================
+
+                const role =
+                    payload.role ||
+                    payload.roles ||
+                    payload.authorities ||
+                    localStorage.getItem("role");
+
+                let isUser = false;
+
+                if (typeof role === "string") {
+
+                    isUser =
+                        role === "USER" ||
+                        role === "ROLE_USER";
+
+                } else if (Array.isArray(role)) {
+
+                    isUser =
+                        role.includes("USER") ||
+                        role.includes("ROLE_USER");
+                }
+
+
+                if (isUser) {
+
+                    localStorage.setItem("role", "USER");
+
+                    return true;
+                }
+
+
+                // =========================
+                // Invalid Role
+                // =========================
+
+                localStorage.removeItem("token");
+                localStorage.removeItem("role");
+                localStorage.removeItem("userId");
+                localStorage.removeItem("lastPage");
+                localStorage.removeItem("lastPageRole");
+
+                showNotification(
+                    "error",
+                    "Access denied!",
+                    "You do not have permission to access this page."
+                );
+
+                setTimeout(() => {
+                    window.location.href = "Login.html";
+                }, 2000);
+
+                return false;
+
+            } catch (error) {
+
+                console.error("Invalid token:", error);
+
+                localStorage.removeItem("token");
+                localStorage.removeItem("role");
+                localStorage.removeItem("userId");
+                localStorage.removeItem("lastPage");
+                localStorage.removeItem("lastPageRole");
+
+                showNotification(
+                    "error",
+                    "Invalid session!",
+                    "Please login again."
+                );
+
+                setTimeout(() => {
+                    window.location.href = "Login.html";
+                }, 2000);
+
+                return false;
+            }
         }
 
 
@@ -1614,13 +1725,29 @@
         });
 
 
-        window.addEventListener("DOMContentLoaded",function() {
+
+
+
+        
+
+        window.addEventListener("DOMContentLoaded", function() {
+
+            if (!checkUserAccess()) {
+                return;
+            }
+ 
+            viewAddress();
+        });
+
+        window.addEventListener("pageshow", function() {
 
             if (!checkUserAccess()) {
                 return;
             }
 
-            viewAddress();
+            localStorage.setItem("lastPage",window.location.pathname.split("/").pop());
+
+            localStorage.setItem("lastPageRole", "USER");
         });
 
     </script>

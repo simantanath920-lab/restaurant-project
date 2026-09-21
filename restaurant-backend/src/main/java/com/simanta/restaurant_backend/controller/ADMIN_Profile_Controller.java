@@ -2,7 +2,6 @@ package com.simanta.restaurant_backend.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +12,6 @@ import com.simanta.restaurant_backend.service.ADMIN_Profile_Service;
 
 @RestController
 @RequestMapping("/restaurant/admin/AdminProfile")
-@CrossOrigin(origins = "http://127.0.0.1:5500")
 public class ADMIN_Profile_Controller {
 
     private final ADMIN_Profile_Service admin_Profile_Service;

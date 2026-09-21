@@ -368,24 +368,110 @@
         
 
         <script>
+
             const token = localStorage.getItem("token");
+            const lastPage = localStorage.getItem("lastPage");
+            const lastPageRole = localStorage.getItem("lastPageRole");
 
             if (token) {
+
                 try {
                     const payload = JSON.parse(atob(token.split(".")[1]));
                     const currentTime = Math.floor(Date.now() / 1000);
 
+                    // =========================
+                    // TOKEN IS VALID
+                    // =========================
+
                     if (payload.exp && payload.exp > currentTime) {
-                        window.location.href = "USER_HomePage.html";
-                    } else {
-                        localStorage.removeItem("token");
+
+                        const role = payload.role || payload.roles || payload.authorities || localStorage.getItem("role");
+
+                        // =========================
+                        // GET ROLE
+                        // =========================
+
+                        let userRole = null;
+
+                        if (typeof role === "string") {
+
+                            if (role === "ADMIN" || role === "ROLE_ADMIN") {
+                                userRole = "ADMIN";
+                            } 
+                            else if (role === "USER" || role === "ROLE_USER") {
+                                userRole = "USER";
+                            } 
+
+                        } else if (Array.isArray(role)) {
+
+                            if (role.includes("ADMIN") || role.includes("ROLE_ADMIN")) {
+                                userRole = "ADMIN";
+                            } 
+                            else if (role.includes("USER") || role.includes("ROLE_USER")) {
+                                userRole = "USER";
+                            }
+                        }
+
+
+                        // =========================
+                        // ADMIN
+                        // =========================
+                        if (userRole === "ADMIN") {
+
+                            localStorage.setItem("role", "ADMIN");
+
+                            if (lastPage && lastPageRole === "ADMIN") {
+                                window.location.href = lastPage;
+                            } 
+                            else {
+                                window.location.href = "ADMIN_HomePage.html";
+                            }
+                        }
+
+
+                        // =========================
+                        // USER
+                        // =========================
+
+                        else if (userRole === "USER") {
+
+                            localStorage.setItem("role", "USER");
+
+                            if (lastPage && lastPageRole === "USER") {
+                                window.location.href = lastPage;
+                            } 
+                            else {
+                                window.location.href = "USER_HomePage.html";
+                            }
+                        }
                     }
 
-                } catch (error) {
+
+                    // =========================
+                    // TOKEN EXPIRED
+                    // =========================
+                    else {
+                        localStorage.removeItem("token");
+                        localStorage.removeItem("role");
+                        localStorage.removeItem("userId");
+                        localStorage.removeItem("lastPage");
+                        localStorage.removeItem("lastPageRole");
+                    }
+                }
+
+                // =========================
+                // INVALID TOKEN
+                // =========================
+
+                catch (error) {
+                    console.error("Invalid token:", error);
                     localStorage.removeItem("token");
+                    localStorage.removeItem("role");
+                    localStorage.removeItem("userId");
+                    localStorage.removeItem("lastPage");
+                    localStorage.removeItem("lastPageRole");
                 }
             }
         </script>
-
 </body>
 </html>

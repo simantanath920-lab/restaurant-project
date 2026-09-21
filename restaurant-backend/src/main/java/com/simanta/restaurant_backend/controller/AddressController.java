@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,7 +29,6 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/restaurant/user/api/address")
-@CrossOrigin(origins = "http://127.0.0.1:5500")
 public class AddressController {
 
     private final AddressService addressService;

@@ -503,24 +503,99 @@
         function checkUserAccess() {
 
             const token = localStorage.getItem("token");
-            const role = localStorage.getItem("role");
 
-            if (!token || role !== "USER") {
-
-                showNotification(
-                    "error",
-                    "Access denied!",
-                    "Please login to access this page."
-                );
+            if (!token) {
+                showNotification("error","Access denied!","Please login to access this page.");
 
                 setTimeout(() => {
                     window.location.href = "Login.html";
-                },2000);
+                }, 2000);
 
                 return false;
             }
 
-            return true;
+            try {
+                const payload = JSON.parse(atob(token.split(".")[1]));
+                const currentTime = Math.floor(Date.now() / 1000);
+
+                // =====================
+                // [ Token Expiration ]
+                // =====================
+
+                if (!payload.exp || payload.exp <= currentTime) {
+
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("role");
+                    localStorage.removeItem("userId");
+                    localStorage.removeItem("lastPage");
+                    localStorage.removeItem("lastPageRole");
+
+                    showNotification("error","Session expired!","Please login again.");
+
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    }, 2000);
+
+                    return false;
+                }
+
+                // =====================
+                // [ Get Role ]
+                // =====================
+
+                const role = payload.role || payload.roles || payload.authorities || localStorage.getItem("role");
+
+                let isUser = false;
+
+                if (typeof role === "string") {
+                    isUser = role === "USER" || role === "ROLE_USER";
+                }
+
+                else if (Array.isArray(role)) {
+                    isUser = role.includes("USER") || role.includes("ROLE_USER");
+                }
+
+                // =====================
+                // [ USER Access ]
+                // =====================
+
+                if (isUser) {
+                    localStorage.setItem("role", "USER");
+                    return true;
+                }
+
+                // =====================
+                // [ Wrong Role ]
+                // =====================
+
+                showNotification("error","Access denied!","You do not have permission to access this page.");
+
+                setTimeout(() => {
+                    window.location.href = "Login.html";
+                }, 2000);
+
+                return false;
+
+            }
+
+            catch (error) {
+
+                console.error("Invalid token:", error);
+
+                localStorage.removeItem("token");
+                localStorage.removeItem("role");
+                localStorage.removeItem("userId");
+                localStorage.removeItem("lastPage");
+                localStorage.removeItem("lastPageRole");
+
+                showNotification("error","Invalid session!","Please login again.");
+
+                setTimeout(() => {
+                    window.location.href = "Login.html";
+                }, 2000);
+
+                return false;
+            }
         }
 
 
@@ -1012,14 +1087,24 @@
 
         document.addEventListener("DOMContentLoaded", function() {
 
-            if(!checkUserAccess()) {
+            if (!checkUserAccess()) {
                 return;
             }
+
+            localStorage.setItem("lastPage","USER_Checkout_Summery.html");
+            localStorage.setItem("lastPageRole","USER");
 
             View_Checkout_Summery();
 
         });
 
+        window.addEventListener("pageshow", function() {
+
+            if (!checkUserAccess()) {
+                return;
+            }
+
+        });
     </script>
 
 </body>

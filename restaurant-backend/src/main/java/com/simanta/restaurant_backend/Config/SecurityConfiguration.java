@@ -63,6 +63,10 @@ public class SecurityConfiguration {
         http.sessionManagement(Session -> Session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         http.authorizeHttpRequests(auth -> auth
+
+
+        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
         // <-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=->
         //                [------------------]
         // Authentication [   PABLIC AUTH    ]

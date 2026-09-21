@@ -2,7 +2,6 @@ package com.simanta.restaurant_backend.controller;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +14,6 @@ import com.simanta.restaurant_backend.service.USER_OrderPage_Service;
  
 @RestController
 @RequestMapping("/restaurant/user/homepage")
-@CrossOrigin(origins = "http://127.0.0.1:5500")
 public class USER_OrderPage_Controller {
  
     private final USER_OrderPage_Service orderPage_Service;

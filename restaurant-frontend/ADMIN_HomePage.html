@@ -500,27 +500,6 @@
 
 
     <script>
-
-
-        // =====================
-        // [    Access Check   ]
-        // =====================
-        function checkUserAccess() {
-
-            const token = localStorage.getItem("token");
-            const role = localStorage.getItem("role");
-
-            if (!token || role !== "ADMIN") {
-                showNotification("error", "Access denied!", "Please login to access this page.");
-                setTimeout(() => {
-                    window.location.href = "Login.html";
-                },2000);
-                return false;
-            }
-            return true;
-        }
-
-
         // =========================
         // NOTIFICATION
         // SAME AS ORIGINAL
@@ -555,12 +534,84 @@
         }
 
 
+        // =====================
+        // [    Access Check   ]
+        // =====================
+
+        function checkUserAccess() {
+
+            const token = localStorage.getItem("token");
+            const role = localStorage.getItem("role");
+
+            if (!token || role !== "ADMIN") {
+
+                showNotification(
+                    "error",
+                    "Access denied!",
+                    "Please login to access this page."
+                );
+
+                setTimeout(() => {
+                    window.location.href = "Login.html";
+                }, 2000);
+
+                return false;
+            }
+
+            try {
+
+                const payload = JSON.parse(atob(token.split(".")[1]));
+                const currentTime = Math.floor(Date.now() / 1000);
+
+                if (!payload.exp || payload.exp <= currentTime) {
+
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("role");
+                    localStorage.removeItem("userId");
+
+                    showNotification(
+                        "error",
+                        "Session expired!",
+                        "Please login again."
+                    );
+
+                    setTimeout(() => {
+                        window.location.href = "Login.html";
+                    }, 2000);
+
+                    return false;
+                }
+
+            } catch (error) {
+
+                localStorage.removeItem("token");
+                localStorage.removeItem("role");
+                localStorage.removeItem("userId");
+
+                showNotification(
+                    "error",
+                    "Invalid session!",
+                    "Please login again."
+                );
+
+                setTimeout(() => {
+                    window.location.href = "Login.html";
+                }, 2000);
+
+                return false;
+            }
+
+            return true;
+        }
+
+
         // =========================
         // TOKEN / USER ID
         // =========================
 
         const token = localStorage.getItem("token");
         const userId = localStorage.getItem("userId");
+
 
         // =========================
         // LOGOUT
@@ -572,22 +623,29 @@
             localStorage.removeItem("role");
             localStorage.removeItem("userId");
 
-            showNotification("success", "Logged out!", "You have been successfully loggged out.");
+            showNotification(
+                "success",
+                "Logged out!",
+                "You have been successfully logged out."
+            );
+
             setTimeout(() => {
                 window.location.href = "Login.html";
-            },1000);
+            }, 1000);
         }
+
 
         // =========================
         // DOM CONTENT LOADED
         // =========================
-        window.addEventListener("DOMContentLoaded",function() {
 
-                if (!checkUserAccess()) {
-                    return;
-                }
+        window.addEventListener("DOMContentLoaded", function () {
+
+            if (!checkUserAccess()) {
+                return;
             }
-        );
+
+        });
 
     </script>
 

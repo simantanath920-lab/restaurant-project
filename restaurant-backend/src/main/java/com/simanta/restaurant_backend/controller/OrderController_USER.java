@@ -3,7 +3,6 @@ package com.simanta.restaurant_backend.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +26,6 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/restaurant/user/api/order")
-@CrossOrigin(origins = "http://127.0.0.1:5500")
 public class OrderController_USER {
 
     private final OrderService_USER orderService;

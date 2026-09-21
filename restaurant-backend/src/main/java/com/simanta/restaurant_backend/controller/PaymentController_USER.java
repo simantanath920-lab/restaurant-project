@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +25,6 @@ import jakarta.mail.MessagingException;
 
 @RestController
 @RequestMapping("/restaurant/user/api/payment")
-@CrossOrigin(origins = "http://127.0.0.1:5500")
 public class PaymentController_USER {
 
     @Value("${razorpay.key_id}")
