@@ -7,6 +7,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -44,12 +45,15 @@ public class Order {
 
     private double totalprice;
 
+    @Column (nullable = false)
     private LocalDateTime createdAt;
 
 
     @PrePersist
     protected void onCreate() {
-        createdAt = LocalDateTime.now();
+        if(createdAt == null){
+            createdAt = LocalDateTime.now();
+        }
     }
 
 
