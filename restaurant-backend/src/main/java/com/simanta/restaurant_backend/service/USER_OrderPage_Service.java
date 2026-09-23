@@ -37,60 +37,75 @@ public class USER_OrderPage_Service {
     }
 
     @Transactional(readOnly = true)
-    public PageResponse<USER_OrderPage_orderTable_response_DTO> userOrderMainPageAllOrder(final String email,Pageable pageable){
+public PageResponse<USER_OrderPage_orderTable_response_DTO> userOrderMainPageAllOrder(
+        final String email,
+        Pageable pageable) {
 
-        final User user =  authRepository.findByEmail(email)
-            .orElseThrow(()-> new USER_OrderPage_Service_Exception("User not found"));
+    final User user = authRepository.findByEmail(email)
+            .orElseThrow(() ->
+                    new USER_OrderPage_Service_Exception("User not found"));
 
-        Page<Order> orders = orderRepository.findByUserIdOrderByCreatedAtDesc(user.getId(),pageable);
+    Page<Order> orders =
+            orderRepository.findByUserIdOrderByIdDesc(
+                    user.getId(),
+                    pageable
+            );
 
-        Page<USER_OrderPage_orderTable_response_DTO> dtoResponse = orders.map(order ->{
+    Page<USER_OrderPage_orderTable_response_DTO> dtoResponse =
+            orders.map(order -> {
 
-            Payment payment = paymentRepository.findByOrderId(order.getId())
-                .orElse(null);
+                Payment payment =
+                        paymentRepository.findByOrderId(order.getId())
+                                .orElse(null);
 
+                List<OrderItem> orderitems =
+                        orderItemRepository.findByOrderId(order.getId());
 
+                List<USER_OrderPage_orderitemTable_response_DTO>
+                        orderitemTable_response = new ArrayList<>();
 
+                for (OrderItem orderitem : orderitems) {
 
+                    USER_OrderPage_orderitemTable_response_DTO dto =
+                            new USER_OrderPage_orderitemTable_response_DTO(
+                                    orderitem.getMenu().getName(),
+                                    orderitem.getQuantity(),
+                                    orderitem.getPrice()
+                                            * orderitem.getQuantity()
+                            );
 
-            List<OrderItem> orderitems = orderItemRepository.findByOrderId(order.getId());
+                    orderitemTable_response.add(dto);
+                }
 
-            List<USER_OrderPage_orderitemTable_response_DTO> orderitemTable_response = new ArrayList<>();
+                return new USER_OrderPage_orderTable_response_DTO(
+                        order.getId(),
+                        order.getCreatedAt(),
+                        order.getOrderStatus(),
+                        orderitemTable_response,
 
-            for(OrderItem orderitem : orderitems){
+                        payment != null
+                                ? payment.getPaymentStatus()
+                                : null,
 
-                USER_OrderPage_orderitemTable_response_DTO dto = new USER_OrderPage_orderitemTable_response_DTO(orderitem.getMenu().getName(), orderitem.getQuantity(), orderitem.getPrice() * orderitem.getQuantity());
+                        payment != null
+                                ? payment.getPaymentMethod()
+                                : null,
 
-                orderitemTable_response.add(dto);
-            }
-
-
-
-
-            
-
-            return new USER_OrderPage_orderTable_response_DTO(order.getId(), 
-                order.getCreatedAt(), 
-                order.getOrderStatus(), 
-
-                orderitemTable_response,
-
-                 payment != null
-                    ? payment.getPaymentStatus()
-                    : null, 
-
-                 payment != null
-                    ? payment.getPaymentMethod()
-                    : null,
-
-                  order.getSelectdefaultaddress().getCity(), 
-                  order.getSelectdefaultaddress().getArea(), 
-                  order.getSelectdefaultaddress().getStreet(), 
-                  order.getSelectdefaultaddress().getPhoneNumber());
+                        order.getSelectdefaultaddress().getCity(),
+                        order.getSelectdefaultaddress().getArea(),
+                        order.getSelectdefaultaddress().getStreet(),
+                        order.getSelectdefaultaddress().getPhoneNumber()
+                );
             });
 
-        return new PageResponse<>(dtoResponse.getContent(), dtoResponse.getNumber(), dtoResponse.getTotalPages(), dtoResponse.getTotalElements(), dtoResponse.getSize());
-    }
+    return new PageResponse<>(
+            dtoResponse.getContent(),
+            dtoResponse.getNumber(),
+            dtoResponse.getTotalPages(),
+            dtoResponse.getTotalElements(),
+            dtoResponse.getSize()
+    );
+}
 
 
 
@@ -98,7 +113,7 @@ public class USER_OrderPage_Service {
     @Transactional(readOnly = true)
     public USER_OrderPage_CurrentOrder_response_DTO userOrderMainPageCurrentOrder(final Long userId){
 
-        final Order currentOrder = orderRepository.findFirstByUserIdAndOrderStatusNotOrderByIdDesc(userId,OrderStatus.CANCELLED)
+        final Order currentOrder = orderRepository.findFirstByUserIdAndOrderStatusNotOrderByCreatedAtDescIdDesc(userId,OrderStatus.CANCELLED)
             .orElseThrow(()-> new EmailDoesNotExistException("Current Order not available"));
 
             USER_OrderPage_CurrentOrder_response_DTO currentOrder_response = new USER_OrderPage_CurrentOrder_response_DTO();

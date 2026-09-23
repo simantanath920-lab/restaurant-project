@@ -252,28 +252,6 @@
         }
 
 
-        /* ================================
-           BACK BUTTON
-        ================================= */
-
-        .back-btn-part {
-            margin-top: 30px;
-            text-align: center;
-        }
-
-        .back-btn {
-            color: #62794e;
-            text-decoration: none;
-            font-size: 12px;
-            font-weight: 300;
-            letter-spacing: 1px;
-            transition: all 0.2s ease;
-        }
-
-        .back-btn:hover {
-            color: #272d21;
-        }
-
 
         /* ================================
            FOOTER
@@ -300,6 +278,29 @@
             color: #a7bd94;
         }
 
+
+
+        /* =========================
+         User All Orders Back Button
+        ========================= */
+
+        .UserAllOrders-back {
+            text-align: center;
+            padding: 0 20px 28px;
+        }
+
+        .UserAllOrders-back a {
+            text-decoration: none;
+            color: #68705f;
+            font-size: 13px;
+            letter-spacing: 1px;
+            transition: all 0.25s ease-in-out;
+        }
+
+        .UserAllOrders-back a:hover {
+            color: #101510;
+            letter-spacing: 2px;
+        }
 
     </style>
 </head>
@@ -390,6 +391,7 @@
             </div>
 
 
+
             <!-- =================================
                  PAGINATION
             ================================== -->
@@ -408,22 +410,15 @@
 
             </div>
 
-
-            <!-- =================================
-                 BACK BUTTON
-            ================================== -->
-
-            <div class="back-btn-part">
-
-                <a href="USER_OrderPage.html" class="back-btn">
-                    <i class="bi bi-arrow-left me-1"></i> Back to Orders
-                </a>
-
-            </div>
-
         </div>
-
     </section>
+
+
+
+    <!-- ADMIN ALL ORDERS BACK BUTTON -->
+    <div class="UserAllOrders-back">
+        <a href="USER_OrderPage.html">← Back to Home</a>
+    </div>
 
 
     <!-- =================================

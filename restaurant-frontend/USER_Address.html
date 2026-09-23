@@ -268,6 +268,31 @@
         }
 
 
+
+        /* =========================
+           Address Back Button
+        ========================= */
+
+        .Address-back {
+            text-align: center;
+            padding: 0 20px 28px;
+        }
+
+        .Address-back a {
+            text-decoration: none;
+            color: #68705f;
+            font-size: 13px;
+            letter-spacing: 1px;
+            transition: all 0.25s ease-in-out;
+        }
+
+        .Address-back a:hover {
+            color: #101510;
+            letter-spacing: 2px;
+        }
+
+
+
         /* =========================
            Footer Section
         ========================= */
@@ -524,6 +549,11 @@
 
         <div class="row justify-content-center" id="UserAddress"></div>
 
+        <!-- ADDRESS BACK BUTTON -->
+        <div class="Address-back">
+            <a href="#" onclick="backToMenu()">← Back to Menu</a>
+        </div>
+
     </div>
 
 
@@ -578,6 +608,15 @@
 
 
     <script>
+
+        function backToMenu(){
+
+            const categoryId = localStorage.getItem("lastCategoryId");
+
+            if(categoryId){
+                window.location.href = `USER_Get_MENU_By_CategoryID.html?categoryId=${categoryId}`;
+            }
+        }
 
         // =====================
         // [    Access Check   ]
