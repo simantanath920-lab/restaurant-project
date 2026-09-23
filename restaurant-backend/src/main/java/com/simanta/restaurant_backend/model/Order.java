@@ -1,6 +1,7 @@
 package com.simanta.restaurant_backend.model;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class Order {
     @PrePersist
     protected void onCreate() {
         if(createdAt == null){
-            createdAt = LocalDateTime.now();
+            createdAt = LocalDateTime.now(ZoneId.of("Asia/Kolkata"));
         }
     }
 
