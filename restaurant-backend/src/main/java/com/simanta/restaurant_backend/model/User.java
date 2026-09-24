@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 @Entity
@@ -47,11 +48,10 @@ public class User {
     private String resetToken;
 
 
-    public void onCreate(){
+    @PrePersist
+    protected void onCreate() {
         if(createdAt == null){
-            createdAt = LocalDateTime.now(
-                ZoneId.of("Asia/Kolkata")
-            );
+            createdAt = LocalDateTime.now(ZoneId.of("Asia/Kolkata"));
         }
     }
 
