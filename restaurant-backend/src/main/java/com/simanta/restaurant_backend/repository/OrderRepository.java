@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.simanta.restaurant_backend.model.Order;
 import com.simanta.restaurant_backend.model.OrderStatus;
 import com.simanta.restaurant_backend.model.User;
-
+ 
 @Repository
 public interface OrderRepository extends JpaRepository<Order,Long>{
 
@@ -21,8 +21,7 @@ public interface OrderRepository extends JpaRepository<Order,Long>{
 
     
     Page<Order> findByUserId(Long userid,Pageable pageable);
-    Page<Order> findAllByOrderByCreatedAtDesc(Pageable pageable);
-    
+    Page<Order> findAllByOrderByIdDesc(Pageable pageable);    
 
     Page<Order> findByUserIdOrderByCreatedAtDescIdDesc(Long userId,Pageable pageable);
     Optional<Order> findFirstByUserIdAndOrderStatusNotOrderByCreatedAtDescIdDesc(Long userId,OrderStatus orderStatus);

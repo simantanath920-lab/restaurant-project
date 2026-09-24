@@ -56,7 +56,7 @@ public class OrderService_ADMIN {
 
     // Paymany COD success 
     public Payment_Status_COD_response_ADMIN_DTO payment_COD_status(final Long userid,final Payment_Status_COD_request_ADMIN_DTO payment_Status_COD_request_ADMIN_DTO){
-
+ 
         final User admin = authRepository.findById(userid)
             .orElseThrow(()-> new OrderService_ADMIN_Exception("Admin not found"));
 
@@ -96,7 +96,7 @@ public class OrderService_ADMIN {
             throw new OrderService_ADMIN_Exception("Access Denied for this profile.");
         }
 
-        Page<Order> orders = orderRepository.findAllByOrderByCreatedAtDesc(pageable);
+        Page<Order> orders = orderRepository.findAllByOrderByIdDesc(pageable);
 
         Page<Order_Table_orderstatus_AND_paymentstatus_response_DTO> Response = orders.map(order -> {
 
