@@ -1,5 +1,6 @@
 package com.simanta.restaurant_backend.model;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,11 +40,20 @@ public class User {
 
     private LocalDateTime otpExpire;
 
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
 
     private String resetToken;
+
+
+    public void onCreate(){
+        if(createdAt == null){
+            createdAt = LocalDateTime.now(
+                ZoneId.of("Asia/Kolkata")
+            );
+        }
+    }
 
     
     public Long getId() {
