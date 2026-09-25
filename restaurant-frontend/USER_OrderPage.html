@@ -490,6 +490,7 @@
             modal.show();
         }
 
+
         // =================================
         // SHOW CURRENT ORDER
         // =================================
@@ -766,7 +767,11 @@
                             "Sorry!",
                             cancelOrderData.message
                         );
-                    } else {
+                    }  else {
+
+                        // Remove the cancelled online order ID
+                        localStorage.removeItem("pendingOnlineOrderId");
+
                         showNotification(
                             "success",
                             "Success",
@@ -775,7 +780,9 @@
 
                         ShowCurrentOrder();
                     }
-                } else {
+                } 
+                
+                else {
                     showNotification(
                         "error",
                         "Error!",

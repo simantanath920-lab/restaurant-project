@@ -1073,6 +1073,16 @@
 
                     OrderstatusPaymentstatusData.content.forEach(OrderstatusPaymentstatus => {
 
+                        const createdAt = new Date(OrderstatusPaymentstatus.createdAt);
+                        const formattedCreatedAt = createdAt.toLocaleString("en-IN", {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            hour12: true
+                        });
+
                         orderstatus_AND_paymentstatus.innerHTML += `
                             <tr>
                                 <td>${OrderstatusPaymentstatus.orderid}</td>
@@ -1082,7 +1092,7 @@
                                 <td>${OrderstatusPaymentstatus.paymentMethod}</td>
                                 <td>${OrderstatusPaymentstatus.paymentStatus}</td>
                                 <td>${OrderstatusPaymentstatus.orderStatus}</td>
-                                <td>${OrderstatusPaymentstatus.createdAt}</td>
+                                <td>${formattedCreatedAt}</td>
                                 <td>
                                     <button class="status-btn" onclick="updateOrderStatus(${OrderstatusPaymentstatus.orderid})">Change Order Status</button>
                                 </td>

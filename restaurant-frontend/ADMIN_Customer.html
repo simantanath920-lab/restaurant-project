@@ -532,6 +532,16 @@
 
                     userData.forEach(userDetails => {
 
+                        const createdAt = new Date(userDetails.createdAt);
+                        const formattedCreatedAt = createdAt.toLocaleString("en-IN", {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            hour12: true
+                        });
+
                         AdminGetAllUserDetails.innerHTML += `
 
                             <tr>
@@ -539,7 +549,7 @@
                                 <td class="user-email">${userDetails.email}</td>
                                 <td>${userDetails.phonenumber}</td>
                                 <td class="status-text">${userDetails.isActive}</td>
-                                <td>${userDetails.createdAt}</td>
+                                <td>${formattedCreatedAt}</td>
                                 <td class="status-text">${userDetails.totalOrders}</td>
                             </tr>
                         `;

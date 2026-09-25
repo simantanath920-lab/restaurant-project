@@ -11,7 +11,9 @@ import com.simanta.restaurant_backend.dto.Razorpay_CreatePayment_response_Servic
 import com.simanta.restaurant_backend.dto.Razorpay_VerifyPaymen_response_Service_DTO;
 import com.simanta.restaurant_backend.exception.PaymentService_USER_Exception;
 import com.simanta.restaurant_backend.model.Cart;
+import com.simanta.restaurant_backend.model.CartItem;
 import com.simanta.restaurant_backend.model.Order;
+import com.simanta.restaurant_backend.model.OrderItem;
 import com.simanta.restaurant_backend.model.OrderStatus;
 import com.simanta.restaurant_backend.model.Payment;
 import com.simanta.restaurant_backend.model.PaymentMethod;
@@ -63,172 +65,288 @@ public class PaymentService_USER {
     }
 
 
+
+    private void syncOrderWithCart(
+        final Order order,
+        final Cart cart) {
+
+    if (cart.getCartItem() == null
+            || cart.getCartItem().isEmpty()) {
+
+        throw new PaymentService_USER_Exception(
+                "Cart is empty"
+        );
+    }
+
+
+    // Remove old order items
+
+    order.getOrderitems().clear();
+
+
+    double totalprice = 0;
+
+
+    // Create order items from CURRENT cart
+
+    for (CartItem cartItem : cart.getCartItem()) {
+
+        OrderItem orderItem = new OrderItem();
+
+        orderItem.setOrder(order);
+        orderItem.setMenu(cartItem.getMenu());
+        orderItem.setQuantity(cartItem.getQuantity());
+        orderItem.setPrice(cartItem.getMenu().getPrice());
+
+
+        double total =
+                cartItem.getQuantity()
+                * cartItem.getMenu().getPrice();
+
+        totalprice += total;
+
+
+        order.getOrderitems().add(orderItem);
+    }
+
+
+    // Delivery charge
+
+    double deliveryCharge =
+            totalprice < 500 ? 40 : 0;
+
+
+    double finaltotalprice =
+            totalprice + deliveryCharge;
+
+
+    order.setTotalprice(finaltotalprice);
+}
+
+
+
+
+
     // =========================
     // CREATE PAYMENT
     // =========================
 
     @Transactional
-    public Razorpay_CreatePayment_response_Service_DTO create_payment(
-            final Long userid,
-            final Long orderid) throws RazorpayException {
-
-        final Order order = orderRepository.findById(orderid)
-                .orElseThrow(() ->
-                        new PaymentService_USER_Exception("Order not found"));
+public Razorpay_CreatePayment_response_Service_DTO create_payment(
+        final Long userid,
+        final Long orderid) throws RazorpayException {
 
 
-        if (!order.getUser().getId().equals(userid)) {
+    // =========================
+    // FIND ORDER
+    // =========================
 
-            throw new PaymentService_USER_Exception("User not found");
-        }
-
-
-        if (order.getOrderStatus() == OrderStatus.CANCELLED) {
-
-            throw new PaymentService_USER_Exception(
-                    "This order has been cancelled."
-            );
-        }
+    final Order order = orderRepository.findById(orderid)
+            .orElseThrow(() ->
+                    new PaymentService_USER_Exception(
+                            "Order not found"
+                    ));
 
 
-        if (order.getOrderStatus() == OrderStatus.CONFIRMED) {
+    // =========================
+    // CHECK USER
+    // =========================
 
-            throw new PaymentService_USER_Exception(
-                    "This order has already been confirmed."
-            );
-        }
+    if (!order.getUser().getId().equals(userid)) {
 
-
-        if (order.getTotalprice() < 1) {
-
-            throw new PaymentService_USER_Exception(
-                    "Transaction cannot be less than 1"
-            );
-        }
-
-
-        // =========================
-        // CREATE RAZORPAY CLIENT
-        // =========================
-
-        RazorpayClient client =
-                new RazorpayClient(
-                        keyId,
-                        keySecret
-                );
-
-
-        // Convert rupees to paise
-
-        long amountInPaisa =
-                Math.round(
-                        order.getTotalprice() * 100
-                );
-
-
-        // =========================
-        // CREATE RAZORPAY ORDER
-        // =========================
-
-        JSONObject razorpayOrderRequest =
-                new JSONObject();
-
-        razorpayOrderRequest.put(
-                "amount",
-                amountInPaisa
-        );
-
-        razorpayOrderRequest.put(
-                "currency",
-                "INR"
-        );
-
-        razorpayOrderRequest.put(
-                "receipt",
-                "order_" + order.getId()
-        );
-
-
-        com.razorpay.Order razorOrder =
-                client.orders.create(
-                        razorpayOrderRequest
-                );
-
-
-        String razorpayOrderId =
-                razorOrder.get("id").toString();
-
-
-        // =========================
-        // SAVE / REUSE PAYMENT
-        // =========================
-
-        Payment payment =
-                paymentRepository.findByOrderId(order.getId())
-                        .orElse(null);
-
-
-        /*
-         * A restaurant Order can have only one Payment
-         * because Payment.order is @OneToOne.
-         *
-         * Therefore, when the customer closes Razorpay
-         * and tries again, do NOT create another Payment row.
-         *
-         * Reuse the existing Payment record and replace
-         * the Razorpay order information.
-         */
-
-        if (payment == null) {
-
-            payment = new Payment();
-
-            payment.setOrder(order);
-
-        }
-
-
-        payment.setTotalAmount(
-                order.getTotalprice()
-        );
-
-        payment.setPaymentMethod(
-                PaymentMethod.ONLINE
-        );
-
-        payment.setPaymentStatus(
-                PaymentStatus.CREATED
-        );
-
-        payment.setRazorpayOrderId(
-                razorpayOrderId
-        );
-
-        /*
-         * These belong to the previous Razorpay attempt.
-         * Clear them before creating a new attempt.
-         */
-
-        payment.setRazorpayPaymentId(null);
-
-        payment.setRazorpaySignature(null);
-
-        paymentRepository.save(payment);
-
-
-        // =========================
-        // SEND DATA TO FRONTEND
-        // =========================
-
-        return new Razorpay_CreatePayment_response_Service_DTO(
-                order.getId(),
-                order.getTotalprice(),
-                PaymentStatus.CREATED,
-                razorpayOrderId,
-                keyId,
-                amountInPaisa
+        throw new PaymentService_USER_Exception(
+                "User not found"
         );
     }
+
+
+    // =========================
+    // CHECK ORDER STATUS
+    // =========================
+
+    if (order.getOrderStatus() == OrderStatus.CANCELLED) {
+
+        throw new PaymentService_USER_Exception(
+                "This order has been cancelled."
+        );
+    }
+
+
+    if (order.getOrderStatus() == OrderStatus.CONFIRMED) {
+
+        throw new PaymentService_USER_Exception(
+                "This order has already been confirmed."
+        );
+    }
+
+
+    // =========================
+    // FIND CURRENT CART
+    // =========================
+
+    final Cart cart = cartRepository.findByUser(
+            order.getUser()
+    ).orElseThrow(() ->
+            new PaymentService_USER_Exception(
+                    "Cart not found"
+            ));
+
+
+    if (cart.getCartItem() == null
+            || cart.getCartItem().isEmpty()) {
+
+        throw new PaymentService_USER_Exception(
+                "Cart is empty"
+        );
+    }
+
+
+    // =========================
+    // SYNC ORDER WITH CART
+    // =========================
+
+    /*
+     * IMPORTANT:
+     *
+     * The customer may have changed
+     * quantity after the restaurant Order
+     * was originally created.
+     *
+     * Therefore the Order must always
+     * be rebuilt from the CURRENT cart
+     * before creating Razorpay payment.
+     */
+
+    syncOrderWithCart(order, cart);
+
+
+    orderRepository.save(order);
+
+
+    // =========================
+    // CHECK TOTAL
+    // =========================
+
+    if (order.getTotalprice() < 1) {
+
+        throw new PaymentService_USER_Exception(
+                "Transaction cannot be less than 1"
+        );
+    }
+
+
+    // =========================
+    // CREATE RAZORPAY CLIENT
+    // =========================
+
+    RazorpayClient client =
+            new RazorpayClient(
+                    keyId,
+                    keySecret
+            );
+
+
+    // =========================
+    // CONVERT RUPEES TO PAISE
+    // =========================
+
+    long amountInPaisa =
+            Math.round(
+                    order.getTotalprice() * 100
+            );
+
+
+    // =========================
+    // CREATE RAZORPAY ORDER
+    // =========================
+
+    JSONObject razorpayOrderRequest =
+            new JSONObject();
+
+    razorpayOrderRequest.put(
+            "amount",
+            amountInPaisa
+    );
+
+    razorpayOrderRequest.put(
+            "currency",
+            "INR"
+    );
+
+    razorpayOrderRequest.put(
+            "receipt",
+            "order_" + order.getId()
+    );
+
+
+    com.razorpay.Order razorOrder =
+            client.orders.create(
+                    razorpayOrderRequest
+            );
+
+
+    final String razorpayOrderId =
+            razorOrder.get("id").toString();
+
+
+    // =========================
+    // FIND EXISTING PAYMENT
+    // =========================
+
+    Payment payment =
+            paymentRepository.findByOrderId(order.getId())
+                    .orElse(null);
+
+
+    if (payment == null) {
+
+        payment = new Payment();
+
+        payment.setOrder(order);
+    }
+
+
+    // =========================
+    // UPDATE PAYMENT
+    // =========================
+
+    payment.setTotalAmount(
+            order.getTotalprice()
+    );
+
+    payment.setPaymentMethod(
+            PaymentMethod.ONLINE
+    );
+
+    payment.setPaymentStatus(
+            PaymentStatus.CREATED
+    );
+
+    payment.setRazorpayOrderId(
+            razorpayOrderId
+    );
+
+    payment.setRazorpayPaymentId(null);
+
+    payment.setRazorpaySignature(null);
+
+
+    paymentRepository.save(payment);
+
+
+    // =========================
+    // RESPONSE
+    // =========================
+
+    return new Razorpay_CreatePayment_response_Service_DTO(
+            order.getId(),
+            order.getTotalprice(),
+            PaymentStatus.CREATED,
+            razorpayOrderId,
+            keyId,
+            amountInPaisa
+    );
+}
 
 
     // =========================
@@ -263,6 +381,14 @@ public class PaymentService_USER {
             throw new PaymentService_USER_Exception(
                     "Order not found for payment"
             );
+        }
+
+
+        if (order.getOrderStatus() == OrderStatus.CANCELLED) {
+
+                throw new PaymentService_USER_Exception(
+                        "This order has been cancelled."
+                );
         }
 
 

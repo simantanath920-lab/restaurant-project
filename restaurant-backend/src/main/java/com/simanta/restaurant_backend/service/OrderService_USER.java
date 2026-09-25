@@ -328,52 +328,79 @@ public class OrderService_USER {
     // =========================
 
     @Transactional
-    public Order_Cancel_response_USER_DTO cancel_order(
-            final Long orderId,
-            final Long userId) {
+public Order_Cancel_response_USER_DTO cancel_order(
+        final Long orderId,
+        final Long userId) {
 
-        final Order order = orderRepository.findById(orderId)
-                .orElseThrow(() ->
-                        new OrderService_USER_Exception("Order not found"));
+    final Order order = orderRepository.findById(orderId)
+            .orElseThrow(() ->
+                    new OrderService_USER_Exception("Order not found"));
 
-        if (!order.getUser().getId().equals(userId)) {
+    if (!order.getUser().getId().equals(userId)) {
 
-            throw new OrderService_USER_Exception("User not found");
-        }
+        throw new OrderService_USER_Exception("User not found");
+    }
 
-        if (order.getOrderStatus() == OrderStatus.CANCELLED) {
-
-            return new Order_Cancel_response_USER_DTO(
-                    "Order already canceled."
-            );
-        }
-
-        if (order.getOrderStatus() == OrderStatus.CONFIRMED) {
-
-            return new Order_Cancel_response_USER_DTO(
-                    "Order is already confirmed, cannot cancel."
-            );
-        }
-
-        if (order.getOrderStatus() == OrderStatus.DELIVERED) {
-
-            return new Order_Cancel_response_USER_DTO(
-                    "Order is delivered cannot Cancel."
-            );
-        }
-
-        order.setOrderStatus(OrderStatus.CANCELLED);
-
-        orderRepository.save(order);
-
-        email_for_OrderCancel
-                .message_Sending_for_OrderCancel(
-                        order.getUser().getEmail(),
-                        orderId
-                );
+    if (order.getOrderStatus() == OrderStatus.CANCELLED) {
 
         return new Order_Cancel_response_USER_DTO(
-                "Your order has been Canceled."
+                "Order already canceled."
         );
     }
+
+    if (order.getOrderStatus() == OrderStatus.CONFIRMED) {
+
+        return new Order_Cancel_response_USER_DTO(
+                "Order is already confirmed, cannot cancel."
+        );
+    }
+
+    if (order.getOrderStatus() == OrderStatus.DELIVERED) {
+
+        return new Order_Cancel_response_USER_DTO(
+                "Order is delivered cannot Cancel."
+        );
+    }
+
+
+    // =========================
+    // CANCEL ORDER
+    // =========================
+
+    order.setOrderStatus(OrderStatus.CANCELLED);
+
+    orderRepository.save(order);
+
+
+    // =========================
+    // CLEAR CART
+    // =========================
+
+    final Cart cart = cartRepository.findByUser(order.getUser())
+            .orElse(null);
+
+    if (cart != null && cart.getCartItem() != null) {
+
+        cart.getCartItem().clear();
+
+        cartRepository.save(cart);
+    }
+
+
+    // =========================
+    // SEND CUSTOMER EMAIL
+    // =========================
+
+    email_for_OrderCancel
+            .message_Sending_for_OrderCancel(
+                    order.getUser().getEmail(),
+                    orderId
+            );
+
+
+    return new Order_Cancel_response_USER_DTO(
+            "Your order has been Canceled."
+    );
+}
+
 }
