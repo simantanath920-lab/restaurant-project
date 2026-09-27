@@ -73,10 +73,9 @@ public class AuthService {
 
         final String normalizeEmail = register_request_DTO.getEmail().trim().toLowerCase();
 
-        if (authRepository.existsByEmailIgnoreCase(normalizeEmail)) {
-            throw new EmailAlreadyExistsException("Email already exists.");
-        }
-
+        authRepository.existsByEmail(normalizeEmail)
+            .orElseThrow(()-> new EmailAlreadyExistsException("Email already exists"));
+            
         final User user = new User();
 
         user.setName(register_request_DTO.getName().trim());
