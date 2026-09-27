@@ -13,7 +13,7 @@ public class Register_request_DTO {
 
     @Column(unique = true)
     @NotBlank(message = "Email is required")
-    @Pattern(regexp = "^[A-Za-z0-9]+@gmail\\.com$",message = "Enter a valid email address")
+    @Pattern(regexp = "^[a-z0-9]+@gmail\\.com$",message = "Enter a valid email address")
     private String email;
 
     @NotBlank(message = "Phone no is required")
