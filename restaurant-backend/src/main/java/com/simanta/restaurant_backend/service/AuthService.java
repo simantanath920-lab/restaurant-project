@@ -71,7 +71,7 @@ public class AuthService {
     @Transactional
     public Register_Response_DTO register(final Register_request_DTO register_request_DTO) {
 
-        final String normalizeEmail = register_request_DTO.getEmail();
+        final String normalizeEmail = register_request_DTO.getEmail().trim().toLowerCase();
 
         authRepository.existsByEmail(normalizeEmail)
             .orElseThrow(()-> new EmailAlreadyExistsException("Email already exists"));

@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Pattern;
 public class Login_request_DTO {
 
     @NotBlank(message = "Email is required")
-    @Pattern(regexp = "^[A-Za-z0-9._%+-]+@gmail\\.com$",message = "Enter a valid email address")
+    @Pattern(regexp = "^[a-z0-9]+@gmail\\.com$",message = "Enter a valid email address")
     private String email;
 
     @NotBlank(message = "Password is required")
